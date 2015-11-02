@@ -6,3 +6,10 @@ Wood - www.SoundBible.com
 
 Music:
 No More Magic - http://opengameart.org/content/epic-fantasy-music
+
+Scripts:
+Character Movement and Camera - Unity Character Package
+
+Textures:
+cinder block - http://previews.123rf.com/images/flas100/flas1001307/flas100130700068/20957857-cinder-block-wall-background-brick-texture-Stock-Photo.jpg
+
