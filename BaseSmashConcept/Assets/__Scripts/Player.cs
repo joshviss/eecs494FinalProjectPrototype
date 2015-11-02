@@ -26,6 +26,9 @@ public class Player : MonoBehaviour {
 
 	public int BasicAttackDamage = 1;
 
+	public int GetHealth(){
+		return this.health;
+	}
 
 	// Use this for initialization
 	void Start () {
