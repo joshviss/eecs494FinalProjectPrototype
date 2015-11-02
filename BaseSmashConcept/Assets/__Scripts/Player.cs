@@ -26,6 +26,11 @@ public class Player : MonoBehaviour {
 
 	public int BasicAttackDamage = 1;
 
+	/*
+	private bool moveForward = false;
+	public float forwardMovement = 5;
+	*/
+
 	public int GetHealth(){
 		return this.health;
 	}
@@ -42,6 +47,12 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		/*
+		if(Input.GetKey (KeyCode.W)) {
+			moveForward = true;
+		}
+		*/
+
 		//use of abilities
 		if(Input.GetKeyDown (KeyCode.F)) {
 			AbilityUsed (abilityIndex1);
@@ -66,6 +77,22 @@ public class Player : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
+		/*
+		Vector3 vel = rigid.velocity;
+
+		if(moveForward) {
+			//take out of if statement if ever needed outside of it.
+			//figures out what direction to fire based on y rotation of player
+			float degreeY = this.transform.eulerAngles.y;
+			//print(degreeY);
+			float zMag = Mathf.Cos (degreeY * Mathf.Deg2Rad);
+			float xMag = Mathf.Sin (degreeY * Mathf.Deg2Rad);
+
+			vel = vel + new Vector3(xMag, 0, zMag) * forwardMovement;
+			moveForward = false;
+		}
+		*/
+
 		/*
 		Vector3 vel = rigid.velocity;
 		
