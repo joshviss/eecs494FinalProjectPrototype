@@ -8,6 +8,7 @@ public class MultiCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		/*
 		if(initialNumPlayers == 1) {
 			Use1Camera();
 		} else if (initialNumPlayers == 2) {
@@ -17,6 +18,7 @@ public class MultiCamera : MonoBehaviour {
 		} else if (initialNumPlayers == 4) {
 			Use4Camera();
 		}
+		*/
 	}
 	
 	// Update is called once per frame
@@ -33,18 +35,30 @@ public class MultiCamera : MonoBehaviour {
 	}
 
 	void Use1Camera () {
-
+		player1Camera.rect = new Rect (0, 0, 1, 1);
+		//player2Camera.rect = new Rect (0, 0, 0, 0);
+		//player3Camera.rect = new Rect (0, 0, 0, 0);
+		//player4Camera.rect = new Rect (0, 0, 0, 0);
 	}
 
 	void Use2Camera () {
-
+		//player1Camera.rect = new Rect (0, 0.5f, 1, 1);
+		//player2Camera.rect = new Rect (0, 0, 0.5f, 1);
+		//player3Camera.rect = new Rect (0, 0, 0, 0);
+		//player4Camera.rect = new Rect (0, 0, 0, 0);
 	}
 
 	void Use3Camera () {
-
+		//player1Camera.rect = new Rect (0, 0, 1, 1);
+		//player2Camera.rect = new Rect (0, 0, 0, 0);
+		//player3Camera.rect = new Rect (0, 0, 0, 0);
+		//player4Camera.rect = new Rect (0, 0, 0, 0);
 	}
 
 	void Use4Camera () {
-
+		//player1Camera.rect = new Rect (0, 0, 1, 1);
+		//player2Camera.rect = new Rect (0, 0, 0, 0);
+		//player3Camera.rect = new Rect (0, 0, 0, 0);
+		//player4Camera.rect = new Rect (0, 0, 0, 0);
 	}
 }
