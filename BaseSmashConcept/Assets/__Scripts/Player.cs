@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
@@ -12,6 +13,10 @@ public class Player : MonoBehaviour {
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
 
+	public float moveSpeed = 5f;
+	public float turnSpeed = 360f;
+	public float jumpPower = 7f;
+
 	bool grounded;
 	int groundPhysicsLayerMask;
 
@@ -20,15 +25,12 @@ public class Player : MonoBehaviour {
 	//Player Stats
 	public int health = 15;
 	public int healthCap = 15;
+	public Slider hpBar;
 
-	float MovementSpeed = 2.0f;
-	float JumpSpeed = 6f;
+	//float MovementSpeed = 2.0f;
+	//float JumpSpeed = 6f;
 
 	public int BasicAttackDamage = 1;
-
-	public int GetHealth(){
-		return this.health;
-	}
 
 	// Use this for initialization
 	void Start () {
@@ -37,22 +39,54 @@ public class Player : MonoBehaviour {
 		body = GetComponent<BoxCollider> ();
 
 		grounded = false;
+		hpBar.maxValue = healthCap;
+		hpBar.value = health;
+		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
 
 	}
-	
+
+	public void Move(Vector3 move, bool jumping){
+
+		if (move.magnitude > 1f) {
+			move.Normalize();
+		}
+
+		if (move.x != 0 || move.z != 0) {
+
+			if (jumping && grounded){
+				rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, rigid.velocity.z);
+				grounded = false;
+			}
+
+			Quaternion targetRotation = Quaternion.LookRotation (move);
+			Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
+
+			rigid.MoveRotation (newRotation);
+
+			Vector3 newPosition = Vector3.Lerp (rigid.position, rigid.position + move, Time.deltaTime * moveSpeed);
+			rigid.MovePosition (newPosition);
+		}
+
+	}
+
 	// Update is called once per frame
 	void Update () {
 		//use of abilities
-		if(Input.GetKeyDown (KeyCode.F)) {
-			AbilityUsed (abilityIndex1);
-		} else if (Input.GetKeyDown (KeyCode.R)) {
-			AbilityUsed (abilityIndex2);
-		}
+		//if(Input.GetKeyDown (KeyCode.F)) {
+		//	AbilityUsed (abilityIndex1);
+		//} else if (Input.GetKeyDown (KeyCode.R)) {
+		//	AbilityUsed (abilityIndex2);
+		//}                              
 
 		//checks if dead
 		if(health <= 0) {
+			hpBar.fillRect.gameObject.SetActive(false);
 			Destroy(this.gameObject);
 		}
+
+		grounded = Physics.Raycast (transform.position, Vector3.down, 1.1f);
+		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
+
 		/*
 		// Jumping
 		Vector3 vel = rigid.velocity;
@@ -87,7 +121,7 @@ public class Player : MonoBehaviour {
 		*/
 	}
 
-	void AbilityUsed (int abilityNum) {
+	public void AbilityUsed (int abilityNum) {
 		//figures out what direction to fire based on y rotation of player
 		float degreeY = this.transform.eulerAngles.y;
 		//print(degreeY);
@@ -101,14 +135,14 @@ public class Player : MonoBehaviour {
 		switch (abilityNum) {
 		case 1: //fireball
 			shot = Instantiate<GameObject>(ability1);
-			shot.transform.position = transform.position + new Vector3(0, 1, 0);
+			shot.transform.position = transform.position + transform.forward;
 			shot.transform.rotation = transform.rotation;
 			shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 			//print ("1");
 			break;
 		case 2: //windpush
 			shot = Instantiate<GameObject>(ability2);
-			shot.transform.position = transform.position + new Vector3(0, 1, 0); //if this not added and not trigger then you fly
+			shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 			shot.transform.rotation = transform.rotation;
 			shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 			//print ("2");
@@ -128,6 +162,7 @@ public class Player : MonoBehaviour {
 		switch (tag) {
 		case "FireBall": //does damage to the player
 			health = health - collidedWith.GetComponent<FireBall>().damage;
+			hpBar.value = health;
 			break;
 		case "WindPush": //pushes back the player
 			vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
