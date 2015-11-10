@@ -47,24 +47,38 @@ public class Player : MonoBehaviour {
 
 	public void Move(Vector3 move, bool jumping){
 
+		Vector3 vel = rigid.velocity;
+
 		if (move.magnitude > 1f) {
 			move.Normalize();
 		}
 
+		// Jump
+		if (jumping && grounded) {
+			//rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, rigid.velocity.z);
+			vel.y = jumpPower;
+			grounded = false;
+		}
+
+		// Movement
 		if (move.x != 0 || move.z != 0) {
-
-			if (jumping && grounded){
-				rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, rigid.velocity.z);
-				grounded = false;
-			}
-
+			// Rotation
 			Quaternion targetRotation = Quaternion.LookRotation (move);
-			Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
+			//Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
 
-			rigid.MoveRotation (newRotation);
+			//rigid.MoveRotation (newRotation);
+			rigid.MoveRotation(targetRotation);
 
+			/*
 			Vector3 newPosition = Vector3.Lerp (rigid.position, rigid.position + move, Time.deltaTime * moveSpeed);
 			rigid.MovePosition (newPosition);
+			*/
+
+			// Forward movement
+			vel.x = move.x * moveSpeed;
+			vel.z = move.z * moveSpeed;
+
+			rigid.velocity = vel;
 		}
 
 	}
