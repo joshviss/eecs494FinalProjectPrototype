@@ -18,6 +18,7 @@ public class Player : MonoBehaviour {
 	public float jumpPower = 7f;
 
 	bool grounded;
+	bool pushed = false;
 	int groundPhysicsLayerMask;
 
 	//RigidbodyConstraints noRotY;
@@ -47,7 +48,17 @@ public class Player : MonoBehaviour {
 
 	public void Move(Vector3 move, bool jumping){
 
-		Vector3 vel = rigid.velocity;
+		Debug.Log (pushed);
+
+		if (rigid.velocity.magnitude == 0) {
+			pushed = false;
+		}
+		if (pushed) {
+			return;
+		}
+
+		Vector3 vel = Vector3.zero;
+		vel.y = rigid.velocity.y;
 
 		if (move.magnitude > 1f) {
 			move.Normalize();
@@ -64,10 +75,10 @@ public class Player : MonoBehaviour {
 		if (move.x != 0 || move.z != 0) {
 			// Rotation
 			Quaternion targetRotation = Quaternion.LookRotation (move);
-			//Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
+			Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
 
-			//rigid.MoveRotation (newRotation);
-			rigid.MoveRotation(targetRotation);
+			rigid.MoveRotation (newRotation);
+			//rigid.MoveRotation (targetRotation);
 
 			/*
 			Vector3 newPosition = Vector3.Lerp (rigid.position, rigid.position + move, Time.deltaTime * moveSpeed);
@@ -77,9 +88,9 @@ public class Player : MonoBehaviour {
 			// Forward movement
 			vel.x = move.x * moveSpeed;
 			vel.z = move.z * moveSpeed;
-
-			rigid.velocity = vel;
 		}
+
+		rigid.velocity = vel;
 
 	}
 
@@ -106,7 +117,7 @@ public class Player : MonoBehaviour {
 
 		grounded = Physics.Raycast (transform.position, Vector3.down, 1.1f);
 		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
-
+	
 		/*
 		// Jumping
 		Vector3 vel = rigid.velocity;
@@ -202,6 +213,7 @@ public class Player : MonoBehaviour {
 			break;
 		case "WindPush": //pushes back the player
 			vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
+			pushed = true; 
 			break;
 		default:
 			break;
