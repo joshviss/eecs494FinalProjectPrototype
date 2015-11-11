@@ -20,10 +20,12 @@ public class Player : MonoBehaviour {
 	bool grounded;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
+	Vector3 startPos;
 
 	//RigidbodyConstraints noRotY;
 
 	//Player Stats
+	public int id;
 	public int health = 15;
 	public int healthCap = 15;
 	public Slider hpBar;
@@ -43,6 +45,12 @@ public class Player : MonoBehaviour {
 		hpBar.maxValue = healthCap;
 		hpBar.value = health;
 		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
+
+		if (id == 0) {
+			startPos = new Vector3 (17, 3, 17);
+		} else {
+			startPos = new Vector3 (-17, 3, -17);
+		}
 
 	}
 
@@ -96,6 +104,13 @@ public class Player : MonoBehaviour {
 
 	}
 
+	void respawn(){
+		transform.position = startPos;
+		health = healthCap;
+		hpBar.fillRect.gameObject.SetActive(true);
+		this.gameObject.SetActive(true);
+	}
+
 	// Update is called once per frame
 	void Update () {
 		/*
@@ -114,7 +129,16 @@ public class Player : MonoBehaviour {
 		//checks if dead
 		if(health <= 0) {
 			hpBar.fillRect.gameObject.SetActive(false);
-			Destroy(this.gameObject);
+			this.gameObject.SetActive(false);
+
+			if (id == 0){
+				Points.givePoints(1);
+			} else {
+				Points.givePoints(0);
+			}
+
+			Invoke("respawn", 2f);
+			//Destroy(this.gameObject);
 		}
 
 		grounded = Physics.Raycast (transform.position, Vector3.down, 1.1f);

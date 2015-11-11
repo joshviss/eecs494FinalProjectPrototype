@@ -5,6 +5,7 @@ public class FireBall : MonoBehaviour {
 	Vector3 abilityOrigin;
 	public float abilityStopDist = 50;
 	public int damage = 3;
+	public int player;
 
 	// Use this for initialization
 	void Start () {
