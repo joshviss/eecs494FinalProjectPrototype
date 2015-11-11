@@ -8,12 +8,12 @@ public class MultiCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		/*
+
 		if(initialNumPlayers == 1) {
 			Use1Camera();
 		} else if (initialNumPlayers == 2) {
 			Use2Camera();
-		} else if (initialNumPlayers == 3) {
+		} /*else if (initialNumPlayers == 3) {
 			Use3Camera();
 		} else if (initialNumPlayers == 4) {
 			Use4Camera();
@@ -27,23 +27,23 @@ public class MultiCamera : MonoBehaviour {
 			Use1Camera ();
 		} else if (Input.GetKeyDown (KeyCode.Alpha2)) {
 			Use2Camera ();
-		} else if (Input.GetKeyDown (KeyCode.Alpha3)) {
+		} /*else if (Input.GetKeyDown (KeyCode.Alpha3)) {
 			Use3Camera ();
 		} else if (Input.GetKeyDown (KeyCode.Alpha4)) {
 			Use4Camera ();
-		}
+		}*/
 	}
 
 	void Use1Camera () {
 		player1Camera.rect = new Rect (0, 0, 1, 1);
-		//player2Camera.rect = new Rect (0, 0, 0, 0);
+		player2Camera.rect = new Rect (0, 0, 0, 0);
 		//player3Camera.rect = new Rect (0, 0, 0, 0);
 		//player4Camera.rect = new Rect (0, 0, 0, 0);
 	}
 
 	void Use2Camera () {
-		//player1Camera.rect = new Rect (0, 0.5f, 1, 1);
-		//player2Camera.rect = new Rect (0, 0, 0.5f, 1);
+		player1Camera.rect = new Rect (0, 0.5f, 1, 1);
+		player2Camera.rect = new Rect (0, 0, 1, 0.5f);
 		//player3Camera.rect = new Rect (0, 0, 0, 0);
 		//player4Camera.rect = new Rect (0, 0, 0, 0);
 	}
