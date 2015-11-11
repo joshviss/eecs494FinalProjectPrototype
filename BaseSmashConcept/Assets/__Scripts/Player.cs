@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 	public float windSpeedUpMultiplier = 1;
 
 	public float moveSpeed = 5f;
-	public float turnSpeed = 360f;
+	public float horizMult = 5f;
 	public float jumpPower = 7f;
 
 	bool grounded;
@@ -46,9 +46,7 @@ public class Player : MonoBehaviour {
 
 	}
 
-	public void Move(Vector3 move, bool jumping){
-
-		Debug.Log (pushed);
+	public void Move(Vector3 move, bool jumping, float mDeltaX){
 
 		if (rigid.velocity.magnitude == 0) {
 			pushed = false;
@@ -58,6 +56,7 @@ public class Player : MonoBehaviour {
 		}
 
 		Vector3 vel = Vector3.zero;
+		Vector3 rot = transform.localRotation.eulerAngles;
 		vel.y = rigid.velocity.y;
 
 		if (move.magnitude > 1f) {
@@ -74,10 +73,10 @@ public class Player : MonoBehaviour {
 		// Movement
 		if (move.x != 0 || move.z != 0) {
 			// Rotation
-			Quaternion targetRotation = Quaternion.LookRotation (move);
-			Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
+			//Quaternion targetRotation = Quaternion.LookRotation (move);
+			//Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
 
-			rigid.MoveRotation (newRotation);
+			//rigid.MoveRotation (newRotation);
 			//rigid.MoveRotation (targetRotation);
 
 			/*
@@ -85,12 +84,15 @@ public class Player : MonoBehaviour {
 			rigid.MovePosition (newPosition);
 			*/
 
-			// Forward movement
 			vel.x = move.x * moveSpeed;
 			vel.z = move.z * moveSpeed;
 		}
 
 		rigid.velocity = vel;
+
+		// Rotation
+		rot.y += mDeltaX * horizMult;
+		transform.localRotation = Quaternion.Euler (rot);
 
 	}
 

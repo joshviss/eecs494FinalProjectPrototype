@@ -39,11 +39,12 @@ public class PlayerInput : MonoBehaviour {
 
 		float h = Input.GetAxis (horizontalAxis);
 		float v = Input.GetAxis (verticalAxis);
+		float mDeltaX = Input.GetAxis("CameraHorizontal_P1");
 
 		//move = v * Vector3.forward + h * Vector3.right;
 		move = v * transform.forward + h * transform.right;
 
-		player.Move (move, jumping);
+		player.Move (move, jumping, mDeltaX);
 		jumping = false;
 
 	}
