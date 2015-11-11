@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
 	bool pushed = false;
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
+	Vector3 startRot;
 
 	//RigidbodyConstraints noRotY;
 
@@ -46,11 +47,8 @@ public class Player : MonoBehaviour {
 		hpBar.value = health;
 		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
 
-		if (id == 0) {
-			startPos = new Vector3 (17, 3, 17);
-		} else {
-			startPos = new Vector3 (-17, 3, -17);
-		}
+		startPos = transform.position;
+		startRot = transform.rotation.eulerAngles;
 
 	}
 
@@ -106,6 +104,7 @@ public class Player : MonoBehaviour {
 
 	void respawn(){
 		transform.position = startPos;
+		transform.rotation = Quaternion.Euler (startRot);
 		health = healthCap;
 		hpBar.fillRect.gameObject.SetActive(true);
 		this.gameObject.SetActive(true);

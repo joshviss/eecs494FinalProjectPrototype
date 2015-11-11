@@ -39,7 +39,14 @@ public class PlayerInput : MonoBehaviour {
 
 		float h = Input.GetAxis (horizontalAxis);
 		float v = Input.GetAxis (verticalAxis);
-		float mDeltaX = Input.GetAxis("CameraHorizontal_P1");
+		float mDeltaX;
+
+		if (this.gameObject.tag == "MainCamera" || player.id == 0) {
+			mDeltaX = Input.GetAxis("CameraHorizontal_P1");
+		} else{
+			mDeltaX = Input.GetAxis("CameraHorizontal_P2");
+		}
+		 
 
 		//move = v * Vector3.forward + h * Vector3.right;
 		move = v * transform.forward + h * transform.right;
