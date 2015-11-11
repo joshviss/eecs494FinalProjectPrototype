@@ -40,7 +40,8 @@ public class PlayerInput : MonoBehaviour {
 		float h = Input.GetAxis (horizontalAxis);
 		float v = Input.GetAxis (verticalAxis);
 
-		move = v * Vector3.forward + h * Vector3.right;
+		//move = v * Vector3.forward + h * Vector3.right;
+		move = v * transform.forward + h * transform.right;
 
 		player.Move (move, jumping);
 		jumping = false;
