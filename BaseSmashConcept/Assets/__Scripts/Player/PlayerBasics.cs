@@ -6,8 +6,7 @@ using System.Collections;
 public class PlayerBasics : MonoBehaviour
 {
 
-	/* Movement */
-	public float speed; /* Customize this in game editor */
+	
 
 	// Use this for initialization
 	void Start()

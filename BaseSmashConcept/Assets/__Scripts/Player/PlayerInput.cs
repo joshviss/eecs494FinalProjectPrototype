@@ -19,20 +19,38 @@ public class PlayerInput : MonoBehaviour
 	public string aString1;
 	public string aString2;
 
+	/* Movement */
+	private Rigidbody rigidBody;
+	public float speed; /* Customize this in game editor */
+	public float jumpSpeed;
+
 	// public bool jumping = false;
 
 	// Use this for initialization
 	void Start()
 	{
 		// player = GetComponent<Player>();
+		rigidBody = GetComponent<Rigidbody>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		transform.Translate(Input.GetAxis(horizontalAxis), 0, Input.GetAxis(verticalAxis));
 		// large check list to go through every possible input key
 
+		// Movement
+		if (Input.GetButton(jump) && IsGrounded())
+		{
+			rigidBody.velocity =
+				new Vector3(speed * Input.GetAxis(horizontalAxis), jumpSpeed, speed * Input.GetAxis(verticalAxis));
+		}
+		else
+		{
+			rigidBody.velocity =
+				new Vector3(speed * Input.GetAxis(horizontalAxis), rigidBody.velocity.y, speed * Input.GetAxis(verticalAxis));
+		}
+
+		// Jump
 
 
 		/*
@@ -53,9 +71,9 @@ public class PlayerInput : MonoBehaviour
 	}
 
 	// FixedUpdate is called once per physics update
-	/*
 	void FixedUpdate()
 	{
+		/*
 		float h = Input.GetAxis(horizontalAxis);
 		float v = Input.GetAxis(verticalAxis);
 		float mDeltaX;
@@ -75,7 +93,12 @@ public class PlayerInput : MonoBehaviour
 
 		player.Move(move, jumping, mDeltaX);
 		jumping = false;
-
+		*/
 	}
-	*/
+
+	// helper functions
+	private bool IsGrounded()
+	{
+		return Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y + 0.1f);
+	}
 }
