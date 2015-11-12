@@ -1,0 +1,7 @@
+11/11/2015
+Haizhou's Update
+
+Modified PlayerInput
+- Keybinding names are no longer set within the script, they are set in the game editor instead
+	e.g. if the script is attached to player1, then in the game editor, set Horizontal Axis to "HorizontalAxis_P1"
+- Camera no longer move according to player input, camera will have its own heuristic

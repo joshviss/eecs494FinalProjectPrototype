@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
 	public Rigidbody rigid;
 	public BoxCollider body;
@@ -37,27 +38,31 @@ public class Player : MonoBehaviour {
 	public int BasicAttackDamage = 1;
 
 	// Use this for initialization
-	void Start () {
-		rigid = GetComponent<Rigidbody> ();
-		groundPhysicsLayerMask = LayerMask.GetMask ("Ground");
-		body = GetComponent<BoxCollider> ();
+	void Start()
+	{
+		rigid = GetComponent<Rigidbody>();
+		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
+		body = GetComponent<BoxCollider>();
 
 		grounded = false;
 		hpBar.maxValue = healthCap;
 		hpBar.value = health;
-		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
+		hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
 
 		startPos = transform.position;
 		startRot = transform.rotation.eulerAngles;
 
 	}
 
-	public void Move(Vector3 move, bool jumping, float mDeltaX){
+	public void Move(Vector3 move, bool jumping, float mDeltaX)
+	{
 
-		if (rigid.velocity.magnitude == 0) {
+		if (rigid.velocity.magnitude == 0)
+		{
 			pushed = false;
 		}
-		if (pushed) {
+		if (pushed)
+		{
 			return;
 		}
 
@@ -65,19 +70,22 @@ public class Player : MonoBehaviour {
 		Vector3 rot = transform.localRotation.eulerAngles;
 		vel.y = rigid.velocity.y;
 
-		if (move.magnitude > 1f) {
+		if (move.magnitude > 1f)
+		{
 			move.Normalize();
 		}
 
 		// Jump
-		if (jumping && grounded) {
+		if (jumping && grounded)
+		{
 			//rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, rigid.velocity.z);
 			vel.y = jumpPower;
 			grounded = false;
 		}
 
 		// Movement
-		if (move.x != 0 || move.z != 0) {
+		if (move.x != 0 || move.z != 0)
+		{
 			// Rotation
 			//Quaternion targetRotation = Quaternion.LookRotation (move);
 			//Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
@@ -98,20 +106,22 @@ public class Player : MonoBehaviour {
 
 		// Rotation
 		rot.y += mDeltaX * horizMult;
-		transform.localRotation = Quaternion.Euler (rot);
+		transform.localRotation = Quaternion.Euler(rot);
 
 	}
 
-	void respawn(){
+	void respawn()
+	{
 		transform.position = startPos;
-		transform.rotation = Quaternion.Euler (startRot);
+		transform.rotation = Quaternion.Euler(startRot);
 		health = healthCap;
 		hpBar.fillRect.gameObject.SetActive(true);
 		this.gameObject.SetActive(true);
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		/*
 		if(Input.GetKey (KeyCode.W)) {
 			moveForward = true;
@@ -126,13 +136,17 @@ public class Player : MonoBehaviour {
 		//}                              
 
 		//checks if dead
-		if(health <= 0) {
+		if (health <= 0)
+		{
 			hpBar.fillRect.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
 
-			if (id == 0){
+			if (id == 0)
+			{
 				Points.givePoints(1);
-			} else {
+			}
+			else
+			{
 				Points.givePoints(0);
 			}
 
@@ -140,9 +154,9 @@ public class Player : MonoBehaviour {
 			//Destroy(this.gameObject);
 		}
 
-		grounded = Physics.Raycast (transform.position, Vector3.down, 1.1f);
-		hpBar.transform.position = Camera.main.WorldToScreenPoint (transform.position + Vector3.up);
-	
+		grounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
+		hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
+
 		/*
 		// Jumping
 		Vector3 vel = rigid.velocity;
@@ -155,7 +169,8 @@ public class Player : MonoBehaviour {
 
 	}
 
-	void FixedUpdate () {
+	void FixedUpdate()
+	{
 		/*
 		Vector3 vel = rigid.velocity;
 
@@ -193,55 +208,59 @@ public class Player : MonoBehaviour {
 		*/
 	}
 
-	public void AbilityUsed (int abilityNum) {
+	public void AbilityUsed(int abilityNum)
+	{
 		//figures out what direction to fire based on y rotation of player
 		float degreeY = this.transform.eulerAngles.y;
 		//print(degreeY);
-		float zMag = Mathf.Cos (degreeY * Mathf.Deg2Rad);
-		float xMag = Mathf.Sin (degreeY * Mathf.Deg2Rad);
+		float zMag = Mathf.Cos(degreeY * Mathf.Deg2Rad);
+		float xMag = Mathf.Sin(degreeY * Mathf.Deg2Rad);
 		//print(zMag);
 		//print(xMag);
 		GameObject shot;
 
 		//should be done in a better way (ie. not with var ability1 / 2)
-		switch (abilityNum) {
-		case 1: //fireball
-			shot = Instantiate<GameObject>(ability1);
-			shot.transform.position = transform.position + transform.forward;
-			shot.transform.rotation = transform.rotation;
-			shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-			//print ("1");
-			break;
-		case 2: //windpush
-			shot = Instantiate<GameObject>(ability2);
-			shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
-			shot.transform.rotation = transform.rotation;
-			shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-			//print ("2");
-			break;
-		default:
-			break;
+		switch (abilityNum)
+		{
+			case 1: //fireball
+				shot = Instantiate<GameObject>(ability1);
+				shot.transform.position = transform.position + transform.forward;
+				shot.transform.rotation = transform.rotation;
+				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+				//print ("1");
+				break;
+			case 2: //windpush
+				shot = Instantiate<GameObject>(ability2);
+				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
+				shot.transform.rotation = transform.rotation;
+				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+				//print ("2");
+				break;
+			default:
+				break;
 		}
 
 	}
 
 
-	void OnTriggerEnter(Collider other) {
+	void OnTriggerEnter(Collider other)
+	{
 		GameObject collidedWith = other.gameObject;
 		string tag = collidedWith.tag;
 		Vector3 vel = rigid.velocity;
 
-		switch (tag) {
-		case "FireBall": //does damage to the player
-			health = health - collidedWith.GetComponent<FireBall>().damage;
-			hpBar.value = health;
-			break;
-		case "WindPush": //pushes back the player
-			vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
-			pushed = true; 
-			break;
-		default:
-			break;
+		switch (tag)
+		{
+			case "FireBall": //does damage to the player
+				health = health - collidedWith.GetComponent<FireBall>().damage;
+				hpBar.value = health;
+				break;
+			case "WindPush": //pushes back the player
+				vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
+				pushed = true;
+				break;
+			default:
+				break;
 		}
 
 		rigid.velocity = vel;
