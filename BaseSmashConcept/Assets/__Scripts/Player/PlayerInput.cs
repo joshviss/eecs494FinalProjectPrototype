@@ -3,11 +3,9 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour
 {
-	/*
+
 	public Player player;
 	public Vector3 move;
-	*/
-
 
 	/* Member variables for managing input */
 	/* Movement */
@@ -24,12 +22,12 @@ public class PlayerInput : MonoBehaviour
 	public float speed; /* Customize this in game editor */
 	public float jumpSpeed;
 
-	// public bool jumping = false;
+	public bool jumping = false;
 
 	// Use this for initialization
 	void Start()
 	{
-		// player = GetComponent<Player>();
+		player = GetComponent<Player>();
 		rigidBody = GetComponent<Rigidbody>();
 	}
 
@@ -38,6 +36,8 @@ public class PlayerInput : MonoBehaviour
 	{
 		// large check list to go through every possible input key
 
+		/*
+		// This script shouldn't modify the player at all - it just gets inputs
 		// Movement
 		if (Input.GetButton(jump) && IsGrounded())
 		{
@@ -49,11 +49,9 @@ public class PlayerInput : MonoBehaviour
 			rigidBody.velocity =
 				new Vector3(speed * Input.GetAxis(horizontalAxis), rigidBody.velocity.y, speed * Input.GetAxis(verticalAxis));
 		}
+		*/
 
 		// Jump
-
-
-		/*
 		if (!jumping)
 		{
 			jumping = Input.GetButtonDown(jump);
@@ -67,22 +65,22 @@ public class PlayerInput : MonoBehaviour
 		{
 			player.AbilityUsed(2);
 		}
-		*/
+
 	}
 
 	// FixedUpdate is called once per physics update
 	void FixedUpdate()
 	{
-		/*
+
 		float h = Input.GetAxis(horizontalAxis);
 		float v = Input.GetAxis(verticalAxis);
-		float mDeltaX;
+		float mDeltaX = 0;
 
 		if (this.gameObject.tag == "MainCamera" || player.id == 0)
 		{
 			mDeltaX = Input.GetAxis("CameraHorizontal_P1");
 		}
-		else
+		else if (this.gameObject.tag == "MainCamera")
 		{
 			mDeltaX = Input.GetAxis("CameraHorizontal_P2");
 		}
@@ -93,7 +91,7 @@ public class PlayerInput : MonoBehaviour
 
 		player.Move(move, jumping, mDeltaX);
 		jumping = false;
-		*/
+
 	}
 
 	// helper functions

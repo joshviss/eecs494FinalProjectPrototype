@@ -47,7 +47,6 @@ public class Player : MonoBehaviour
 		grounded = false;
 		hpBar.maxValue = healthCap;
 		hpBar.value = health;
-		hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
 
 		startPos = transform.position;
 		startRot = transform.rotation.eulerAngles;
@@ -115,6 +114,7 @@ public class Player : MonoBehaviour
 		transform.position = startPos;
 		transform.rotation = Quaternion.Euler(startRot);
 		health = healthCap;
+		hpBar.value = health;
 		hpBar.fillRect.gameObject.SetActive(true);
 		this.gameObject.SetActive(true);
 	}
@@ -155,7 +155,7 @@ public class Player : MonoBehaviour
 		}
 
 		grounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
-		hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
+		//hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
 
 		/*
 		// Jumping

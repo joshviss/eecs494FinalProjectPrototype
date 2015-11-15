@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour {
 		int seconds = (int) time % 60;
 
 		if (time > 0) {
-			UI.text = minutes.ToString () + ":" + seconds.ToString ();
+			UI.text = string.Format("{0:0}:{1:00}", minutes, seconds);
 		} else {
 			Application.LoadLevel ("_Scene_End");
 		}
