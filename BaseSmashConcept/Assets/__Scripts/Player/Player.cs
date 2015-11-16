@@ -5,29 +5,39 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
-	public Rigidbody rigid;
-	public BoxCollider body;
+	#region for the ease of component accessing
+	private Rigidbody rigid;
+	private BoxCollider body;
+	#endregion
 	//public GameObject thisPlayer;
 
+	#region abilities
 	public GameObject ability1, ability2;
 	public int abilityIndex1 = 1, abilityIndex2 = 2;
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
+	#endregion
 
+	#region movement
 	public float moveSpeed = 5f;
+	public float rotationSpeed = 60.0f;
 	public float horizMult = 5f;
 	public float jumpPower = 7f;
+	#endregion
 
+	#region miscellaneous
 	bool grounded;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
 	int boundaryLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
+	#endregion
 
 	//RigidbodyConstraints noRotY;
 
 	//Player Stats
+	#region player stats
 	public int id;
 	public int health = 15;
 	public int healthCap = 15;
@@ -37,6 +47,7 @@ public class Player : MonoBehaviour
 	//float JumpSpeed = 6f;
 
 	public int BasicAttackDamage = 1;
+	#endregion
 
 	// Use this for initialization
 	void Start()
@@ -125,6 +136,40 @@ public class Player : MonoBehaviour
 		rot.y += mDeltaX * horizMult;
 		transform.localRotation = Quaternion.Euler(rot);
 
+	}
+
+	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
+	{
+		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * deltaTime);
+	}
+
+	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
+	{
+		if (startJumping && IsGrounded())
+		{
+			rigid.velocity = transform.TransformDirection(
+				new Vector3(
+					moveSpeed * inputHorizontalMovementScale,
+					jumpPower,
+					moveSpeed * inputVerticalMovementScale)
+				);
+		}
+		else
+		{
+			rigid.velocity = transform.TransformDirection(
+				new Vector3(
+					moveSpeed * inputHorizontalMovementScale,
+					rigid.velocity.y,
+					moveSpeed * inputVerticalMovementScale)
+				);
+		}
+		
+		Debug.DrawRay(transform.position, GetComponent<Rigidbody>().velocity, Color.gray);
+	}
+	
+	bool IsGrounded()
+	{
+		return Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y + 0.1f);
 	}
 
 	void respawn()

@@ -3,26 +3,27 @@ using System.Collections;
 
 public class PlayerInput : MonoBehaviour
 {
-
-	public Player player;
-	public Vector3 move;
-
 	/* Member variables for managing input */
 	/* Movement */
+	#region movement input
 	public string horizontalAxis;
 	public string verticalAxis;
+	public string horizontalRototation;
+	public string verticalRototation;
 	public string jump;
+	#endregion
 
 	/* Abilities */
+	#region abilities input
 	public string aString1;
 	public string aString2;
+	#endregion
 
-	/* Movement */
+	#region for the ease of component accessing
 	private Rigidbody rigidBody;
-	public float speed; /* Customize this in game editor */
-	public float jumpSpeed;
-
-	public bool jumping = false;
+	private Player player;
+	#endregion
+	// public bool jumping = false;
 
 	// Use this for initialization
 	void Start()
@@ -37,10 +38,10 @@ public class PlayerInput : MonoBehaviour
 		// large check list to go through every possible input key
 
 		// Jump
-		if (!jumping)
-		{
-			jumping = Input.GetButtonDown(jump);
-		}
+		// if (!jumping)
+		// {
+		// 	jumping = Input.GetButtonDown(jump);
+		// }
 
 		if (Input.GetButtonDown(aString1))
 		{
@@ -57,9 +58,15 @@ public class PlayerInput : MonoBehaviour
 	void FixedUpdate()
 	{
 
+		player.UpdateRotation (Input.GetAxis (horizontalRototation), Time.deltaTime);
+		player.UpdateMovement (Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), Input.GetButtonDown(jump));
+
+		/*
 		float h = Input.GetAxis(horizontalAxis);
 		float v = Input.GetAxis(verticalAxis);
 		float mDeltaX = 0;
+
+		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * deltaTime);
 
 		if (this.gameObject.tag == "MainCamera" || player.id == 0)
 		{
@@ -76,7 +83,7 @@ public class PlayerInput : MonoBehaviour
 
 		player.Move(move, jumping, mDeltaX);
 		jumping = false;
-
+		*/
 	}
 
 }
