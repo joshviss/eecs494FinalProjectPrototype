@@ -27,9 +27,9 @@ public class Player : MonoBehaviour
 
 	#region miscellaneous
 	bool grounded;
+	float pushTime = 0f;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
-	int boundaryLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
 	#endregion
@@ -54,7 +54,6 @@ public class Player : MonoBehaviour
 	{
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
-		boundaryLayerMask = LayerMask.GetMask("Boundary");
 		body = GetComponent<BoxCollider>();
 
 		grounded = false;
@@ -66,6 +65,8 @@ public class Player : MonoBehaviour
 
 	}
 
+	// Not used
+	/*
 	public void Move(Vector3 move, bool jumping, float mDeltaX)
 	{
 
@@ -104,11 +105,9 @@ public class Player : MonoBehaviour
 
 			//rigid.MoveRotation (newRotation);
 			//rigid.MoveRotation (targetRotation);
-
-			/*
+			
 			Vector3 newPosition = Vector3.Lerp (rigid.position, rigid.position + move, Time.deltaTime * moveSpeed);
 			rigid.MovePosition (newPosition);
-			*/
 
 			vel.x = move.x * moveSpeed;
 			vel.z = move.z * moveSpeed;
@@ -137,6 +136,7 @@ public class Player : MonoBehaviour
 		transform.localRotation = Quaternion.Euler(rot);
 
 	}
+	*/
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
 	{
@@ -145,17 +145,38 @@ public class Player : MonoBehaviour
 
 	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
 	{
-		if (startJumping && IsGrounded())
-		{
-			rigid.velocity = transform.TransformDirection(
-				new Vector3(
+		if (pushed) {
+			return;
+		}
+
+		if (startJumping && IsGrounded ()) {
+			rigid.velocity = transform.TransformDirection (
+				new Vector3 (
 					moveSpeed * inputHorizontalMovementScale,
 					jumpPower,
 					moveSpeed * inputVerticalMovementScale)
+			);
+		} else if (!IsGrounded ()) {
+			rigid.velocity = transform.TransformDirection(
+				new Vector3(
+				moveSpeed * inputHorizontalMovementScale,
+				rigid.velocity.y,
+				moveSpeed * inputVerticalMovementScale)
 				);
-		}
-		else
-		{
+
+			Vector3 feetPos = transform.position + Vector3.down * 0.4f;
+			bool hitWall = (Physics.Raycast (feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, transform.right, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.right, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, transform.right - transform.forward, 0.85f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.right - transform.forward, 0.85f, groundPhysicsLayerMask));
+			if (hitWall) {
+				rigid.velocity = new Vector3(0, rigid.velocity.y, 0);
+			}
+		} else {
 			rigid.velocity = transform.TransformDirection(
 				new Vector3(
 					moveSpeed * inputHorizontalMovementScale,
@@ -163,13 +184,16 @@ public class Player : MonoBehaviour
 					moveSpeed * inputVerticalMovementScale)
 				);
 		}
-		
-		Debug.DrawRay(transform.position, GetComponent<Rigidbody>().velocity, Color.gray);
+
 	}
 	
 	bool IsGrounded()
 	{
-		return Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y + 0.1f);
+		return (Physics.Raycast(transform.position, Vector3.down, 1.1f) ||
+		        Physics.Raycast(transform.position + transform.forward * 0.45f, Vector3.down, 1.1f) || 
+		        Physics.Raycast(transform.position - transform.forward * 0.45f, Vector3.down, 1.1f) ||
+		        Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
+		        Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
 	}
 
 	void respawn()
@@ -217,11 +241,11 @@ public class Player : MonoBehaviour
 			//Destroy(this.gameObject);
 		}
 
-		grounded = (Physics.Raycast(transform.position, Vector3.down, 1.1f) ||
-		            Physics.Raycast(transform.position + transform.forward * 0.45f, Vector3.down, 1.1f) || 
-		            Physics.Raycast(transform.position - transform.forward * 0.45f, Vector3.down, 1.1f) ||
-		            Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
-		            Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
+		pushTime += Time.deltaTime;
+		if (pushTime > 0.5f) {
+			pushed = false;
+		}
+
 		//hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
 
 		/*
@@ -325,6 +349,7 @@ public class Player : MonoBehaviour
 			case "WindPush": //pushes back the player
 				vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
 				pushed = true;
+				pushTime = 0;
 				break;
 			default:
 				break;

@@ -23,6 +23,8 @@ public class PlayerInput : MonoBehaviour
 	private Rigidbody rigidBody;
 	private Player player;
 	#endregion
+
+	static public bool paused = false;
 	// public bool jumping = false;
 
 	// Use this for initialization
@@ -43,6 +45,10 @@ public class PlayerInput : MonoBehaviour
 		// 	jumping = Input.GetButtonDown(jump);
 		// }
 
+		if (paused) {
+			return;
+		}
+
 		if (Input.GetButtonDown(aString1))
 		{
 			player.AbilityUsed(1);
@@ -57,6 +63,10 @@ public class PlayerInput : MonoBehaviour
 	// FixedUpdate is called once per physics update
 	void FixedUpdate()
 	{
+
+		if (paused) {
+			return;
+		}
 
 		player.UpdateRotation (Input.GetAxis (horizontalRototation), Time.deltaTime);
 		player.UpdateMovement (Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), Input.GetButtonDown(jump));
