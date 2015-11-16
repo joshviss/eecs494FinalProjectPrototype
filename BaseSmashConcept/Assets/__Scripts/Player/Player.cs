@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 	public int abilityIndex1 = 1, abilityIndex2 = 2;
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
+	public float dodgeDistance = 3.0f;
 	#endregion
 
 	#region movement
@@ -33,10 +34,9 @@ public class Player : MonoBehaviour
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
+	PlayerAttackRange attackRange;
 	#endregion
-
-	//RigidbodyConstraints noRotY;
-
+	
 	//Player Stats
 	#region player stats
 	public int id;
@@ -44,20 +44,16 @@ public class Player : MonoBehaviour
 	public int healthCap = 15;
 	public Slider hpBar;
 
-	//float MovementSpeed = 2.0f;
-	//float JumpSpeed = 6f;
-
 	public int BasicAttackDamage = 1;
 	#endregion
 
 	// Use this for initialization
 	void Start()
 	{
+		attackRange = GetComponentInChildren<PlayerAttackRange> ();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
-		//body = GetComponent<BoxCollider>();
 
-		//grounded = false;
 		hpBar.maxValue = healthCap;
 		hpBar.value = health;
 
@@ -65,79 +61,6 @@ public class Player : MonoBehaviour
 		startRot = transform.rotation.eulerAngles;
 
 	}
-
-	// Not used
-	/*
-	public void Move(Vector3 move, bool jumping, float mDeltaX)
-	{
-
-		if (rigid.velocity.magnitude == 0)
-		{
-			pushed = false;
-		}
-		if (pushed)
-		{
-			return;
-		}
-
-		Vector3 vel = Vector3.zero;
-		Vector3 rot = transform.localRotation.eulerAngles;
-		vel.y = rigid.velocity.y;
-
-		if (move.magnitude > 1f)
-		{
-			move.Normalize();
-		}
-
-		// Jump
-		if (jumping && grounded)
-		{
-			//rigid.velocity = new Vector3(rigid.velocity.x, jumpPower, rigid.velocity.z);
-			vel.y = jumpPower;
-			grounded = false;
-		}
-
-		// Movement
-		if (move.x != 0 || move.z != 0)
-		{
-			// Rotation
-			//Quaternion targetRotation = Quaternion.LookRotation (move);
-			//Quaternion newRotation = Quaternion.Lerp (rigid.rotation, targetRotation, Time.deltaTime * turnSpeed);
-
-			//rigid.MoveRotation (newRotation);
-			//rigid.MoveRotation (targetRotation);
-			
-			Vector3 newPosition = Vector3.Lerp (rigid.position, rigid.position + move, Time.deltaTime * moveSpeed);
-			rigid.MovePosition (newPosition);
-
-			vel.x = move.x * moveSpeed;
-			vel.z = move.z * moveSpeed;
-		}
-
-		if (!grounded) {
-			Vector3 feetPos = transform.position + Vector3.down * 0.4f;
-			bool hitWall = (Physics.Raycast (feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.forward, 0.6f, boundaryLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.forward, 0.6f, boundaryLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right, 0.6f, boundaryLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right, 0.6f, boundaryLayerMask));
-			if (hitWall) {
-				vel.x = 0;
-				vel.z = 0;
-			}
-		}
-
-		rigid.velocity = vel;
-
-		// Rotation
-		rot.y += mDeltaX * horizMult;
-		transform.localRotation = Quaternion.Euler(rot);
-
-	}
-	*/
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
 	{
@@ -209,20 +132,7 @@ public class Player : MonoBehaviour
 
 	// Update is called once per frame
 	void Update()
-	{
-		/*
-		if(Input.GetKey (KeyCode.W)) {
-			moveForward = true;
-		}
-		*/
-
-		//use of abilities
-		//if(Input.GetKeyDown (KeyCode.F)) {
-		//	AbilityUsed (abilityIndex1);
-		//} else if (Input.GetKeyDown (KeyCode.R)) {
-		//	AbilityUsed (abilityIndex2);
-		//}                              
-
+	{                   
 		//checks if dead
 		if (health <= 0)
 		{
@@ -239,7 +149,6 @@ public class Player : MonoBehaviour
 			}
 
 			Invoke("respawn", 2f);
-			//Destroy(this.gameObject);
 		}
 
 		pushTime += Time.deltaTime;
@@ -247,68 +156,15 @@ public class Player : MonoBehaviour
 			pushed = false;
 		}
 
-		//hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
-
-		/*
-		// Jumping
-		Vector3 vel = rigid.velocity;
-		if (Input.GetKeyDown (KeyCode.A) && grounded && !onLadder) {
-			vel.y = speedJump;
-		}
-		rigid.velocity = vel;
-		*/
-
-
-	}
-
-	void FixedUpdate()
-	{
-		/*
-		Vector3 vel = rigid.velocity;
-
-		if(moveForward) {
-			//take out of if statement if ever needed outside of it.
-			//figures out what direction to fire based on y rotation of player
-			float degreeY = this.transform.eulerAngles.y;
-			//print(degreeY);
-			float zMag = Mathf.Cos (degreeY * Mathf.Deg2Rad);
-			float xMag = Mathf.Sin (degreeY * Mathf.Deg2Rad);
-
-			vel = vel + new Vector3(xMag, 0, zMag) * forwardMovement;
-			moveForward = false;
-		}
-		*/
-
-		/*
-		Vector3 vel = rigid.velocity;
-		
-		Vector3 loc = transform.position;
-		Debug.DrawRay (loc, Vector3.down * 1.25f, Color.blue);
-		grounded = (Physics.Raycast (loc, Vector3.down, 1.25f, groundPhysicsLayerMask)) ||
-			(Physics.Raycast (loc, Vector3.down, 1.25f, boxPhysicsLayerMask));
-		
-		// Left and Right Movement
-		if (Input.GetKey (KeyCode.LeftArrow) && !Input.GetKey (KeyCode.RightArrow)) {
-			vel.x = -speedX;
-		} else if (Input.GetKey (KeyCode.RightArrow) && !Input.GetKey (KeyCode.LeftArrow)) {
-			vel.x = speedX;
-		} else if (Input.GetKey (KeyCode.DownArrow) && !collideWithLadder) {
-			vel.x = 0;
-		} else {
-			vel.x = 0;
-		}
-		*/
 	}
 
 	public void AbilityUsed(int abilityNum)
 	{
 		//figures out what direction to fire based on y rotation of player
 		float degreeY = this.transform.eulerAngles.y;
-		//print(degreeY);
 		float zMag = Mathf.Cos(degreeY * Mathf.Deg2Rad);
 		float xMag = Mathf.Sin(degreeY * Mathf.Deg2Rad);
-		//print(zMag);
-		//print(xMag);
+
 		GameObject shot;
 
 		//should be done in a better way (ie. not with var ability1 / 2)
@@ -319,14 +175,12 @@ public class Player : MonoBehaviour
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				//print ("1");
 				break;
 			case 2: //windpush
 				shot = Instantiate<GameObject>(ability2);
 				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				//print ("2");
 				break;
 			default:
 				break;
@@ -357,6 +211,18 @@ public class Player : MonoBehaviour
 		}
 
 		rigid.velocity = vel;
+	}
+
+	public void Attack(){
+		GameObject target = attackRange.getAttackingTarget ();
+		if (target != null) {
+			target.GetComponent<Player>().health -= BasicAttackDamage;
+		}
+	}
+
+	public void Dodge(){
+		Vector3 direction = (rigid.velocity != Vector3.zero) ? rigid.velocity.normalized : - transform.forward;
+		transform.position += direction * dodgeDistance;
 	}
 
 }

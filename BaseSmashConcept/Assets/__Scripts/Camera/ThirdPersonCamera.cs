@@ -20,22 +20,10 @@ public class ThirdPersonCamera : MonoBehaviour
 
 	#region unity event functions
 
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-
-	}
-
 	void LateUpdate()
 	{
 		// calculate target position
-		targetPosition = follow.position + Vector3.up * distanceUp - follow.forward * distanceAway;
+		targetPosition = follow.position + follow.up * distanceUp - follow.forward * distanceAway;
 		// debugging info
 		Debug.DrawRay(follow.position, Vector3.up * distanceUp, Color.red);
 		Debug.DrawRay(follow.position, -1.0f * follow.forward * distanceAway, Color.blue);

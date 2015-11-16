@@ -17,6 +17,8 @@ public class PlayerInput : MonoBehaviour
 	#region abilities input
 	public string aString1;
 	public string aString2;
+	public string attack;
+	public string dodge;
 	#endregion
 
 	#region for the ease of component accessing
@@ -25,25 +27,17 @@ public class PlayerInput : MonoBehaviour
 	#endregion
 
 	static public bool paused = false;
-	// public bool jumping = false;
 
 	// Use this for initialization
 	void Start()
 	{
 		player = GetComponent<Player>();
-		//rigidBody = GetComponent<Rigidbody>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
 		// large check list to go through every possible input key
-
-		// Jump
-		// if (!jumping)
-		// {
-		// 	jumping = Input.GetButtonDown(jump);
-		// }
 
 		if (paused) {
 			return;
@@ -56,6 +50,14 @@ public class PlayerInput : MonoBehaviour
 		else if (Input.GetButtonDown(aString2))
 		{
 			player.AbilityUsed(2);
+		}
+
+		if (Input.GetButtonDown (attack)) {
+			player.Attack();
+		}
+
+		if (Input.GetButtonDown (dodge)) {
+			player.Dodge ();
 		}
 
 	}
@@ -71,29 +73,6 @@ public class PlayerInput : MonoBehaviour
 		player.UpdateRotation (Input.GetAxis (horizontalRototation), Time.deltaTime);
 		player.UpdateMovement (Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), Input.GetButtonDown(jump));
 
-		/*
-		float h = Input.GetAxis(horizontalAxis);
-		float v = Input.GetAxis(verticalAxis);
-		float mDeltaX = 0;
-
-		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * deltaTime);
-
-		if (this.gameObject.tag == "MainCamera" || player.id == 0)
-		{
-			mDeltaX = Input.GetAxis("CameraHorizontal_P1");
-		}
-		else if (this.gameObject.tag == "MainCamera")
-		{
-			mDeltaX = Input.GetAxis("CameraHorizontal_P2");
-		}
-
-
-		//move = v * Vector3.forward + h * Vector3.right;
-		move = v * transform.forward + h * transform.right;
-
-		player.Move(move, jumping, mDeltaX);
-		jumping = false;
-		*/
 	}
 
 }
