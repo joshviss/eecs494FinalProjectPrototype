@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 	bool grounded;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
+	int boundaryLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
 
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
 	{
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
+		boundaryLayerMask = LayerMask.GetMask("Boundary");
 		body = GetComponent<BoxCollider>();
 
 		grounded = false;
@@ -99,6 +101,22 @@ public class Player : MonoBehaviour
 
 			vel.x = move.x * moveSpeed;
 			vel.z = move.z * moveSpeed;
+		}
+
+		if (!grounded) {
+			Vector3 feetPos = transform.position + Vector3.down * 0.4f;
+			bool hitWall = (Physics.Raycast (feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, transform.right, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.right, 0.6f, groundPhysicsLayerMask) ||
+			                Physics.Raycast (feetPos, transform.forward, 0.6f, boundaryLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.forward, 0.6f, boundaryLayerMask) ||
+			                Physics.Raycast (feetPos, transform.right, 0.6f, boundaryLayerMask) ||
+			                Physics.Raycast (feetPos, -transform.right, 0.6f, boundaryLayerMask));
+			if (hitWall) {
+				vel.x = 0;
+				vel.z = 0;
+			}
 		}
 
 		rigid.velocity = vel;

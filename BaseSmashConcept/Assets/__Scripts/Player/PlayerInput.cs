@@ -36,21 +36,6 @@ public class PlayerInput : MonoBehaviour
 	{
 		// large check list to go through every possible input key
 
-		/*
-		// This script shouldn't modify the player at all - it just gets inputs
-		// Movement
-		if (Input.GetButton(jump) && IsGrounded())
-		{
-			rigidBody.velocity =
-				new Vector3(speed * Input.GetAxis(horizontalAxis), jumpSpeed, speed * Input.GetAxis(verticalAxis));
-		}
-		else
-		{
-			rigidBody.velocity =
-				new Vector3(speed * Input.GetAxis(horizontalAxis), rigidBody.velocity.y, speed * Input.GetAxis(verticalAxis));
-		}
-		*/
-
 		// Jump
 		if (!jumping)
 		{
@@ -94,9 +79,4 @@ public class PlayerInput : MonoBehaviour
 
 	}
 
-	// helper functions
-	private bool IsGrounded()
-	{
-		return Physics.Raycast(transform.position, -Vector3.up, GetComponent<Collider>().bounds.extents.y + 0.1f);
-	}
 }
