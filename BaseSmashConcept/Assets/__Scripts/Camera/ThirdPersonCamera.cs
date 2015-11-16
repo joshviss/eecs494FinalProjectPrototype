@@ -18,16 +18,12 @@ public class ThirdPersonCamera : MonoBehaviour
 
 	#endregion
 
-	#region public variables
-	public GameObject player;
-	#endregion
-
 	#region unity event functions
 
 	// Use this for initialization
 	void Start()
 	{
-		follow = player.transform;
+
 	}
 
 	// Update is called once per frame
@@ -40,8 +36,13 @@ public class ThirdPersonCamera : MonoBehaviour
 	{
 		// calculate target position
 		targetPosition = follow.position + Vector3.up * distanceUp - follow.forward * distanceAway;
+		// debugging info
+		Debug.DrawRay(follow.position, Vector3.up * distanceUp, Color.red);
+		Debug.DrawRay(follow.position, -1.0f * follow.forward * distanceAway, Color.blue);
+		Debug.DrawLine(follow.position, targetPosition, Color.magenta);
 		// using linear interpolation to smooth out the camera movement
-		transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smooth);
+		// transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smooth);
+		transform.position = targetPosition;
 		// adjust camera direction
 		transform.LookAt(follow);
 	}

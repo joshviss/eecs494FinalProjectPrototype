@@ -19,4 +19,9 @@ public class PlayerBasics : MonoBehaviour
 	{
 
 	}
+
+	void Attack()
+	{
+
+	}
 }
