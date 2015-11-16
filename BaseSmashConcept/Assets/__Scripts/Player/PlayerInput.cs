@@ -20,7 +20,7 @@ public class PlayerInput : MonoBehaviour
 	#endregion
 
 	#region for the ease of component accessing
-	private Rigidbody rigidBody;
+	//private Rigidbody rigidBody;
 	private Player player;
 	#endregion
 
@@ -31,7 +31,7 @@ public class PlayerInput : MonoBehaviour
 	void Start()
 	{
 		player = GetComponent<Player>();
-		rigidBody = GetComponent<Rigidbody>();
+		//rigidBody = GetComponent<Rigidbody>();
 	}
 
 	// Update is called once per frame

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 
 	#region for the ease of component accessing
 	private Rigidbody rigid;
-	private BoxCollider body;
+	//private BoxCollider body;
 	#endregion
 	//public GameObject thisPlayer;
 
@@ -26,7 +26,8 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region miscellaneous
-	bool grounded;
+	public static bool paused = false;
+	//bool grounded;
 	float pushTime = 0f;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
@@ -54,9 +55,9 @@ public class Player : MonoBehaviour
 	{
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
-		body = GetComponent<BoxCollider>();
+		//body = GetComponent<BoxCollider>();
 
-		grounded = false;
+		//grounded = false;
 		hpBar.maxValue = healthCap;
 		hpBar.value = health;
 
