@@ -172,7 +172,11 @@ public class Player : MonoBehaviour
 			//Destroy(this.gameObject);
 		}
 
-		grounded = Physics.Raycast(transform.position, Vector3.down, 1.1f);
+		grounded = (Physics.Raycast(transform.position, Vector3.down, 1.1f) ||
+		            Physics.Raycast(transform.position + transform.forward * 0.45f, Vector3.down, 1.1f) || 
+		            Physics.Raycast(transform.position - transform.forward * 0.45f, Vector3.down, 1.1f) ||
+		            Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
+		            Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
 		//hpBar.transform.position = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
 
 		/*
