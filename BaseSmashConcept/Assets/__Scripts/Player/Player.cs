@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
 	#region for the ease of component accessing
 	private Rigidbody rigid;
+	GameObject character;
 	//private BoxCollider body;
 	#endregion
 	//public GameObject thisPlayer;
@@ -30,6 +31,8 @@ public class Player : MonoBehaviour
 	public static bool paused = false;
 	//bool grounded;
 	float pushTime = 0f;
+	float respawnTimer = 0f;
+	float respawnTime = 5f;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
@@ -50,6 +53,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		character = GetComponent<GameObject> ();
 		attackRange = GetComponentInChildren<PlayerAttackRange> ();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
@@ -148,7 +152,12 @@ public class Player : MonoBehaviour
 				Points.givePoints(0);
 			}
 
-			Invoke("respawn", 2f);
+			//Invoke("respawn", 2f);
+			respawnTimer += Time.deltaTime;
+
+			if (respawnTimer >= respawnTime){
+				respawn();
+			} 
 		}
 
 		pushTime += Time.deltaTime;
