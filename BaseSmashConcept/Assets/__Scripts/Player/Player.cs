@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
 	private Rigidbody rigid;
 	GameObject character;
 	//private BoxCollider body;
-	#endregion
 	//public GameObject thisPlayer;
+	#endregion
 
 	#region abilities
 	public GameObject ability1, ability2;
@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
 	PlayerAttackRange attackRange;
 	#endregion
 	
-	//Player Stats
 	#region player stats
 	public int id;
 	public int health = 15;
