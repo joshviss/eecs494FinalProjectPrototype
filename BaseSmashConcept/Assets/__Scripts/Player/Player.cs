@@ -42,11 +42,12 @@ public class Player : MonoBehaviour
 	
 	#region player stats
 	public int id;
-	public int health = 15;
+	public int Health = 15;
 	public int healthCap = 15;
 	public Slider hpBar;
-
-	public int BasicAttackDamage = 1;
+	public int AttackDamage = 1;
+	public int Defense = 1;
+	public int BaseTowerDamage = 1;
 	#endregion
 
 	// Use this for initialization
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
 
 		hpBar.maxValue = healthCap;
-		hpBar.value = health;
+		hpBar.value = Health;
 
 		startPos = transform.position;
 		startRot = transform.rotation.eulerAngles;
@@ -127,8 +128,8 @@ public class Player : MonoBehaviour
 	{
 		transform.position = startPos;
 		transform.rotation = Quaternion.Euler(startRot);
-		health = healthCap;
-		hpBar.value = health;
+		Health = healthCap;
+		hpBar.value = Health;
 		hpBar.fillRect.gameObject.SetActive(true);
 		this.gameObject.SetActive(true);
 	}
@@ -137,7 +138,7 @@ public class Player : MonoBehaviour
 	void Update()
 	{                   
 		//checks if dead
-		if (health <= 0)
+		if (Health <= 0)
 		{
 			hpBar.fillRect.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
@@ -206,8 +207,8 @@ public class Player : MonoBehaviour
 		switch (tag)
 		{
 			case "FireBall": //does damage to the player
-				health = health - collidedWith.GetComponent<FireBall>().damage;
-				hpBar.value = health;
+				Health = Health - collidedWith.GetComponent<FireBall>().damage;
+				hpBar.value = Health;
 				break;
 			case "WindPush": //pushes back the player
 				vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
@@ -224,7 +225,7 @@ public class Player : MonoBehaviour
 	public void Attack(){
 		GameObject target = attackRange.getAttackingTarget ();
 		if (target != null) {
-			target.GetComponent<Player>().health -= BasicAttackDamage;
+			target.GetComponent<Player>().Health -= AttackDamage;
 		}
 	}
 
