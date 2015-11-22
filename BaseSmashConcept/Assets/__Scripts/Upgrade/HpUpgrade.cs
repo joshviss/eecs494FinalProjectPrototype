@@ -21,7 +21,10 @@ public class HpUpgrade : MonoBehaviour
 	void OnTriggerEnter(Collider other)
 	{
 		GameObject collideWith = other.gameObject;
-		if (collideWith.tag == "Player")
+		if (collideWith.tag == "Player1" ||
+		    collideWith.tag == "Player2" ||
+		    collideWith.tag == "Player3" ||
+		    collideWith.tag == "Player4")
 		{
 			collideWith.GetComponent<Player>().health += increaseHp;
 			Destroy(gameObject);
