@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
 
 	#region for the ease of component accessing
 	private Rigidbody rigid;
-	GameObject character;
+	public GameObject select;
+	//GameObject character;
 	//private BoxCollider body;
 	//public GameObject thisPlayer;
 	#endregion
@@ -31,8 +32,6 @@ public class Player : MonoBehaviour
 	public static bool paused = false;
 	//bool grounded;
 	float pushTime = 0f;
-	float respawnTimer = 0f;
-	float respawnTime = 5f;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
@@ -53,7 +52,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		character = GetComponent<GameObject> ();
+		//character = GetComponent<GameObject> ();
 		attackRange = GetComponentInChildren<PlayerAttackRange> ();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
@@ -63,6 +62,8 @@ public class Player : MonoBehaviour
 
 		startPos = transform.position;
 		startRot = transform.rotation.eulerAngles;
+
+		select.SetActive (false);
 
 	}
 
@@ -132,6 +133,7 @@ public class Player : MonoBehaviour
 		hpBar.value = Health;
 		hpBar.fillRect.gameObject.SetActive(true);
 		this.gameObject.SetActive(true);
+		select.SetActive (false);
 	}
 
 	// Update is called once per frame
@@ -142,6 +144,7 @@ public class Player : MonoBehaviour
 		{
 			hpBar.fillRect.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
+			select.SetActive(true);
 
 			if (id == 0)
 			{
@@ -152,12 +155,7 @@ public class Player : MonoBehaviour
 				Points.givePoints(0);
 			}
 
-			//Invoke("respawn", 2f);
-			respawnTimer += Time.deltaTime;
-
-			if (respawnTimer >= respawnTime){
-				respawn();
-			} 
+			Invoke("respawn", 5f); 
 		}
 
 		pushTime += Time.deltaTime;
