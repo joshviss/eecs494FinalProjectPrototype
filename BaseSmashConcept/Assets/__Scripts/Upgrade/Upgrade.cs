@@ -3,10 +3,21 @@ using System.Collections;
 
 public class Upgrade : MonoBehaviour
 {
-	// Please set buff type inn game editor
+	// Please set buff type in game editor
 	// possible options are "HP", "ATK", "DEF", "BDEF"
 	public string buffType;
 	public int increaseAmount;
+	private float lifeTime = 0.0f;
+	private float maxLifeTime = 20.0f;
+
+	void Update()
+	{
+		lifeTime += Time.deltaTime;
+		if (lifeTime >= maxLifeTime)
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	void OnTriggerEnter(Collider other)
 	{
