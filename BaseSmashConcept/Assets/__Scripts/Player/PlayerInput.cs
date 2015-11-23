@@ -58,7 +58,7 @@ public class PlayerInput : MonoBehaviour
 		if (paused) {
 			return;
 		}
-
+		/*
 		if (select.isActiveAndEnabled) {
 			counter.enabled = true;
 			timer -= Time.deltaTime;
@@ -78,7 +78,7 @@ public class PlayerInput : MonoBehaviour
 			timer = 5f;
 			counter.enabled = false;
 		}
-
+		*/
 		if (Input.GetButtonDown(aString1))
 		{
 			player.AbilityUsed(ability1);
