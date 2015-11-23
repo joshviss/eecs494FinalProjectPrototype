@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 	Vector3 startPos;
 	Vector3 startRot;
 	PlayerAttackRange attackRange;
+	public bool isInBase;
 	#endregion
 	
 	#region player stats
