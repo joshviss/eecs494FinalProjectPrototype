@@ -230,7 +230,8 @@ public class Player : MonoBehaviour
 	}
 
 	public void Dodge(){
-		Vector3 direction = (rigid.velocity != Vector3.zero) ? rigid.velocity : - transform.forward * moveSpeed;
+		Vector3 direction = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
+		direction = (direction != Vector3.zero) ? direction : - transform.forward;
 		direction = new Vector3(direction.x, 0, direction.z);
 		rigid.velocity = direction.normalized * (1 / Time.deltaTime);
 		isDodging = true;
