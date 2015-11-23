@@ -14,8 +14,7 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region abilities
-	public GameObject ability1, ability2;
-	public int abilityIndex1 = 1, abilityIndex2 = 2;
+	public GameObject fireball, windpush;
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
 	public float dodgeDistance = 3.0f;
@@ -179,13 +178,13 @@ public class Player : MonoBehaviour
 		switch (abilityNum)
 		{
 			case 1: //fireball
-				shot = Instantiate<GameObject>(ability1);
+				shot = Instantiate<GameObject>(fireball);
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 				break;
 			case 2: //windpush
-				shot = Instantiate<GameObject>(ability2);
+				shot = Instantiate<GameObject>(windpush);
 				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
