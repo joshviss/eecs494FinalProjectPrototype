@@ -43,7 +43,7 @@ public class CharacterSwitch : MonoBehaviour {
 				cursorB.enabled = true;
 			}
 		} else {
-			timer = 0f;
+			timer = 5f;
 			counter.enabled = false;
 		}
 	}
