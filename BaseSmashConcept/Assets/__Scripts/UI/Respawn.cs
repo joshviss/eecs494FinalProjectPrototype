@@ -11,6 +11,7 @@ public class Respawn : MonoBehaviour {
 	public string characterA, characterB;
 	public Text counter;
 	public GameObject p;
+	public GameObject white, black;
 
 	// Use this for initialization
 	void Start () {
@@ -33,12 +34,16 @@ public class Respawn : MonoBehaviour {
 				cursorB.enabled = false;
 				ability.ability1 = 1;
 				ability.ability2 = 2;
+				white.SetActive(true);
+				black.SetActive(false);
 			}
 			if (Input.GetButtonDown (characterB)) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
-				ability.ability1 = 1;
-				ability.ability2 = 2;
+				ability.ability1 = 3;
+				ability.ability2 = 4;
+				white.SetActive(false);
+				black.SetActive(true);
 			}
 		} else {
 			timer = 5f;
