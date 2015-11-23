@@ -56,9 +56,9 @@ public class MultiCamera : MonoBehaviour {
 	}
 
 	void Use4Camera () {
-		player1Camera.rect = new Rect (0, 0.5f, 1, 1); //
+		player1Camera.rect = new Rect (0, 0.5f, 0.5f, 1); //
 		player2Camera.rect = new Rect (0.5f, 0.5f, 1, 1); //
-		player3Camera.rect = new Rect (0, 0.5f, 1, 0.5f); //
-		player4Camera.rect = new Rect (0.5f, 0.5f, 1, 1); //
+		player3Camera.rect = new Rect (0, 0, 0.5f, 0.5f); //
+		player4Camera.rect = new Rect (0.5f, 0, 1, 0.5f); //
 	}
 }
