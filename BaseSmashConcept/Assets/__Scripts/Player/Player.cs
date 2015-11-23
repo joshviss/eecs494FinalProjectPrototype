@@ -249,9 +249,17 @@ public class Player : MonoBehaviour
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 				Invoke("resetAbility", 0.4f);
 				break;
-			case 3: // some ability?
+			case 3: // Base Defenses (big ability def)
+				if (abilityUsed) {break;}
+				abilityUsed = true;
+				//Stuff to set up the gate, resourceDefense
+				gate.GetComponent<BaseDefense>().resetHealth();
+				gate.SetActive(true);
+				//things to start up the resource defense
+				resourceDefense.GetComponent<ResourcePiece>().spawnShield();
+				Invoke("resetAbility", 5f);
 				break;
-			case 4:	// shockwave
+			case 4:	// shockwave (big ability atk)
 				if (abilityUsed) {break;}
 				abilityUsed = true;
 				shot = Instantiate<GameObject>(shockwave);
