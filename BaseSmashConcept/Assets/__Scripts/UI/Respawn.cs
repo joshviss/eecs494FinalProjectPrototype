@@ -6,13 +6,16 @@ public class Respawn : MonoBehaviour {
 	
 	float timer = 5f;
 	Canvas select;
+	Player player;
 	public Image cursorA, cursorB;
 	public string characterA, characterB;
 	public Text counter;
+	public GameObject p;
 
 	// Use this for initialization
 	void Start () {
 		select = GetComponent<Canvas> ();
+		player = p.GetComponent<Player> ();
 
 		select.enabled = false;
 		cursorA.enabled = true;
