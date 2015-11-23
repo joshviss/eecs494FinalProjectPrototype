@@ -5,12 +5,15 @@ public class Sword : MonoBehaviour {
 
 	private GameObject attackingTarget;
 	private MeshRenderer mesh;
+	private Collider myCollider;
 
 	// Use this for initialization
 	void Start () {
 		attackingTarget = null;
 		mesh = GetComponent<MeshRenderer>();
+		myCollider = this.GetComponent<Collider>();
 		mesh.enabled = false;
+		myCollider.enabled = false;
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -36,10 +39,12 @@ public class Sword : MonoBehaviour {
 	public void strike()
 	{
 		mesh.enabled = true;
+		myCollider.enabled = true;
 	}
 
 	public void sheath()
 	{
 		mesh.enabled = false;
+		myCollider.enabled = false;
 	}
 }

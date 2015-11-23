@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class BaseDefense : MonoBehaviour {
-
-	public int health = 3;
+	
+	public int initialHealth = 3;
+	public int health;
 
 	// Use this for initialization
 	void Start () {
-	
+		health = initialHealth;
 	}
 	
 	// Update is called once per frame
@@ -19,13 +20,15 @@ public class BaseDefense : MonoBehaviour {
 		GameObject collidedWith = other.gameObject;
 
 		if(collidedWith.tag == "PlayerAttackRange") {
-			if((collidedWith.layer + 6) != this.gameObject.layer) {
+			if((collidedWith.layer - 4) != this.gameObject.layer) {
+				//print (collidedWith.layer);
+				//print (this.gameObject.layer);
 				health -= 1;
 			}
-		}
-		if(health == 0) {
-			this.gameObject.SetActive(false);
-			health = 3;
+			if(health == 0) {
+				this.gameObject.SetActive(false);
+				health = 3;
+			}
 		}
 	}
 

@@ -10,7 +10,9 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region abilities
-	public GameObject fireball, windpush;
+	public GameObject fireball, windpush; //ability 1 and 2
+	//attach player specific gates and resourceDefense
+	public GameObject gate, resourceDefense; //ability 3
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
 	#endregion
@@ -48,7 +50,7 @@ public class Player : MonoBehaviour
 	public int Health = 15;
 	public int healthCap = 15;
 	public Slider hpBar;
-	public int AttackDamage = 1;
+	public int AttackDamage = 3;
 	public int Defense = 1;
 	public int BaseTowerDamage = 1;
 	public int numResourcePiece = 0;
