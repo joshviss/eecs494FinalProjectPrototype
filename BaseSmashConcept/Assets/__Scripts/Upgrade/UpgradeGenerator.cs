@@ -62,7 +62,8 @@ public class UpgradeGenerator : MonoBehaviour {
 	void spawnUpgrade()
 	{
 		Vector3 spawnLocation = generatePosition[Random.Range(0,4)];
-		GameObject spawnUpgrade = upgrades[Random.Range(0,4)];
+		//GameObject spawnUpgrade = upgrades[Random.Range(0,4)];
+		GameObject spawnUpgrade = upgrades [0];
 
 		Instantiate(spawnUpgrade, spawnLocation, Quaternion.identity);
 	}
