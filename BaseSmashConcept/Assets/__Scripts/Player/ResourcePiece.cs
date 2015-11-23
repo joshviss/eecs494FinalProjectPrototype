@@ -3,9 +3,12 @@ using System.Collections;
 
 public class ResourcePiece : MonoBehaviour {
 
+	//editable variables
+	public float spawnTime = 20;
+	public bool publicResource = false; //any player can get it
 
+	//can't edit (for viewability)
 	public bool pieceTaken;
-	
 
 	// Use this for initialization
 	void Start () {
@@ -14,27 +17,29 @@ public class ResourcePiece : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(pieceTaken) {
-			Respawn ();
-		}
+
 	}
 
-	IEnumerator Respawn() {
+	void Respawn() {
 		pieceTaken = false;
-		yield return new WaitForSeconds(20);
+		//reactivates the resource
 		this.gameObject.SetActive(true);
-
+		
 	}
 
 	void OnTriggerEnter(Collider other) {
 		GameObject collidedWith = other.gameObject;
 
-		//checks if collided with someone other than the owner of the piece
+		//checks if collided with a player other than the owner of the piece
 		if(collidedWith.tag != this.gameObject.tag) {
 			if(collidedWith.tag == "Player1" || collidedWith.tag == "Player2" || 
 			   collidedWith.tag == "Player4" || collidedWith.tag == "Player4") {
-					pieceTaken = true;
-					this.gameObject.SetActive(false);
+				//gives the player a resource and makes the object disappear for a
+				//select time period (spawnTime).
+				pieceTaken = true;
+				this.gameObject.SetActive(false);
+				collidedWith.GetComponent<Player>().numResourcePiece++;
+				Invoke ("Respawn", spawnTime);
 			}
 		}
 

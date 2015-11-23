@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
 	public int AttackDamage = 1;
 	public int Defense = 1;
 	public int BaseTowerDamage = 1;
+	public int numResourcePiece = 0;
 	#endregion
 
 	// Use this for initialization
