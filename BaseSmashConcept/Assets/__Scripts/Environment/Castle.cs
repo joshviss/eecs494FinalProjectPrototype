@@ -32,7 +32,7 @@ public class Castle : MonoBehaviour {
 		    collideWith.tag == "Player3" ||
 		    collideWith.tag == "Player4")
 		{
-			playerNum = (int)char.GetNumericValue(collideWith.tag[6]) - 1;
+			playerNum = (int)(char.GetNumericValue(collideWith.tag[6])) - 1;
 			if (playerNum == ownerNumber)
 			{
 				owner.isInBase = true;
