@@ -322,6 +322,12 @@ public class Player : MonoBehaviour
 					hpBar.value = Health;
 				}
 				break;
+			case "PlayerAttackRange":
+				if ((collidedWith.layer-10) != this.gameObject.layer) {
+					Health -= 3;
+					hpBar.value = Health;
+				}
+				break;
 			default:
 				break;
 		}
