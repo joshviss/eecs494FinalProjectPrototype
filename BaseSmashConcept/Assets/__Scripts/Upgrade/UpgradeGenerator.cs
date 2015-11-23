@@ -3,14 +3,10 @@ using System.Collections;
 
 public class UpgradeGenerator : MonoBehaviour {
 
-	private static GameObject HpUpgrade =
-		Resources.Load("Assets/_Prefabs/Upgrade/HpUpgrade.prefab") as GameObject;
-	private static GameObject AtkUpgrade =
-		Resources.Load("Assets/_Prefabs/Upgrade/AttackUpgrade.prefab") as GameObject;
-	private static GameObject DefUpgrade =
-		Resources.Load("Assets/_Prefabs/Upgrade/DefenseUpgrade.prefab") as GameObject;
-	private static GameObject BdefUpgrade =
-		Resources.Load("Assets/_Prefabs/Upgrade/BaseDefenseUpgrade.prefab") as GameObject;
+	public GameObject HpUpgrade;
+	public GameObject AtkUpgrade;
+	public GameObject DefUpgrade;
+	public GameObject BdefUpgrade;
 
 	private float cumulativeTime = 0.0f;
 	private const float generatingPeriod = 30.0f;
@@ -22,9 +18,7 @@ public class UpgradeGenerator : MonoBehaviour {
 		new Vector3(0, 6, -18),
 	};
 
-	private GameObject[] upgrades = {
-		HpUpgrade, AtkUpgrade, DefUpgrade, BdefUpgrade
-	};
+	private GameObject[] upgrades = new GameObject[4];
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +41,11 @@ public class UpgradeGenerator : MonoBehaviour {
 		{
 			print("BdefUpgrade Null");
 		}
+
+		upgrades[0] = HpUpgrade;
+		upgrades[1] = AtkUpgrade;
+		upgrades[2] = DefUpgrade;
+		upgrades[3] = BdefUpgrade;
 	}
 	
 	// Update is called once per frame
