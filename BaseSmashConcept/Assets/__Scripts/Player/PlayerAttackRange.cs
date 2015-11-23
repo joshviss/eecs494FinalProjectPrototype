@@ -4,10 +4,13 @@ using System.Collections;
 public class PlayerAttackRange : MonoBehaviour {
 
 	private GameObject attackingTarget;
+	private MeshRenderer mesh;
 
 	// Use this for initialization
 	void Start () {
 		attackingTarget = null;
+		mesh = GetComponent<MeshRenderer>();
+		mesh.enabled = false;
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -22,4 +25,13 @@ public class PlayerAttackRange : MonoBehaviour {
 		return attackingTarget;
 	}
 
+	public void strike()
+	{
+		mesh.enabled = true;
+	}
+
+	public void sheath()
+	{
+		mesh.enabled = false;
+	}
 }
