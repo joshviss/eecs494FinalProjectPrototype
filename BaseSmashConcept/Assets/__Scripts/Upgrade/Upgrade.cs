@@ -31,8 +31,7 @@ public class Upgrade : MonoBehaviour
 			switch (buffType[0])
 			{
 			case 'H':
-				collidePlayer.Health += increaseAmount;
-				collidePlayer.Health = Mathf.Min(collidePlayer.Health, collidePlayer.healthCap);
+				collidePlayer.Health = collidePlayer.healthCap;
 				collidePlayer.hpBar.value = collidePlayer.Health;
 				break;
 			case 'A':
