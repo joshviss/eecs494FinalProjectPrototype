@@ -244,6 +244,7 @@ public class Player : MonoBehaviour
 		GameObject target = sword.getAttackingTarget ();
 		if (target != null) {
 			target.GetComponent<Player>().Health -= AttackDamage;
+			target.GetComponent<Player>().hpBar.value -= AttackDamage;
 		}
 	}
 

@@ -5,12 +5,15 @@ public class Sword : MonoBehaviour {
 
 	private GameObject attackingTarget;
 	private MeshRenderer mesh;
+	private CapsuleCollider collider;
 
 	// Use this for initialization
 	void Start () {
 		attackingTarget = null;
 		mesh = GetComponent<MeshRenderer>();
 		mesh.enabled = false;
+		collider = GetComponent<CapsuleCollider>();
+		collider.enabled = false;
 	}
 
 	void OnTriggerEnter(Collider other){
@@ -28,10 +31,12 @@ public class Sword : MonoBehaviour {
 	public void strike()
 	{
 		mesh.enabled = true;
+		collider.enabled = true;
 	}
 
 	public void sheath()
 	{
 		mesh.enabled = false;
+		collider.enabled = false;
 	}
 }
