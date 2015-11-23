@@ -71,6 +71,7 @@ public class ResourcePiece : MonoBehaviour {
 
 	//called when defense ability is called
 	public void spawnShield() {
+		print (this.gameObject.tag);
 		resourceDefender.SetActive (true);
 		resourceDefender.GetComponent<BaseDefense>().resetHealth ();
 		activeResource = false;

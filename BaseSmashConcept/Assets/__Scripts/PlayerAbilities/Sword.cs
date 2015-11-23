@@ -46,5 +46,6 @@ public class Sword : MonoBehaviour {
 	{
 		mesh.enabled = false;
 		myCollider.enabled = false;
+		attackingTarget = null;
 	}
 }

@@ -332,12 +332,12 @@ public class Player : MonoBehaviour
 	public void Attack(){
 		if (canStrike)
 		{
+			sword.strike();
 			GameObject target = sword.getAttackingTarget ();
 			if (target != null) {
 				target.GetComponent<Player>().Health -= AttackDamage;
 				target.GetComponent<Player>().hpBar.value -= AttackDamage;
 			}
-			sword.strike();
 			isStriking = true;
 			canStrike = false;
 			//strikeCool.enabled = true;
