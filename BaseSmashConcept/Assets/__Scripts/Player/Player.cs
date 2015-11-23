@@ -42,7 +42,8 @@ public class Player : MonoBehaviour
 	float dodgeTime = 0f;
 	public float dodgeCooldown = 3;
 	public Slider dodgeCool;
-	public Slider strikeCool;
+	//public Slider strikeCool;
+	bool abilityUsed = false;
 	#endregion
 	
 	#region player stats
@@ -80,9 +81,9 @@ public class Player : MonoBehaviour
 		dodgeCool.value = dodgeCooldown;
 		dodgeCool.enabled = false;
 
-		strikeCool.maxValue = strikeCooldown;
-		strikeCool.value = strikeCooldown;
-		strikeCool.enabled = false;
+		//strikeCool.maxValue = strikeCooldown;
+		//strikeCool.value = strikeCooldown;
+		//strikeCool.enabled = false;
 	}
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
@@ -186,8 +187,8 @@ public class Player : MonoBehaviour
 			}
 		}
 
-		strikeTime += Time.deltaTime;
-		strikeCool.value = strikeTime;
+		//strikeTime += Time.deltaTime;
+		//strikeCool.value = strikeTime;
 
 		if (isStriking)
 		{
@@ -196,10 +197,14 @@ public class Player : MonoBehaviour
 			{
 				isStriking = false;
 				sword.sheath();
-				//strikeTime = 0.0f;
+				strikeTime = 0.0f;
 			}
 		}
 
+	}
+
+	void resetAbility(){
+		abilityUsed = false;
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -215,20 +220,34 @@ public class Player : MonoBehaviour
 		switch (abilityNum)
 		{
 			case 1: //fireball
+				//if (FireBall.count >= 3){
+				//	break;
+				//}
+				if (abilityUsed == true) {break;}
 				shot = Instantiate<GameObject>(fireball);
+				FireBall.count++;
+				abilityUsed = true;
 				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+				Invoke ("resetAbility", 0.4f);
 				break;
 			case 2: //windpush
+				//if (WindPush.count >= 3){
+				//	break;
+				//}
+				if (abilityUsed == true) {break;}
 				shot = Instantiate<GameObject>(windpush);
+				WindPush.count++;
+				abilityUsed = true;
 				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+				Invoke("resetAbility", 0.4f);
 				break;
 			case 3: // some ability?
 			case 4:	// some ability?
@@ -237,7 +256,6 @@ public class Player : MonoBehaviour
 		}
 
 	}
-
 
 	void OnTriggerEnter(Collider other)
 	{
@@ -280,8 +298,8 @@ public class Player : MonoBehaviour
 			sword.strike();
 			isStriking = true;
 			canStrike = false;
-			strikeCool.enabled = true;
-			strikeCool.value = 0f;
+			//strikeCool.enabled = true;
+			//strikeCool.value = 0f;
 			strikeTime = 0f;
 			Invoke("enableStrike", strikeCooldown);
 		}
@@ -306,7 +324,7 @@ public class Player : MonoBehaviour
 	void enableStrike()
 	{
 		canStrike = true;
-		strikeCool.enabled = false;
+		//strikeCool.enabled = false;
 	}
 
 	void enableDodge()

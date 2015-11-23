@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FireBall : MonoBehaviour {
 	Vector3 abilityOrigin;
+	static public int count = 0;
 	public float abilityStopDist = 50;
 	public int damage = 3;
 	public int player;
@@ -18,6 +19,7 @@ public class FireBall : MonoBehaviour {
 
 		if(dist >= abilityStopDist) {
 			Destroy (gameObject);
+			count--;
 		}
 	}
 
@@ -27,6 +29,7 @@ public class FireBall : MonoBehaviour {
 		//needed because layer physics is not working right away
 		if(this.gameObject.layer != collidedWith.layer) {
 			Destroy (gameObject);
+			count--;
 		}
 	}
 }

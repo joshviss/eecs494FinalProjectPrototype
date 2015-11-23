@@ -4,6 +4,7 @@ using System.Collections;
 public class WindPush : MonoBehaviour {
 
 	Vector3 abilityOrigin;
+	static public int count = 0;
 	public float abilityStopDist = 50;
 	public int damage = 0;
 	
@@ -18,6 +19,7 @@ public class WindPush : MonoBehaviour {
 		
 		if(dist >= abilityStopDist) {
 			Destroy (gameObject);
+			count--;
 		}
 	}
 	
@@ -27,6 +29,7 @@ public class WindPush : MonoBehaviour {
 		//needed because layer physics not working right away
 		if(this.gameObject.layer != collidedWith.layer) {
 			Destroy (gameObject);
+			count--;
 		}
 	}
 }
