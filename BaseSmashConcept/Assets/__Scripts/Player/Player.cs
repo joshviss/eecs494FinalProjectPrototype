@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 
 	#region for the ease of component accessing
 	private Rigidbody rigid;
-	public GameObject select;
+	public Canvas select;
 	//GameObject character;
 	//private BoxCollider body;
 	//public GameObject thisPlayer;
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
 		startPos = transform.position;
 		startRot = transform.rotation.eulerAngles;
 
-		select.SetActive (false);
+		select.enabled = false;
 
 	}
 
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
 		hpBar.value = Health;
 		hpBar.fillRect.gameObject.SetActive(true);
 		this.gameObject.SetActive(true);
-		select.SetActive (false);
+		select.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
 		{
 			hpBar.fillRect.gameObject.SetActive(false);
 			this.gameObject.SetActive(false);
-			select.SetActive(true);
+			select.enabled = true;
 
 			Invoke("respawn", 5f); 
 		}

@@ -58,8 +58,9 @@ public class PlayerInput : MonoBehaviour
 		if (paused) {
 			return;
 		}
-		/*
+
 		if (select.isActiveAndEnabled) {
+			Debug.Log("select");
 			counter.enabled = true;
 			timer -= Time.deltaTime;
 			counter.text = timer.ToString("0.00");
@@ -78,7 +79,7 @@ public class PlayerInput : MonoBehaviour
 			timer = 5f;
 			counter.enabled = false;
 		}
-		*/
+
 		if (Input.GetButtonDown(aString1))
 		{
 			player.AbilityUsed(ability1);
