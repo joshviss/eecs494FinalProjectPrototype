@@ -13,12 +13,12 @@ public class MultiCamera : MonoBehaviour {
 			Use1Camera();
 		} else if (initialNumPlayers == 2) {
 			Use2Camera();
-		} /*else if (initialNumPlayers == 3) {
+		} else if (initialNumPlayers == 3) { /**/
 			Use3Camera();
 		} else if (initialNumPlayers == 4) {
 			Use4Camera();
 		}
-		*/
+
 	}
 	
 	// Update is called once per frame
@@ -27,38 +27,38 @@ public class MultiCamera : MonoBehaviour {
 			Use1Camera ();
 		} else if (Input.GetKeyDown (KeyCode.Alpha2)) {
 			Use2Camera ();
-		} /*else if (Input.GetKeyDown (KeyCode.Alpha3)) {
+		} else if (Input.GetKeyDown (KeyCode.Alpha3)) { /**/
 			Use3Camera ();
 		} else if (Input.GetKeyDown (KeyCode.Alpha4)) {
 			Use4Camera ();
-		}*/
+		}
 	}
 
 	void Use1Camera () {
 		player1Camera.rect = new Rect (0, 0, 1, 1);
 		player2Camera.rect = new Rect (0, 0, 0, 0);
-		//player3Camera.rect = new Rect (0, 0, 0, 0);
-		//player4Camera.rect = new Rect (0, 0, 0, 0);
+		player3Camera.rect = new Rect (0, 0, 0, 0); //
+		player4Camera.rect = new Rect (0, 0, 0, 0); //
 	}
 
 	void Use2Camera () {
 		player1Camera.rect = new Rect (0, 0.5f, 1, 1);
 		player2Camera.rect = new Rect (0, 0, 1, 0.5f);
-		//player3Camera.rect = new Rect (0, 0, 0, 0);
-		//player4Camera.rect = new Rect (0, 0, 0, 0);
+		player3Camera.rect = new Rect (0, 0, 0, 0); //
+		player4Camera.rect = new Rect (0, 0, 0, 0); //
 	}
 
 	void Use3Camera () {
-		//player1Camera.rect = new Rect (0, 0, 1, 1);
-		//player2Camera.rect = new Rect (0, 0, 0, 0);
-		//player3Camera.rect = new Rect (0, 0, 0, 0);
-		//player4Camera.rect = new Rect (0, 0, 0, 0);
+		player1Camera.rect = new Rect (0, 0.5f, 0.5f, 1); //
+		player2Camera.rect = new Rect (0.5f, 0.5f, 1, 1); //
+		player3Camera.rect = new Rect (0, 0, 1, 0.5f); //
+		player4Camera.rect = new Rect (0, 0, 0, 0); //
 	}
 
 	void Use4Camera () {
-		//player1Camera.rect = new Rect (0, 0, 1, 1);
-		//player2Camera.rect = new Rect (0, 0, 0, 0);
-		//player3Camera.rect = new Rect (0, 0, 0, 0);
-		//player4Camera.rect = new Rect (0, 0, 0, 0);
+		player1Camera.rect = new Rect (0, 0.5f, 1, 1); //
+		player2Camera.rect = new Rect (0.5f, 0.5f, 1, 1); //
+		player3Camera.rect = new Rect (0, 0.5f, 1, 0.5f); //
+		player4Camera.rect = new Rect (0.5f, 0.5f, 1, 1); //
 	}
 }
