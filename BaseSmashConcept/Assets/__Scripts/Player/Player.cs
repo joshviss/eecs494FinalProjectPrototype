@@ -7,10 +7,6 @@ public class Player : MonoBehaviour
 
 	#region for the ease of component accessing
 	private Rigidbody rigid;
-	public Canvas select;
-	//GameObject character;
-	//private BoxCollider body;
-	//public GameObject thisPlayer;
 	#endregion
 
 	#region abilities
@@ -30,7 +26,6 @@ public class Player : MonoBehaviour
 
 	#region miscellaneous
 	public static bool paused = false;
-	//bool grounded;
 	float pushTime = 0f;
 	bool pushed = false;
 	int groundPhysicsLayerMask;
@@ -51,6 +46,12 @@ public class Player : MonoBehaviour
 	public int numResourcePiece = 0;
 	#endregion
 
+	#region character switch
+	public Canvas select;
+	public Text counter;
+	float timer = 5;
+	#endregion
+
 	// Use this for initialization
 	void Start()
 	{
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour
 		startRot = transform.rotation.eulerAngles;
 
 		select.enabled = false;
+
 
 	}
 
@@ -140,7 +142,7 @@ public class Player : MonoBehaviour
 
 	// Update is called once per frame
 	void Update()
-	{                   
+	{   
 		//checks if dead
 		if (Health <= 0)
 		{
@@ -182,16 +184,12 @@ public class Player : MonoBehaviour
 		{
 			case 1: //fireball
 				shot = Instantiate<GameObject>(fireball);
-				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
-				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 				break;
 			case 2: //windpush
 				shot = Instantiate<GameObject>(windpush);
-				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
-				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;

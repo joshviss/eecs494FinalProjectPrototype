@@ -30,12 +30,8 @@ public class PlayerInput : MonoBehaviour
 	#endregion
 
 	#region for character switching
-	float timer = 5;
 	public string characterA, characterB;
-	public Canvas select;
 	public Image cursorA, cursorB;
-	public int id;
-	public Text counter;
 	#endregion
 
 	static public bool paused = false;
@@ -44,10 +40,8 @@ public class PlayerInput : MonoBehaviour
 	void Start()
 	{
 		player = GetComponent<Player>();
-
 		cursorA.enabled = true;
 		cursorB.enabled = false;
-		counter.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -59,25 +53,13 @@ public class PlayerInput : MonoBehaviour
 			return;
 		}
 
-		if (select.isActiveAndEnabled) {
-			Debug.Log("select");
-			counter.enabled = true;
-			timer -= Time.deltaTime;
-			counter.text = timer.ToString("0.00");
-			
-			if (Input.GetButtonDown (characterA)) {
-				cursorA.enabled = true;
-				cursorB.enabled = false;
-			}
-			if (Input.GetButtonDown (characterB)) {
-				cursorA.enabled = false;
-				cursorB.enabled = true;
-			}
-
-			return;
-		} else {
-			timer = 5f;
-			counter.enabled = false;
+		if (Input.GetButtonDown (characterA)) {
+			cursorA.enabled = true;
+			cursorB.enabled = false;
+		}
+		if (Input.GetButtonDown (characterB)) {
+			cursorA.enabled = false;
+			cursorB.enabled = true;
 		}
 
 		if (Input.GetButtonDown(aString1))
