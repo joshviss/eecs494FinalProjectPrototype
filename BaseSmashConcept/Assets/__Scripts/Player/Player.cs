@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
 	public GameObject fireball, windpush;
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
-	public float dodgeDistance = 3.0f;
 	#endregion
 
 	#region movement
@@ -25,6 +24,8 @@ public class Player : MonoBehaviour
 	public float rotationSpeed = 60.0f;
 	public float horizMult = 5f;
 	public float jumpPower = 7f;
+	private bool isDodging = false;
+	private float dodgeTime = 0f;
 	#endregion
 
 	#region miscellaneous
@@ -69,12 +70,12 @@ public class Player : MonoBehaviour
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
 	{
-		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * deltaTime);
+		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * Time.deltaTime);
 	}
 
 	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
 	{
-		if (pushed) {
+		if (pushed || isDodging) {
 			return;
 		}
 
@@ -163,6 +164,16 @@ public class Player : MonoBehaviour
 			pushed = false;
 		}
 
+		if (isDodging)
+		{
+			dodgeTime += Time.deltaTime;
+			if (dodgeTime >= 0.05f)
+			{
+				isDodging = false;
+				dodgeTime = 0.0f;
+			}
+		}
+
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -228,8 +239,10 @@ public class Player : MonoBehaviour
 	}
 
 	public void Dodge(){
-		Vector3 direction = (rigid.velocity != Vector3.zero) ? rigid.velocity.normalized : - transform.forward;
-		transform.position += direction * dodgeDistance;
+		Vector3 direction = (rigid.velocity != Vector3.zero) ? rigid.velocity : - transform.forward * moveSpeed;
+		direction = new Vector3(direction.x, 0, direction.z);
+		rigid.velocity = direction.normalized * (1 / Time.deltaTime);
+		isDodging = true;
 	}
 
 }
