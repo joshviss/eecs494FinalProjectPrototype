@@ -48,8 +48,6 @@ public class Player : MonoBehaviour
 
 	#region character switch
 	public Canvas select;
-	public Text counter;
-	float timer = 5;
 	#endregion
 
 	// Use this for initialization

@@ -29,19 +29,12 @@ public class PlayerInput : MonoBehaviour
 	private Player player;
 	#endregion
 
-	#region for character switching
-	public string characterA, characterB;
-	public Image cursorA, cursorB;
-	#endregion
-
 	static public bool paused = false;
 
 	// Use this for initialization
 	void Start()
 	{
 		player = GetComponent<Player>();
-		cursorA.enabled = true;
-		cursorB.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -51,15 +44,6 @@ public class PlayerInput : MonoBehaviour
 
 		if (paused) {
 			return;
-		}
-
-		if (Input.GetButtonDown (characterA)) {
-			cursorA.enabled = true;
-			cursorB.enabled = false;
-		}
-		if (Input.GetButtonDown (characterB)) {
-			cursorA.enabled = false;
-			cursorB.enabled = true;
 		}
 
 		if (Input.GetButtonDown(aString1))

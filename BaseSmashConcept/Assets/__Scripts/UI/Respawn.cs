@@ -5,13 +5,15 @@ using UnityEngine.UI;
 public class Respawn : MonoBehaviour {
 	
 	float timer = 5f;
-	public Canvas select;
+	Canvas select;
 	public Image cursorA, cursorB;
 	public string characterA, characterB;
 	public Text counter;
 
 	// Use this for initialization
 	void Start () {
+		select = GetComponent<Canvas> ();
+
 		select.enabled = false;
 		cursorA.enabled = true;
 		cursorB.enabled = false;
@@ -31,6 +33,8 @@ public class Respawn : MonoBehaviour {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
 			}
+		} else {
+			timer = 5f;
 		}
 
 	}
