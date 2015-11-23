@@ -43,8 +43,10 @@ public class Points : MonoBehaviour {
 		score [3] = 0;
 
 		label = GetComponent<Text> ();
-		if (id >= 0){
-			showText();
+		if (id >= 0) {
+			showText ();
+		} else {
+			label.color = Color.clear;
 		}
 	}
 
@@ -53,19 +55,19 @@ public class Points : MonoBehaviour {
 	}
 
 	void updateScores(){
-		label.text = string.Format("Player 1: {0,2}\n",score [0].ToString ());
-		label.text += string.Format("Player 2: {0,2}\n",score [1].ToString ());
-		label.text += string.Format("Player 3: {0,2}\n",score [2].ToString ());
-		label.text += string.Format("Player 4: {0,2}\n",score [3].ToString ());
+		label.text  = string.Format("Player 1: {0,2}\n", score [0]);
+		label.text += string.Format("Player 2: {0,2}\n", score [1]);
+		label.text += string.Format("Player 3: {0,2}\n", score [2]);
+		label.text += string.Format("Player 4: {0,2}\n", score [3]);
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if (id >= 0) {
 			showText ();
-		} else {
-			updateScores ();
-		}
+		} else{
+			updateScores();
+		} 
 	}
 
 }
