@@ -147,15 +147,6 @@ public class Player : MonoBehaviour
 			this.gameObject.SetActive(false);
 			select.SetActive(true);
 
-			if (id == 0)
-			{
-				Points.givePoints(1);
-			}
-			else
-			{
-				Points.givePoints(0);
-			}
-
 			Invoke("respawn", 5f); 
 		}
 

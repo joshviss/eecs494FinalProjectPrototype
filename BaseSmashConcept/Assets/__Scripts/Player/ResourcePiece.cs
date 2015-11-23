@@ -38,7 +38,11 @@ public class ResourcePiece : MonoBehaviour {
 				//select time period (spawnTime).
 				pieceTaken = true;
 				this.gameObject.SetActive(false);
-				collidedWith.GetComponent<Player>().numResourcePiece++;
+
+				Player p = collidedWith.GetComponent<Player>();
+				p.numResourcePiece++;
+				Points.givePoints(p.id);
+
 				Invoke ("Respawn", spawnTime);
 			}
 		}

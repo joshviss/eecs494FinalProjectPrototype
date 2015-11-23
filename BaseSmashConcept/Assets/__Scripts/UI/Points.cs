@@ -9,19 +9,19 @@ public class Points : MonoBehaviour {
 	Text label;
 
 	static public void givePoints(int pid){
-		score[pid] += 100;
+		score[pid] += 1;
 	}
 
 	static public int getWinner(){
 		int winner = 0;
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (score[winner] < score[i]){
 				winner = i;
 			}
 		}
 
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (i == winner){
 				continue;
 			}
@@ -35,9 +35,11 @@ public class Points : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		score = new int[2];
+		score = new int[4];
 		score [0] = 0;
 		score [1] = 0;
+		score [2] = 0;
+		score [3] = 0;
 
 		label = GetComponent<Text> ();
 		if (id >= 0){
@@ -50,8 +52,10 @@ public class Points : MonoBehaviour {
 	}
 
 	void updateScores(){
-		label.text = string.Format("Player 1: {0,7}\n",score [0].ToString ());
-		label.text += string.Format("Player 2: {0,7}\n",score [1].ToString ());
+		label.text = string.Format("Player 1: {0,2}\n",score [0].ToString ());
+		label.text += string.Format("Player 2: {0,2}\n",score [1].ToString ());
+		label.text += string.Format("Player 3: {0,2}\n",score [2].ToString ());
+		label.text += string.Format("Player 4: {0,2}\n",score [3].ToString ());
 	}
 
 	// Update is called once per frame
