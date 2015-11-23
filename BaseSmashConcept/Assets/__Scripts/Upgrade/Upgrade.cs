@@ -32,23 +32,17 @@ public class Upgrade : MonoBehaviour
 			{
 			case 'H':
 				collidePlayer.Health += increaseAmount;
-				print ("HP");
-				print(collidePlayer.Health);
+				collidePlayer.Health = Mathf.Min(collidePlayer.Health, collidePlayer.healthCap);
+				collidePlayer.hpBar.value = collidePlayer.Health;
 				break;
 			case 'A':
 				collidePlayer.AttackDamage += increaseAmount;
-				print ("ATK");
-				print(collidePlayer.AttackDamage);
 				break;
 			case 'D':
 				collidePlayer.Defense += increaseAmount;
-				print ("DEF");
-				print(collidePlayer.Defense);
 				break;
 			case 'B':
 				collidePlayer.BaseTowerDamage += increaseAmount;
-				print ("BDEF");
-				print(collidePlayer.BaseTowerDamage);
 				break;
 			default:
 				break;
