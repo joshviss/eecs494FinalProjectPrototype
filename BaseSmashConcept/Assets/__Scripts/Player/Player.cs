@@ -43,7 +43,8 @@ public class Player : MonoBehaviour
 	public float dodgeCooldown = 3;
 	public Slider dodgeCool;
 	//public Slider strikeCool;
-	bool abilityUsed = false;
+	bool ability1Used = false;
+	bool ability2Used = false;
 	public float abilityTime = 0f;
 	public Slider abilityCool;
 	public float abilityCooldown = 5f;
@@ -214,8 +215,12 @@ public class Player : MonoBehaviour
 
 	}
 
-	void resetAbility(){
-		abilityUsed = false;
+	void resetAbility1(){
+		ability1Used = false;
+	}
+
+	void resetAbility2(){
+		ability2Used = false;
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -234,35 +239,35 @@ public class Player : MonoBehaviour
 				//if (FireBall.count >= 3){
 				//	break;
 				//}
-				if (abilityUsed == true) {break;}
+				if (ability1Used == true) {break;}
 				shot = Instantiate<GameObject>(fireball);
 				FireBall.count++;
-				abilityUsed = true;
+				ability1Used = true;
 				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				Invoke ("resetAbility", 0.4f);
+				Invoke ("resetAbility1", 0.4f);
 				break;
 			case 2: //windpush
 				//if (WindPush.count >= 3){
 				//	break;
 				//}
-				if (abilityUsed == true) {break;}
+				if (ability1Used == true) {break;}
 				shot = Instantiate<GameObject>(windpush);
 				WindPush.count++;
-				abilityUsed = true;
+				ability1Used = true;
 				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				Invoke("resetAbility", 0.4f);
+				Invoke("resetAbility1", 0.4f);
 				break;
 			case 3: // Base Defenses (big ability def)
-				if (abilityUsed) {break;}
-				abilityUsed = true;
+				if (ability2Used) {break;}
+				ability2Used = true;
 				abilityTime = 0f;
 				abilityCool.value = abilityTime;
 				//Stuff to set up the gate, resourceDefense
@@ -270,17 +275,17 @@ public class Player : MonoBehaviour
 				gate.SetActive(true);
 				//things to start up the resource defense
 				resourceDefense.GetComponent<ResourcePiece>().spawnShield();
-				Invoke("resetAbility", 5f);
+				Invoke("resetAbility2", 5f);
 				break;
 			case 4:	// shockwave (big ability atk)
-				if (abilityUsed) {break;}
-				abilityUsed = true;
+				if (ability2Used) {break;}
+				ability2Used = true;
 				abilityTime = 0f;
 				abilityCool.value = abilityTime;
 				shot = Instantiate<GameObject>(shockwave);
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position;
-				Invoke("resetAbility", 5f);
+				Invoke("resetAbility2", 5f);
 				break;
 			default:
 				break;
