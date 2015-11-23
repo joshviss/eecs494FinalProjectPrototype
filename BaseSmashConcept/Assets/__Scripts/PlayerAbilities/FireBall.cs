@@ -22,6 +22,11 @@ public class FireBall : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		Destroy (gameObject);
+		GameObject collidedWith = other.gameObject;
+
+		//needed because layer physics is not working right away
+		if(this.gameObject.layer != collidedWith.layer) {
+			Destroy (gameObject);
+		}
 	}
 }

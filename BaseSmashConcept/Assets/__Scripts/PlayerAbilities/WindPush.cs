@@ -22,6 +22,11 @@ public class WindPush : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other){
-		Destroy (gameObject);
+		GameObject collidedWith = other.gameObject;
+
+		//needed because layer physics not working right away
+		if(this.gameObject.layer != collidedWith.layer) {
+			Destroy (gameObject);
+		}
 	}
 }

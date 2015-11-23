@@ -231,13 +231,19 @@ public class Player : MonoBehaviour
 		switch (tag)
 		{
 			case "FireBall": //does damage to the player
-				Health = Health - collidedWith.GetComponent<FireBall>().damage;
-				hpBar.value = Health;
+				//-10 comes from moving layer 10 places to see if equal to player1
+				if((collidedWith.layer-10) != this.gameObject.layer) {
+					Health = Health - collidedWith.GetComponent<FireBall>().damage;
+					hpBar.value = Health;
+				}
 				break;
 			case "WindPush": //pushes back the player
-				vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
-				pushed = true;
-				pushTime = 0;
+				//-10 is same reason as above
+				if((collidedWith.layer-10) != this.gameObject.layer) {
+					vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
+					pushed = true;
+					pushTime = 0;
+				}
 				break;
 			default:
 				break;
