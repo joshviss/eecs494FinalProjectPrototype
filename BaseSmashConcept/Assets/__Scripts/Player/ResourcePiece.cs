@@ -33,7 +33,7 @@ public class ResourcePiece : MonoBehaviour {
 		//checks if collided with a player other than the owner of the piece
 		if(collidedWith.tag != this.gameObject.tag) {
 			if(collidedWith.tag == "Player1" || collidedWith.tag == "Player2" || 
-			   collidedWith.tag == "Player4" || collidedWith.tag == "Player4") {
+			   collidedWith.tag == "Player3" || collidedWith.tag == "Player4") {
 				//gives the player a resource and makes the object disappear for a
 				//select time period (spawnTime).
 				pieceTaken = true;
