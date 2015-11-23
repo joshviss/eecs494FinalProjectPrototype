@@ -20,8 +20,8 @@ public class PlayerInput : MonoBehaviour
 	public string aString2;
 	public string attack;
 	public string dodge;
-	public int ability1 = 1;
-	public int ability2 = 4;
+	public int ability1 = 4;
+	public int ability2 = 1;
 	#endregion
 
 	#region for the ease of component accessing

@@ -32,16 +32,16 @@ public class Respawn : MonoBehaviour {
 			if (Input.GetButtonDown (characterA)) {
 				cursorA.enabled = true;
 				cursorB.enabled = false;
-				ability.ability1 = 1;
-				ability.ability2 = 4;
+				ability.ability1 = 4;
+				ability.ability2 = 1;
 				white.SetActive(true);
 				black.SetActive(false);
 			}
 			if (Input.GetButtonDown (characterB)) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
-				ability.ability1 = 1;
-				ability.ability2 = 3;
+				ability.ability1 = 3;
+				ability.ability2 = 1;
 				white.SetActive(false);
 				black.SetActive(true);
 			}
