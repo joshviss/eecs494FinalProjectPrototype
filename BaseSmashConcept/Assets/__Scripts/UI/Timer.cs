@@ -35,7 +35,7 @@ public class Timer : MonoBehaviour {
 			if (id == 0){
 				winner.text = "Draw";
 			} else {
-				winner.text = "Player " + Points.getWinner().ToString() + " Wins!";
+				winner.text = "Player " + id.ToString() + " Wins!";
 			}
 
 			GOScreen.SetActive(true);

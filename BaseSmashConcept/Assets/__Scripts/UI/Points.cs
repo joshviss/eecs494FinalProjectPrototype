@@ -27,6 +27,7 @@ public class Points : MonoBehaviour {
 			}
 			if (score[winner] == score[i]){
 				winner = -1;
+				break;
 			}
 		}
 
