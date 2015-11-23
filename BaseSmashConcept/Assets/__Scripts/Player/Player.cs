@@ -34,9 +34,11 @@ public class Player : MonoBehaviour
 	bool isStriking = false;
 	bool canStrike = true;
 	float strikeTime = 0f;
+	public float strikeCooldown = 1;
 	bool isDodging = false;
 	bool canDodge = true;
 	float dodgeTime = 0f;
+	public float dodgeCooldown = 3;
 	#endregion
 	
 	#region player stats
@@ -251,7 +253,7 @@ public class Player : MonoBehaviour
 			sword.strike();
 			isStriking = true;
 			canStrike = false;
-			Invoke("enableStrike", 1);
+			Invoke("enableStrike", strikeCooldown);
 		}
 	}
 
@@ -264,7 +266,7 @@ public class Player : MonoBehaviour
 			rigid.velocity = direction.normalized * (1 / Time.deltaTime);
 			isDodging = true;
 			canDodge = false;
-			Invoke("enableDodge", 3);
+			Invoke("enableDodge", dodgeCooldown);
 		}
 	}
 
