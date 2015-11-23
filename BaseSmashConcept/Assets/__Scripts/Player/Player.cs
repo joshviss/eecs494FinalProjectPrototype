@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
 	bool canDodge = true;
 	float dodgeTime = 0f;
 	public float dodgeCooldown = 3;
+	public Slider dodgeCool;
+	public Slider strikeCool;
 	#endregion
 	
 	#region player stats
@@ -72,7 +74,13 @@ public class Player : MonoBehaviour
 
 		select.enabled = false;
 
+		dodgeCool.maxValue = dodgeCooldown;
+		dodgeCool.value = dodgeCooldown;
+		dodgeCool.enabled = false;
 
+		strikeCool.maxValue = strikeCooldown;
+		strikeCool.value = strikeCooldown;
+		strikeCool.enabled = false;
 	}
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
@@ -162,15 +170,22 @@ public class Player : MonoBehaviour
 			pushed = false;
 		}
 
+		dodgeTime += Time.deltaTime;
+		if (dodgeCool.value < dodgeCooldown) {
+			dodgeCool.value = dodgeTime;
+		}
+
 		if (isDodging)
 		{
-			dodgeTime += Time.deltaTime;
 			if (dodgeTime >= 0.05f)
 			{
 				isDodging = false;
-				dodgeTime = 0.0f;
+				//dodgeTime = 0.0f;
 			}
 		}
+
+		strikeTime += Time.deltaTime;
+		strikeCool.value = strikeTime;
 
 		if (isStriking)
 		{
@@ -179,7 +194,7 @@ public class Player : MonoBehaviour
 			{
 				isStriking = false;
 				sword.sheath();
-				strikeTime = 0.0f;
+				//strikeTime = 0.0f;
 			}
 		}
 
@@ -263,6 +278,9 @@ public class Player : MonoBehaviour
 			sword.strike();
 			isStriking = true;
 			canStrike = false;
+			strikeCool.enabled = true;
+			strikeCool.value = 0f;
+			strikeTime = 0f;
 			Invoke("enableStrike", strikeCooldown);
 		}
 	}
@@ -276,6 +294,9 @@ public class Player : MonoBehaviour
 			rigid.velocity = direction.normalized * (1 / Time.deltaTime);
 			isDodging = true;
 			canDodge = false;
+			dodgeTime = 0f;
+			dodgeCool.value = 0f;
+			dodgeCool.enabled = true;
 			Invoke("enableDodge", dodgeCooldown);
 		}
 	}
@@ -283,10 +304,12 @@ public class Player : MonoBehaviour
 	void enableStrike()
 	{
 		canStrike = true;
+		strikeCool.enabled = false;
 	}
 
 	void enableDodge()
 	{
 		canDodge = true;
+		dodgeCool.enabled = false;
 	}
 }

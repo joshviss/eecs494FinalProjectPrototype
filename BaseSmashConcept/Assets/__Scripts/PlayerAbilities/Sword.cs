@@ -16,10 +16,13 @@ public class Sword : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		GameObject collideWith = other.gameObject;
 		if (collideWith.tag == "Player1" ||
-		    collideWith.tag == "Player2" ||
-		    collideWith.tag == "Player3" ||
-		    collideWith.tag == "Player4")
-		attackingTarget = other.gameObject;
+			collideWith.tag == "Player2" ||
+			collideWith.tag == "Player3" ||
+			collideWith.tag == "Player4") {
+			if (collideWith.tag != this.gameObject.tag){
+				attackingTarget = collideWith;
+			}
+		}
 	}
 
 	void OnTriggerExit(Collider other){
