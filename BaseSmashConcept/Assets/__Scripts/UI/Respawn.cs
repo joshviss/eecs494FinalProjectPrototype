@@ -6,7 +6,7 @@ public class Respawn : MonoBehaviour {
 	
 	float timer = 5f;
 	Canvas select;
-	Player player;
+	PlayerInput ability;
 	public Image cursorA, cursorB;
 	public string characterA, characterB;
 	public Text counter;
@@ -15,7 +15,7 @@ public class Respawn : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		select = GetComponent<Canvas> ();
-		player = p.GetComponent<Player> ();
+		ability = p.GetComponent<PlayerInput> ();
 
 		select.enabled = false;
 		cursorA.enabled = true;
@@ -31,10 +31,14 @@ public class Respawn : MonoBehaviour {
 			if (Input.GetButtonDown (characterA)) {
 				cursorA.enabled = true;
 				cursorB.enabled = false;
+				ability.ability1 = 1;
+				ability.ability2 = 2;
 			}
 			if (Input.GetButtonDown (characterB)) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
+				ability.ability1 = 1;
+				ability.ability2 = 2;
 			}
 		} else {
 			timer = 5f;

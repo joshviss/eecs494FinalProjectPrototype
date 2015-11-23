@@ -205,6 +205,8 @@ public class Player : MonoBehaviour
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 				break;
+			case 3: // some ability?
+			case 4:	// some ability?
 			default:
 				break;
 		}
