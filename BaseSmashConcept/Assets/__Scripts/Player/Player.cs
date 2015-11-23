@@ -31,8 +31,10 @@ public class Player : MonoBehaviour
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
-	PlayerAttackRange attackRange;
+	Sword sword;
 	public bool isInBase;
+	bool isStriking = false;
+	float strikeTime = 0f;
 	#endregion
 	
 	#region player stats
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour
 	void Start()
 	{
 		//character = GetComponent<GameObject> ();
-		attackRange = GetComponentInChildren<PlayerAttackRange> ();
+		sword = GetComponentInChildren<Sword> ();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
 
@@ -166,6 +168,17 @@ public class Player : MonoBehaviour
 			}
 		}
 
+		if (isStriking)
+		{
+			strikeTime += Time.deltaTime;
+			if (strikeTime >= 0.05f)
+			{
+				isStriking = false;
+				sword.sheath();
+				strikeTime = 0.0f;
+			}
+		}
+
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -224,7 +237,9 @@ public class Player : MonoBehaviour
 	}
 
 	public void Attack(){
-		GameObject target = attackRange.getAttackingTarget ();
+		isStriking = true;
+		sword.strike();
+		GameObject target = sword.getAttackingTarget ();
 		if (target != null) {
 			target.GetComponent<Player>().Health -= AttackDamage;
 		}

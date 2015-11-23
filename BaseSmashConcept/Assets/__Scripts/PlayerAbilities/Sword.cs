@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerAttackRange : MonoBehaviour {
+public class Sword : MonoBehaviour {
 
 	private GameObject attackingTarget;
 	private MeshRenderer mesh;
