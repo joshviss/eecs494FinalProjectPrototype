@@ -7,7 +7,7 @@ public class Timer : MonoBehaviour {
 	public GameObject GOScreen;
 	public Text winner;
 	public Text scores;
-	float time = 20f;
+	float time = 120f;
 	Text UI;
 
 	// Use this for initialization
