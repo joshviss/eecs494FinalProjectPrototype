@@ -4,9 +4,9 @@ using System.Collections;
 public class UpgradeGenerator : MonoBehaviour {
 
 	public GameObject HpUpgrade;
-	public GameObject AtkUpgrade;
-	public GameObject DefUpgrade;
-	public GameObject BdefUpgrade;
+	//public GameObject AtkUpgrade;
+	//public GameObject DefUpgrade;
+	//public GameObject BdefUpgrade;
 
 	private float cumulativeTime = 0.0f;
 	private const float generatingPeriod = 30.0f;
@@ -26,7 +26,7 @@ public class UpgradeGenerator : MonoBehaviour {
 		{
 			print("HpUpgrade Null");
 		}
-
+		/*
 		if(AtkUpgrade == null)
 		{
 			print("AtkUpgrade Null");
@@ -41,11 +41,12 @@ public class UpgradeGenerator : MonoBehaviour {
 		{
 			print("BdefUpgrade Null");
 		}
+		*/
 
 		upgrades[0] = HpUpgrade;
-		upgrades[1] = AtkUpgrade;
-		upgrades[2] = DefUpgrade;
-		upgrades[3] = BdefUpgrade;
+		//upgrades[1] = AtkUpgrade;
+		//upgrades[2] = DefUpgrade;
+		//upgrades[3] = BdefUpgrade;
 	}
 	
 	// Update is called once per frame
