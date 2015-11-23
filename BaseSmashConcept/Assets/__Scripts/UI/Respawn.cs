@@ -40,7 +40,7 @@ public class Respawn : MonoBehaviour {
 			if (Input.GetButtonDown (characterB)) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
-				ability.ability1 = 2;
+				ability.ability1 = 1;
 				ability.ability2 = 3;
 				white.SetActive(false);
 				black.SetActive(true);

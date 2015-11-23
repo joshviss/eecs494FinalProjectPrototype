@@ -44,6 +44,9 @@ public class Player : MonoBehaviour
 	public Slider dodgeCool;
 	//public Slider strikeCool;
 	bool abilityUsed = false;
+	public float abilityTime = 0f;
+	public Slider abilityCool;
+	public float abilityCooldown = 5f;
 	#endregion
 	
 	#region player stats
@@ -84,6 +87,9 @@ public class Player : MonoBehaviour
 		//strikeCool.maxValue = strikeCooldown;
 		//strikeCool.value = strikeCooldown;
 		//strikeCool.enabled = false;
+		abilityCool.maxValue = abilityCooldown;
+		abilityCool.value = abilityCooldown;
+		abilityCool.enabled = false;
 	}
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
@@ -201,6 +207,11 @@ public class Player : MonoBehaviour
 			}
 		}
 
+		abilityTime += Time.deltaTime;
+		if (abilityCool.value < abilityTime) {
+			abilityCool.value = abilityTime;
+		}
+
 	}
 
 	void resetAbility(){
@@ -252,6 +263,8 @@ public class Player : MonoBehaviour
 			case 3: // Base Defenses (big ability def)
 				if (abilityUsed) {break;}
 				abilityUsed = true;
+				abilityTime = 0f;
+				abilityCool.value = abilityTime;
 				//Stuff to set up the gate, resourceDefense
 				gate.GetComponent<BaseDefense>().resetHealth();
 				gate.SetActive(true);
@@ -262,10 +275,12 @@ public class Player : MonoBehaviour
 			case 4:	// shockwave (big ability atk)
 				if (abilityUsed) {break;}
 				abilityUsed = true;
+				abilityTime = 0f;
+				abilityCool.value = abilityTime;
 				shot = Instantiate<GameObject>(shockwave);
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position;
-				Invoke("resetAbility", 2f);
+				Invoke("resetAbility", 5f);
 				break;
 			default:
 				break;
@@ -298,7 +313,7 @@ public class Player : MonoBehaviour
 				break;
 			case "ShockWave":
 				if ((collidedWith.layer - 10) != this.gameObject.layer){
-					Health--;
+					Health -= 3;
 					hpBar.value = Health;
 				}
 				break;
