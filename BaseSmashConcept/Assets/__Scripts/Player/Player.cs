@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region abilities
-	public GameObject fireball, windpush; //ability 1 and 2
+	public GameObject fireball, windpush, shockwave; //ability 1 and 2
 	//attach player specific gates and resourceDefense
 	public GameObject gate, resourceDefense; //ability 3
 	public float abilitySpeed = 6;
@@ -250,7 +250,15 @@ public class Player : MonoBehaviour
 				Invoke("resetAbility", 0.4f);
 				break;
 			case 3: // some ability?
-			case 4:	// some ability?
+				break;
+			case 4:	// shockwave
+				if (abilityUsed) {break;}
+				abilityUsed = true;
+				shot = Instantiate<GameObject>(shockwave);
+				shot.layer = this.gameObject.layer + 10;
+				shot.transform.position = transform.position;
+				Invoke("resetAbility", 2f);
+				break;
 			default:
 				break;
 		}
@@ -278,6 +286,12 @@ public class Player : MonoBehaviour
 					vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
 					pushed = true;
 					pushTime = 0;
+				}
+				break;
+			case "ShockWave":
+				if ((collidedWith.layer - 10) != this.gameObject.layer){
+					Health--;
+					hpBar.value = Health;
 				}
 				break;
 			default:
