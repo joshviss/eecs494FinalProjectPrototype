@@ -20,8 +20,6 @@ public class Player : MonoBehaviour
 	public float rotationSpeed = 60.0f;
 	public float horizMult = 5f;
 	public float jumpPower = 7f;
-	private bool isDodging = false;
-	private float dodgeTime = 0f;
 	#endregion
 
 	#region miscellaneous
@@ -34,7 +32,11 @@ public class Player : MonoBehaviour
 	Sword sword;
 	public bool isInBase;
 	bool isStriking = false;
+	bool canStrike = true;
 	float strikeTime = 0f;
+	bool isDodging = false;
+	bool canDodge = true;
+	float dodgeTime = 0f;
 	#endregion
 	
 	#region player stats
@@ -239,21 +241,40 @@ public class Player : MonoBehaviour
 	}
 
 	public void Attack(){
-		isStriking = true;
-		sword.strike();
-		GameObject target = sword.getAttackingTarget ();
-		if (target != null) {
-			target.GetComponent<Player>().Health -= AttackDamage;
-			target.GetComponent<Player>().hpBar.value -= AttackDamage;
+		if (canStrike)
+		{
+			GameObject target = sword.getAttackingTarget ();
+			if (target != null) {
+				target.GetComponent<Player>().Health -= AttackDamage;
+				target.GetComponent<Player>().hpBar.value -= AttackDamage;
+			}
+			sword.strike();
+			isStriking = true;
+			canStrike = false;
+			Invoke("enableStrike", 1);
 		}
 	}
 
 	public void Dodge(){
-		Vector3 direction = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
-		direction = (direction != Vector3.zero) ? direction : - transform.forward;
-		direction = new Vector3(direction.x, 0, direction.z);
-		rigid.velocity = direction.normalized * (1 / Time.deltaTime);
-		isDodging = true;
+		if (canDodge)
+		{
+			Vector3 direction = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
+			direction = (direction != Vector3.zero) ? direction : - transform.forward;
+			direction = new Vector3(direction.x, 0, direction.z);
+			rigid.velocity = direction.normalized * (1 / Time.deltaTime);
+			isDodging = true;
+			canDodge = false;
+			Invoke("enableDodge", 3);
+		}
 	}
 
+	void enableStrike()
+	{
+		canStrike = true;
+	}
+
+	void enableDodge()
+	{
+		canDodge = true;
+	}
 }
