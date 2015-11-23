@@ -182,14 +182,16 @@ public class Player : MonoBehaviour
 		{
 			case 1: //fireball
 				shot = Instantiate<GameObject>(fireball);
-				shot.layer = this.gameObject.layer;
+				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
+				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 				break;
 			case 2: //windpush
 				shot = Instantiate<GameObject>(windpush);
-				shot.layer = this.gameObject.layer;
+				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
+				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
