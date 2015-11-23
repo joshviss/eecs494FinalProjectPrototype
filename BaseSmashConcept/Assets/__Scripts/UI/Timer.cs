@@ -6,13 +6,14 @@ public class Timer : MonoBehaviour {
 
 	public GameObject GOScreen;
 	public Text winner;
-	float time = 120f;
+	public Text scores;
+	float time = 20f;
 	Text UI;
 
 	// Use this for initialization
 	void Start () {
 		UI = GetComponent<Text> ();
-		GOScreen.SetActive (false);
+		GOScreen.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -32,12 +33,14 @@ public class Timer : MonoBehaviour {
 			PlayerInput.paused = true;
 
 			int id = Points.getWinner();
+
 			if (id == 0){
 				winner.text = "Draw";
 			} else {
 				winner.text = "Player " + id.ToString() + " Wins!";
 			}
 
+			scores.color = Color.white;
 			GOScreen.SetActive(true);
 		}
 	}
