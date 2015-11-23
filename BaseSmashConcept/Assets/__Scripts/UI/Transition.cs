@@ -7,8 +7,10 @@ public class Transition : MonoBehaviour {
 
 	public Canvas controlScreen;
 	public Canvas titleScreen;
+	public Canvas ruleScreen;
 	public GameObject view;
 	public GameObject back;
+	public GameObject rule;
 	public EventSystem e;
 
 	void Start(){
@@ -31,5 +33,17 @@ public class Transition : MonoBehaviour {
 		controlScreen.enabled = false;
 		e.SetSelectedGameObject (view);
 	}
-	
+
+	public void Rules(){
+		titleScreen.enabled = false;
+		ruleScreen.enabled = true;
+		e.SetSelectedGameObject (back);
+	}
+
+	public void RulesClose(){
+		titleScreen.enabled = true;
+		ruleScreen.enabled = false;
+		e.SetSelectedGameObject (rule);
+	}
+
 }
