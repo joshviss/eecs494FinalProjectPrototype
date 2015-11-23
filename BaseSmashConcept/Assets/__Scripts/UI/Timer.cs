@@ -18,6 +18,10 @@ public class Timer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (PlayerInput.paused) {
+			return;
+		}
+
 		time -= Time.deltaTime;
 		showText ();
 	}
