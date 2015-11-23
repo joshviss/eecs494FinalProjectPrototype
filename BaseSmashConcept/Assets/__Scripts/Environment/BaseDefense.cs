@@ -27,9 +27,13 @@ public class BaseDefense : MonoBehaviour {
 			}
 			if(health == 0) {
 				this.gameObject.SetActive(false);
-				health = 3;
+				resetHealth (); //might not be needed
 			}
 		}
+	}
+
+	public void resetHealth() {
+		health = initialHealth;
 	}
 
 }
