@@ -55,7 +55,7 @@ public class Castle : MonoBehaviour {
 			{
 				owner.isInBase = false;
 			}
-			isPlayerIn[playerNum] = false;
+			isPlayerIn[playerNum-1] = false;
 		}
 	}
 }
