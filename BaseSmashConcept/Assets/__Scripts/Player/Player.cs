@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
 	public float abilityTime = 0f;
 	public Slider abilityCool;
 	public float abilityCooldown = 5f;
+	public Canvas playerUI;
 	#endregion
 	
 	#region player stats
@@ -157,8 +158,10 @@ public class Player : MonoBehaviour
 		transform.rotation = Quaternion.Euler(startRot);
 		Health = healthCap;
 		hpBar.value = Health;
-		hpBar.fillRect.gameObject.SetActive(true);
+
+		playerUI.enabled = true;
 		this.gameObject.SetActive(true);
+
 		select.enabled = false;
 	}
 
@@ -168,10 +171,10 @@ public class Player : MonoBehaviour
 		//checks if dead
 		if (Health <= 0)
 		{
-			hpBar.fillRect.gameObject.SetActive(false);
+			playerUI.enabled = false;
 			this.gameObject.SetActive(false);
-			select.enabled = true;
 
+			select.enabled = true;
 			Invoke("respawn", 5f); 
 		}
 
