@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
 
 	public GameObject GOScreen;
+	public GameObject PlayerUI;
 	public Text winner;
 	public Text scores;
 	float time = 180f;
@@ -45,6 +46,7 @@ public class Timer : MonoBehaviour {
 			}
 
 			scores.color = Color.white;
+			PlayerUI.SetActive(false);
 			GOScreen.SetActive(true);
 		}
 	}
