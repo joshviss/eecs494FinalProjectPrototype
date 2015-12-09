@@ -4,8 +4,9 @@ using System.Collections;
 public class SlowBomb : MonoBehaviour {
 	
 	private float initImpulse = 10.0f;
-	private float aoeRange = 6.0f;
-	private float damage = 5.0f;
+	private float aoeRange = 3.0f;
+	float effect = 0.5f;
+	private int damage = 2;
 	private Transform owner;
 	
 	public void init(Transform _owner)
@@ -31,7 +32,7 @@ public class SlowBomb : MonoBehaviour {
 		}
 	}
 	
-	void explode(Vector3 location, float radius, float damage)
+	void explode(Vector3 location, float radius, int damage)
 	{
 		Collider[] objectsInRange = Physics.OverlapSphere(location, radius);
 		foreach (Collider col in objectsInRange)
@@ -40,9 +41,10 @@ public class SlowBomb : MonoBehaviour {
 			if (opponent != null && col.transform != owner)
 			{
 				// linear falloff of effect
-				float proximity = (location - opponent.transform.position).magnitude;
-				float effect = 1 - (proximity / radius);
-				opponent.takeDamage(damage * effect);
+				//float proximity = (location - opponent.transform.position).magnitude;
+				//float effect = 1 - (proximity / radius);
+				//opponent.takeDamage(damage * effect);
+				opponent.takeDamage(damage);
 				opponent.slow(effect);
 			}
 		}

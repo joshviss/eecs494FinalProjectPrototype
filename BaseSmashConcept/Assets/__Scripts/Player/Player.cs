@@ -378,9 +378,9 @@ public class Player : MonoBehaviour
 		dodgeCool.enabled = false;
 	}
 
-	public void takeDamage(float damage)
+	public void takeDamage(int damage)
 	{
-		Health -= (int)Mathf.Round(damage);
+		Health -= damage;
 	}
 	
 	public void slow(float effect)
