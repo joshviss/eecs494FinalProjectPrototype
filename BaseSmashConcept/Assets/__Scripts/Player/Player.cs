@@ -463,7 +463,7 @@ public class Player : MonoBehaviour
 						shot.transform.position = transform.position;
 
 					} else {
-						Health -= 5;
+						Health -= 6;
 						hpBar.value = Health;
 						mat.color = Color.red;
 						Invoke("damage", 0.5f);
@@ -483,7 +483,7 @@ public class Player : MonoBehaviour
 						shot.GetComponent<SlowBomb>().init(transform);
 
 					} else {
-						Health -= 3;
+						Health -= 4;
 						hpBar.value = Health;
 						mat.color = Color.grey;
 						moveSpeed = moveSpeed * 0.5f;
@@ -496,7 +496,7 @@ public class Player : MonoBehaviour
 			case "PlayerAttackRange":
 				if ((collidedWith.layer-10) != this.gameObject.layer) {
 					Debug.Log ("hit");
-					Health -= 3;
+					Health -= 4;
 					hpBar.value = Health;
 					mat.color = Color.red;
 					Invoke ("damage", 0.5f);
