@@ -18,7 +18,7 @@ public class SlowBomb : MonoBehaviour {
 		GetComponent<Rigidbody>().AddForce(Quaternion.AngleAxis(-45, transform.right) * transform.forward * initImpulse, ForceMode.Impulse);
 	}
 	
-	void OnTriggerEnter(Collision coll)
+	void OnTriggerEnter(Collider coll)
 	{
 		GameObject collideWith = coll.gameObject;
 		if(collideWith.layer == LayerMask.NameToLayer("Ground") ||

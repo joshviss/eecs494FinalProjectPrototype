@@ -61,7 +61,7 @@ public class ResourcePiece : MonoBehaviour {
 
 				Player p = collidedWith.GetComponent<Player>();
 				p.numResourcePiece++;
-				Points.givePoints(p.id);
+				Points.givePoints(p.id, 1);
 
 				Invoke ("Respawn", spawnTime);
 			}

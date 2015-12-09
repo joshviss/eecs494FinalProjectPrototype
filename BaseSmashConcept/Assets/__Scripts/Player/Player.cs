@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
 	public float abilityCooldown = 5f;
 	public Canvas playerUI;
 	bool stunned = false;
+	public bool law = true;
 	#endregion
 	
 	#region player stats
