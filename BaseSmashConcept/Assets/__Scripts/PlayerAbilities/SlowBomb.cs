@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using System.Collections;
 
 public class SlowBomb : MonoBehaviour {
@@ -38,4 +38,4 @@ public class SlowBomb : MonoBehaviour {
 				opponent.slow(effect);
 			}
 		}
-}
+}*/

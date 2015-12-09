@@ -32,7 +32,7 @@ public class Timer : MonoBehaviour {
 		int seconds = (int) time % 60;
 
 		if (time > 0) {
-			UI.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+			UI.text = string.Format("{0:0} {1:00}", minutes, seconds);
 		} else {
 			Time.timeScale = 0;
 			PlayerInput.paused = true;
