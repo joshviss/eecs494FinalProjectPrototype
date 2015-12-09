@@ -4,13 +4,17 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
 
-	public static bool paused = false;
+	public static bool paused = true;
 	public GameObject GOScreen;
 	public GameObject PlayerUI;
 	public Text winner;
 	public Text scores;
 	float time = 180f;
 	Text UI;
+
+	void Awake(){
+		Timer.paused = true;
+	}
 
 	// Use this for initialization
 	void Start () {
