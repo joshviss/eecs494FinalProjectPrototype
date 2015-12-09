@@ -16,7 +16,7 @@ public class SlowBomb : MonoBehaviour {
 		transform.position = owner.position;
 		transform.rotation = owner.rotation;
 		transform.position = transform.position + transform.forward;
-		GetComponent<Rigidbody>().AddForce(Quaternion.AngleAxis(-45, transform.right) * transform.forward * initImpulse, ForceMode.Impulse);
+		GetComponent<Rigidbody>().AddForce(Quaternion.AngleAxis(-35, transform.right) * transform.forward * initImpulse, ForceMode.Impulse);
 	}
 	
 	void OnTriggerEnter(Collider coll)
