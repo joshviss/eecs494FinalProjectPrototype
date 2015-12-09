@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class SlowBomb : MonoBehaviour {
-	
+
+	public GameObject explosionObject;
 	private float initImpulse = 10.0f;
 	private float aoeRange = 3.0f;
 	float effect = 0.5f;
@@ -34,6 +35,12 @@ public class SlowBomb : MonoBehaviour {
 	
 	void explode(Vector3 location, float radius, int damage)
 	{
+		GameObject explosion;
+		explosion = Instantiate<GameObject>(explosionObject);
+		explosion.layer = this.gameObject.layer;
+		explosion.transform.position = transform.position;
+
+		/*
 		Collider[] objectsInRange = Physics.OverlapSphere(location, radius);
 		foreach (Collider col in objectsInRange)
 		{
@@ -48,5 +55,6 @@ public class SlowBomb : MonoBehaviour {
 				opponent.slow(effect);
 			}
 		}
+		*/
 	}
 }
