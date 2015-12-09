@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class Respawn : MonoBehaviour {
 	
-	float timer = 5f;
+	float timer = 15f;
+	float timerMax = 15f;
 	Canvas select;
 	PlayerInput ability;
 	Player type;
@@ -18,45 +19,53 @@ public class Respawn : MonoBehaviour {
 	public Material law, bandit;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		select = GetComponent<Canvas> ();
 		ability = p.GetComponent<PlayerInput> ();
 		rend = p.GetComponent<Renderer> ();
 		type = p.GetComponent<Player> ();
 
-		select.enabled = false;
+		select.enabled = true;
 		cursorA.enabled = true;
 		cursorB.enabled = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (select.isActiveAndEnabled) {
+		if (select.isActiveAndEnabled && timer > 0) {
 			timer -= Time.deltaTime;
-			counter.fillAmount = timer/5f;
+			counter.fillAmount = timer / timerMax;
 
 			if (Input.GetButtonDown (characterA) || Input.GetAxis (horizontal) < 0) {
 				cursorA.enabled = true;
 				cursorB.enabled = false;
 				ability.ability1 = 4;
 				ability.ability2 = 2;
-				white.SetActive(true);
-				black.SetActive(false);
+				white.SetActive (true);
+				black.SetActive (false);
 				rend.material = law;
 				type.law = true;
 			}
 			if (Input.GetButtonDown (characterB) || Input.GetAxis (horizontal) > 0) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
-				ability.ability1 = 6;
-				ability.ability2 = 5;
-				white.SetActive(false);
-				black.SetActive(true);
+				ability.ability1 = 5;
+				ability.ability2 = 1;
+				white.SetActive (false);
+				black.SetActive (true);
 				rend.material = bandit;
 				type.law = false;
 			}
+		} else if (Timer.paused && timer > 0) {
+			select.enabled = true;
 		} else {
 			timer = 5f;
+			timerMax = 5f;
+
+			if (Timer.paused){
+				Timer.paused = false;
+				CharacterSelect.wait = false;
+			}
 		}
 
 	}
