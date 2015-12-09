@@ -134,7 +134,11 @@ public class Player : MonoBehaviour
 		        Physics.Raycast(transform.position + transform.forward * 0.45f, Vector3.down, 1.1f) || 
 		        Physics.Raycast(transform.position - transform.forward * 0.45f, Vector3.down, 1.1f) ||
 		        Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
-		        Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
+		        Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position + transform.forward * 0.45f + transform.right * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position + transform.forward * 0.45f - transform.right * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position - transform.forward * 0.45f + transform.right * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position - transform.forward * 0.45f - transform.right * 0.45f, Vector3.down, 1.1f));
 	}
 
 	void respawn()
