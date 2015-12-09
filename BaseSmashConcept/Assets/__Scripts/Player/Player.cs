@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
 	public Canvas playerUI;
 	bool stunned = false;
 	public bool law = true;
+	Renderer rend;
 	Material mat;
 	Color current;
 	public Text carry;
@@ -104,7 +105,8 @@ public class Player : MonoBehaviour
 		abilityCool.maxValue = abilityCooldown;
 		abilityCool.value = abilityCooldown;
 
-		mat = GetComponent<Renderer> ().material;
+		rend = GetComponent<Renderer> ();
+		mat = rend.material;
 		current = mat.color;
 
 		carry.text = "0";
@@ -181,6 +183,8 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{   
+		mat = rend.material;
+
 		if (law && numResourcePiece == 0) {
 			carry.enabled = false;
 		} else{
