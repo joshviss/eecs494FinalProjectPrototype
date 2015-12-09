@@ -494,6 +494,7 @@ public class Player : MonoBehaviour
 				break;
 			case "PlayerAttackRange":
 				if ((collidedWith.layer-10) != this.gameObject.layer) {
+					Debug.Log ("hit");
 					Health -= 3;
 					hpBar.value = Health;
 					mat.color = Color.red;
