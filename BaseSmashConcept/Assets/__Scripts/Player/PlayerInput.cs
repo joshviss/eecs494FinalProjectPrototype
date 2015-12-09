@@ -27,6 +27,7 @@ public class PlayerInput : MonoBehaviour
 	#region for the ease of component accessing
 	//private Rigidbody rigidBody;
 	private Player player;
+	private ThirdPersonCamera tpcamera;
 	#endregion
 
 	static public bool paused = false;
@@ -35,6 +36,7 @@ public class PlayerInput : MonoBehaviour
 	void Start()
 	{
 		player = GetComponent<Player>();
+		tpcamera = GetComponentInChildren<ThirdPersonCamera>();
 	}
 
 	// Update is called once per frame
@@ -42,7 +44,8 @@ public class PlayerInput : MonoBehaviour
 	{
 		// large check list to go through every possible input key
 
-		if (paused) {
+		if (paused)
+		{
 			return;
 		}
 
@@ -55,12 +58,14 @@ public class PlayerInput : MonoBehaviour
 			player.AbilityUsed(ability2);
 		}
 
-		if (Input.GetButtonDown (attack)) {
+		if (Input.GetButtonDown(attack))
+		{
 			player.Attack();
 		}
 
-		if (Input.GetButtonDown (dodge)) {
-			player.Dodge ();
+		if (Input.GetButtonDown(dodge))
+		{
+			player.Dodge();
 		}
 
 	}
@@ -69,12 +74,14 @@ public class PlayerInput : MonoBehaviour
 	void FixedUpdate()
 	{
 
-		if (paused) {
+		if (paused)
+		{
 			return;
 		}
 
-		player.UpdateRotation (Input.GetAxis (horizontalRototation), Time.deltaTime);
-		player.UpdateMovement (Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), Input.GetButtonDown(jump));
+		player.UpdateRotation(Input.GetAxis(horizontalRototation), Time.deltaTime);
+		player.UpdateMovement(Input.GetAxis(horizontalAxis), Input.GetAxis(verticalAxis), Input.GetButtonDown(jump));
+		tpcamera.cameraMoveVert(Input.GetAxis(verticalRototation));
 
 	}
 
