@@ -486,6 +486,7 @@ public class Player : MonoBehaviour
 						Health -= 3;
 						hpBar.value = Health;
 						mat.color = Color.grey;
+						moveSpeed = moveSpeed * 0.5f;
 						numSlows += 1;
 						Invoke("slowed", 1f);
 						lastHit = collidedWith.layer;
