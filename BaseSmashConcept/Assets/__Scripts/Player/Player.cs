@@ -194,16 +194,16 @@ public class Player : MonoBehaviour
 		//checks if dead
 		if (Health <= 0)
 		{
-			if (LayerMask.LayerToName(lastHit) == "AbilityPl" && !law){
+			if (LayerMask.LayerToName(lastHit) == "AbilityPl"){
 				Points.givePoints(0, numResourcePiece);
 				numResourcePiece = 0;
-			} else if (LayerMask.LayerToName(lastHit) == "AbilityP2" && !law){
+			} else if (LayerMask.LayerToName(lastHit) == "AbilityP2"){
 				Points.givePoints(1, numResourcePiece);
 				numResourcePiece = 0;
-			} else if (LayerMask.LayerToName(lastHit) == "AbilityP3" && !law){
+			} else if (LayerMask.LayerToName(lastHit) == "AbilityP3"){
 				Points.givePoints(2, numResourcePiece);
 				numResourcePiece = 0;
-			} if (LayerMask.LayerToName(lastHit) == "AbilityP4" && !law){
+			} if (LayerMask.LayerToName(lastHit) == "AbilityP4"){
 				Points.givePoints(3, numResourcePiece);
 				numResourcePiece = 0;
 			} 
@@ -516,6 +516,7 @@ public class Player : MonoBehaviour
 	public void Attack(){
 		if (canStrike)
 		{
+			Debug.Log("stab");
 			sword.strike();
 			GameObject target = sword.getAttackingTarget ();
 			if (target != null) {
