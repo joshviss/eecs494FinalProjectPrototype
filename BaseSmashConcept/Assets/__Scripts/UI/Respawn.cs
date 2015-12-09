@@ -49,8 +49,8 @@ public class Respawn : MonoBehaviour {
 			if (Input.GetButtonDown (characterB) || Input.GetAxis (horizontal) > 0) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
-				ability.ability1 = 5;
-				ability.ability2 = 1;
+				ability.ability1 = 6;
+				ability.ability2 = 5;
 				white.SetActive (false);
 				black.SetActive (true);
 				rend.material = bandit;
