@@ -4,25 +4,25 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-
+	
 	#region for the ease of component accessing
 	private Rigidbody rigid;
 	#endregion
-
+	
 	#region abilities
-	public GameObject fireball, shockwave, stun; //ability 1 and 2
+	public GameObject fireball, windpush, shockwave, slowbomb; //ability 1 and 2
 	//attach player specific gates and resourceDefense
 	public GameObject gate, resourceDefense; //ability 3
 	float abilitySpeed = 30f;
 	#endregion
-
+	
 	#region movement
 	public float moveSpeed = 5f;
 	public float rotationSpeed = 60.0f;
 	public float horizMult = 5f;
 	public float jumpPower = 7f;
 	#endregion
-
+	
 	#region miscellaneous
 	public static bool paused = false;
 	int groundPhysicsLayerMask;
@@ -59,11 +59,11 @@ public class Player : MonoBehaviour
 	public int BaseTowerDamage = 1;
 	public int numResourcePiece = 0;
 	#endregion
-
+	
 	#region character switch
 	public Canvas select;
 	#endregion
-
+	
 	// Use this for initialization
 	void Start()
 	{
@@ -71,19 +71,19 @@ public class Player : MonoBehaviour
 		sword = GetComponentInChildren<Sword> ();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
-
+		
 		hpBar.maxValue = healthCap;
 		hpBar.value = Health;
-
+		
 		startPos = transform.position;
 		startRot = transform.rotation.eulerAngles;
-
+		
 		select.enabled = false;
-
+		
 		dodgeCool.maxValue = dodgeCooldown;
 		dodgeCool.value = dodgeCooldown;
 		dodgeCool.enabled = false;
-
+		
 		//strikeCool.maxValue = strikeCooldown;
 		//strikeCool.value = strikeCooldown;
 		//strikeCool.enabled = false;
@@ -91,25 +91,25 @@ public class Player : MonoBehaviour
 		abilityCool.value = abilityCooldown;
 		abilityCool.enabled = false;
 	}
-
+	
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
 	{
 		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * Time.deltaTime);
 	}
-
+	
 	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
 	{
 		if (stunned || isDodging) {
 			return;
 		}
-
+		
 		if (startJumping && IsGrounded ()) {
 			rigid.velocity = transform.TransformDirection (
 				new Vector3 (
-					moveSpeed * inputHorizontalMovementScale,
-					jumpPower,
-					moveSpeed * inputVerticalMovementScale)
-			);
+				moveSpeed * inputHorizontalMovementScale,
+				jumpPower,
+				moveSpeed * inputVerticalMovementScale)
+				);
 		} else if (!IsGrounded ()) {
 			rigid.velocity = transform.TransformDirection(
 				new Vector3(
@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
 				rigid.velocity.y,
 				moveSpeed * inputVerticalMovementScale)
 				);
-
+			
 			Vector3 feetPos = transform.position + Vector3.down * 0.4f;
 			bool hitWall = (Physics.Raycast (feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
 			                Physics.Raycast (feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
@@ -133,12 +133,12 @@ public class Player : MonoBehaviour
 		} else {
 			rigid.velocity = transform.TransformDirection(
 				new Vector3(
-					moveSpeed * inputHorizontalMovementScale,
-					rigid.velocity.y,
-					moveSpeed * inputVerticalMovementScale)
+				moveSpeed * inputHorizontalMovementScale,
+				rigid.velocity.y,
+				moveSpeed * inputVerticalMovementScale)
 				);
 		}
-
+		
 	}
 	
 	bool IsGrounded()
@@ -149,20 +149,20 @@ public class Player : MonoBehaviour
 		        Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
 		        Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
 	}
-
+	
 	void respawn()
 	{
 		transform.position = startPos;
 		transform.rotation = Quaternion.Euler(startRot);
 		Health = healthCap;
 		hpBar.value = Health;
-
+		
 		playerUI.enabled = true;
 		this.gameObject.SetActive(true);
-
+		
 		select.enabled = false;
 	}
-
+	
 	// Update is called once per frame
 	void Update()
 	{   
@@ -171,16 +171,16 @@ public class Player : MonoBehaviour
 		{
 			playerUI.enabled = false;
 			this.gameObject.SetActive(false);
-
+			
 			select.enabled = true;
 			Invoke("respawn", 5f); 
 		}
-
+		
 		dodgeTime += Time.deltaTime;
 		if (dodgeCool.value < dodgeCooldown) {
 			dodgeCool.value = dodgeTime;
 		}
-
+		
 		if (isDodging)
 		{
 			if (dodgeTime >= 0.05f)
@@ -189,10 +189,10 @@ public class Player : MonoBehaviour
 				//dodgeTime = 0.0f;
 			}
 		}
-
+		
 		//strikeTime += Time.deltaTime;
 		//strikeCool.value = strikeTime;
-
+		
 		if (isStriking)
 		{
 			strikeTime += Time.deltaTime;
@@ -203,134 +203,144 @@ public class Player : MonoBehaviour
 				strikeTime = 0.0f;
 			}
 		}
-
+		
 		abilityTime += Time.deltaTime;
 		if (abilityCool.value < abilityTime) {
 			abilityCool.value = abilityTime;
 		}
-
+		
 	}
-
+	
 	void resetAbility1(){
 		ability1Used = false;
 	}
-
+	
 	void resetAbility2(){
 		ability2Used = false;
 	}
-
+	
 	void resetStun(){
 		stunned = false;
 	}
-
+	
 	public void AbilityUsed(int abilityNum)
 	{
 		//figures out what direction to fire based on y rotation of player
 		float degreeY = this.transform.eulerAngles.y;
 		float zMag = Mathf.Cos(degreeY * Mathf.Deg2Rad);
 		float xMag = Mathf.Sin(degreeY * Mathf.Deg2Rad);
-
+		
 		GameObject shot;
-
+		
 		//should be done in a better way (ie. not with var ability1 / 2)
 		switch (abilityNum)
 		{
-			case 1: //fireball
-				//if (FireBall.count >= 3){
-				//	break;
-				//}
-				if (ability1Used == true) {break;}
-				shot = Instantiate<GameObject>(fireball);
-				FireBall.count++;
-				ability1Used = true;
-				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
-				shot.layer = this.gameObject.layer + 10;
-				shot.transform.position = transform.position + transform.forward;
-				shot.transform.rotation = transform.rotation;
-				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				Invoke ("resetAbility1", 0.4f);
-				break;
-			case 2: // stun projectile
-				if (ability1Used == true) {break;}
-				shot = Instantiate<GameObject>(stun);
-				ability1Used = true;
-				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
-				shot.layer = this.gameObject.layer + 10;
-				shot.transform.position = transform.position + transform.forward + transform.up; 
-				shot.transform.rotation = transform.rotation;
-				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				Invoke("resetAbility1", 1f);
-				break;
-			case 3: // Base Defenses (big ability def)
-				if (ability2Used) {break;}
-				ability2Used = true;
-				abilityTime = 0f;
-				abilityCool.value = abilityTime;
-				//Stuff to set up the gate, resourceDefense
-				gate.GetComponent<BaseDefense>().resetHealth();
-				gate.SetActive(true);
-				//things to start up the resource defense
-				resourceDefense.GetComponent<ResourcePiece>().spawnShield();
-				Invoke("resetAbility2", 5f);
-				break;
-			case 4:	// shockwave (big ability atk)
-				if (ability2Used) {break;}
-				ability2Used = true;
-				abilityTime = 0f;
-				abilityCool.value = abilityTime;
-				shot = Instantiate<GameObject>(shockwave);
-				shot.layer = this.gameObject.layer + 10;
-				shot.transform.position = transform.position;
-				Invoke("resetAbility2", 5f);
-				break;
-			default:
-				break;
+		case 1: //fireball
+			//if (FireBall.count >= 3){
+			//    break;
+			//}
+			if (ability1Used == true) {break;}
+			shot = Instantiate<GameObject>(fireball);
+			FireBall.count++;
+			ability1Used = true;
+			//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
+			shot.layer = this.gameObject.layer + 10;
+			shot.transform.position = transform.position + transform.forward;
+			shot.transform.rotation = transform.rotation;
+			shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+			Invoke ("resetAbility1", 0.4f);
+			break;
+		case 2: // stun projectile
+			if (ability1Used == true) {break;}
+			shot = Instantiate<GameObject>(stun);
+			ability1Used = true;
+			//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
+			shot.layer = this.gameObject.layer + 10;
+			shot.transform.position = transform.position + transform.forward + transform.up; 
+			shot.transform.rotation = transform.rotation;
+			shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+			Invoke("resetAbility1", 1f);
+			break;
+		case 3: // Base Defenses (big ability def)
+			if (ability2Used) {break;}
+			ability2Used = true;
+			abilityTime = 0f;
+			abilityCool.value = abilityTime;
+			//Stuff to set up the gate, resourceDefense
+			gate.GetComponent<BaseDefense>().resetHealth();
+			gate.SetActive(true);
+			//things to start up the resource defense
+			resourceDefense.GetComponent<ResourcePiece>().spawnShield();
+			Invoke("resetAbility2", 5f);
+			break;
+		case 4:    // shockwave (big ability atk)
+			if (ability2Used) {break;}
+			ability2Used = true;
+			abilityTime = 0f;
+			abilityCool.value = abilityTime;
+			shot = Instantiate<GameObject>(shockwave);
+			shot.layer = this.gameObject.layer + 10;
+			shot.transform.position = transform.position;
+			Invoke("resetAbility2", 5f);
+			break;
+		case 5: // slowbomb
+			if (ability2Used) { break; }
+			ability2Used = true;
+			abilityTime = 0f;
+			abilityCool.value = abilityTime;
+			shot = Instantiate<GameObject>(slowbomb);
+			shot.layer = this.gameObject.layer + 10;
+			shot.GetComponent<SlowBomb>().init(transform);
+			Invoke("resetAbility2", 5f);
+			break;
+		default:
+			break;
 		}
-
+		
 	}
-
+	
 	void OnTriggerEnter(Collider other)
 	{
 		GameObject collidedWith = other.gameObject;
 		string tag = collidedWith.tag;
 		Vector3 vel = rigid.velocity;
-
+		
 		switch (tag)
 		{
-			case "FireBall": //does damage to the player
-				//-10 comes from moving layer 10 places to see if equal to player1
-				if((collidedWith.layer-10) != this.gameObject.layer) {
-					Health = Health - collidedWith.GetComponent<FireBall>().damage;
-					hpBar.value = Health;
-				}
-				break;
-			case "Stun": 
-				//-10 is same reason as above
-				if((collidedWith.layer-10) != this.gameObject.layer) {
-					vel = Vector3.zero;
-					stunned = true;
-					Invoke ("resetStun", 1f);
-				}
-				break;
-			case "ShockWave":
-				if ((collidedWith.layer - 10) != this.gameObject.layer){
-					Health -= 3;
-					hpBar.value = Health;
-				}
-				break;
-			case "PlayerAttackRange":
-				if ((collidedWith.layer-10) != this.gameObject.layer) {
-					Health -= 3;
-					hpBar.value = Health;
-				}
-				break;
-			default:
-				break;
+		case "FireBall": //does damage to the player
+			//-10 comes from moving layer 10 places to see if equal to player1
+			if((collidedWith.layer-10) != this.gameObject.layer) {
+				Health = Health - collidedWith.GetComponent<FireBall>().damage;
+				hpBar.value = Health;
+			}
+			break;
+		case "Stun": 
+			//-10 is same reason as above
+			if((collidedWith.layer-10) != this.gameObject.layer) {
+				vel = Vector3.zero;
+				stunned = true;
+				Invoke ("resetStun", 1f);
+			}
+			break;
+		case "ShockWave":
+			if ((collidedWith.layer - 10) != this.gameObject.layer){
+				Health -= 3;
+				hpBar.value = Health;
+			}
+			break;
+		case "PlayerAttackRange":
+			if ((collidedWith.layer-10) != this.gameObject.layer) {
+				Health -= 3;
+				hpBar.value = Health;
+			}
+			break;
+		default:
+			break;
 		}
-
+		
 		rigid.velocity = vel;
 	}
-
+	
 	public void Attack(){
 		if (canStrike)
 		{
@@ -348,7 +358,7 @@ public class Player : MonoBehaviour
 			Invoke("enableStrike", strikeCooldown);
 		}
 	}
-
+	
 	public void Dodge(){
 		if (canDodge)
 		{
@@ -364,16 +374,33 @@ public class Player : MonoBehaviour
 			Invoke("enableDodge", dodgeCooldown);
 		}
 	}
-
+	
 	void enableStrike()
 	{
 		canStrike = true;
 		//strikeCool.enabled = false;
 	}
-
+	
 	void enableDodge()
 	{
 		canDodge = true;
 		dodgeCool.enabled = false;
+	}
+	
+	public void takeDamage(float damage)
+	{
+		Health -= (int)Mathf.Round(damage);
+	}
+	
+	public void slow(float effect)
+	{
+		StartCoroutine(recoverSpeed(moveSpeed, 3.0f));
+		moveSpeed *= effect;
+	}
+	
+	IEnumerator recoverSpeed(float normalSpeed, float delayTime)
+	{
+		yield return new WaitForSeconds(delayTime);
+		moveSpeed = normalSpeed;
 	}
 }
