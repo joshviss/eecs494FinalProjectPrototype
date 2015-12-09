@@ -4,12 +4,17 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour {
 
+	public static bool paused = true;
 	public GameObject GOScreen;
 	public GameObject PlayerUI;
 	public Text winner;
 	public Text scores;
 	float time = 180f;
 	Text UI;
+
+	void Awake(){
+		Timer.paused = true;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +24,7 @@ public class Timer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (PlayerInput.paused) {
+		if (Timer.paused) {
 			return;
 		}
 
@@ -35,7 +40,7 @@ public class Timer : MonoBehaviour {
 			UI.text = string.Format("{0:0} {1:00}", minutes, seconds);
 		} else {
 			Time.timeScale = 0;
-			PlayerInput.paused = true;
+			Timer.paused = true;
 
 			int id = Points.getWinner();
 
