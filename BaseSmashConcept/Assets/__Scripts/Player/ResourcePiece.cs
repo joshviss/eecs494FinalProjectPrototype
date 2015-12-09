@@ -56,11 +56,17 @@ public class ResourcePiece : MonoBehaviour {
 			   collidedWith.tag == "Player3" || collidedWith.tag == "Player4") {
 				//gives the player a resource and makes the object disappear for a
 				//select time period (spawnTime).
-				pieceTaken = true;
-				this.gameObject.SetActive(false);
 
 				Player p = collidedWith.GetComponent<Player>();
-				p.numResourcePiece++;
+				if (!p.law){
+					p.numResourcePiece++;
+					pieceTaken = true;
+					this.gameObject.SetActive(false);
+				} else if (p.law && (this.gameObject.tag == "publicResource")){
+					p.numResourcePiece++;
+					pieceTaken = true;
+					this.gameObject.SetActive(false);
+				}
 
 				Invoke ("Respawn", spawnTime);
 			}
