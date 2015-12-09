@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
 
 	public static bool paused = true;
+	public GameObject characterSelect;
 	public GameObject GOScreen;
 	public GameObject PlayerUI;
 	public Text winner;
@@ -52,6 +53,7 @@ public class Timer : MonoBehaviour {
 
 			scores.enabled = true;
 			PlayerUI.SetActive(false);
+			characterSelect.SetActive(false);
 			GOScreen.SetActive(true);
 		}
 	}
