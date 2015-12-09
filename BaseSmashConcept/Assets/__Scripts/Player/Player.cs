@@ -402,4 +402,21 @@ public class Player : MonoBehaviour
 		canDodge = true;
 		dodgeCool.enabled = false;
 	}
+
+	public void takeDamage(float damage)
+	{
+		Health -= damage;
+	}
+
+	public void slow(float effect)
+	{
+		StartCoroutine(recoverSpeed(moveSpeed, 3.0f));
+		moveSpeed *= effect;
+	}
+
+	IEnumerator recoverSpeed(float normalSpeed, float delayTime)
+	{
+		yield return new WaitForSeconds(delayTime);
+		moveSpeed = normalSpeed;
+	}
 }
