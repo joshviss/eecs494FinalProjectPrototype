@@ -8,7 +8,7 @@ public class Sword : MonoBehaviour {
 	private Collider myCollider;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		attackingTarget = null;
 		mesh = GetComponent<MeshRenderer>();
 		myCollider = this.GetComponent<Collider>();
@@ -38,12 +38,14 @@ public class Sword : MonoBehaviour {
 
 	public void strike()
 	{
+		Debug.Log ("strike");
 		mesh.enabled = true;
 		myCollider.enabled = true;
 	}
 
 	public void sheath()
 	{
+		Debug.Log ("sheath");
 		mesh.enabled = false;
 		myCollider.enabled = false;
 		attackingTarget = null;

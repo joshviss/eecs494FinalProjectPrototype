@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 	#endregion
 
 	// Use this for initialization
-	void Start()
+	void Awake()
 	{
 		//character = GetComponent<GameObject> ();
 		sword = GetComponentInChildren<Sword> ();
