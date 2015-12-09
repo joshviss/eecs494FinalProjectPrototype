@@ -220,7 +220,6 @@ public class Player : MonoBehaviour
 		{
 			if ((transform.position - dodgeStart).magnitude > 3)
 			{
-				Debug.Log("dodge end " + dodgeTime);
 				isDodging = false;
 				//dodgeTime = 0.0f;
 			}
