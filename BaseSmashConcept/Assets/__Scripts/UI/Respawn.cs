@@ -9,9 +9,10 @@ public class Respawn : MonoBehaviour {
 	PlayerInput ability;
 	public Image cursorA, cursorB;
 	public string characterA, characterB;
-	public Text counter;
+	public Image counter;
 	public GameObject p;
 	public GameObject white, black;
+	public string horizontal;
 
 	// Use this for initialization
 	void Start () {
@@ -27,9 +28,9 @@ public class Respawn : MonoBehaviour {
 	void Update () {
 		if (select.isActiveAndEnabled) {
 			timer -= Time.deltaTime;
-			counter.text = timer.ToString ("0.00");
+			counter.fillAmount = timer/5f;
 
-			if (Input.GetButtonDown (characterA)) {
+			if (Input.GetButtonDown (characterA) || Input.GetAxis (horizontal) < 0) {
 				cursorA.enabled = true;
 				cursorB.enabled = false;
 				ability.ability1 = 4;
@@ -37,10 +38,10 @@ public class Respawn : MonoBehaviour {
 				white.SetActive(true);
 				black.SetActive(false);
 			}
-			if (Input.GetButtonDown (characterB)) {
+			if (Input.GetButtonDown (characterB) || Input.GetAxis (horizontal) > 0) {
 				cursorA.enabled = false;
 				cursorB.enabled = true;
-				ability.ability1 = 3;
+				ability.ability1 = 5;
 				ability.ability2 = 1;
 				white.SetActive(false);
 				black.SetActive(true);
