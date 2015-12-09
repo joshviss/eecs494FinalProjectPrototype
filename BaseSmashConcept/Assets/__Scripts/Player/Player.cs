@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
 	#region abilities
 	public GameObject fireball, windpush, shockwave; //ability 1 and 2
-	//attach player specific gates and resourceDefense
+													 //attach player specific gates and resourceDefense
 	public GameObject gate, resourceDefense; //ability 3
 	public float abilitySpeed = 6;
 	public float windSpeedUpMultiplier = 1;
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
 	public float abilityCooldown = 5f;
 	public Canvas playerUI;
 	#endregion
-	
+
 	#region player stats
 	public int id;
 	public int Health = 15;
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 	void Start()
 	{
 		//character = GetComponent<GameObject> ();
-		sword = GetComponentInChildren<Sword> ();
+		sword = GetComponentInChildren<Sword>();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
 
@@ -94,25 +94,29 @@ public class Player : MonoBehaviour
 		abilityCool.enabled = false;
 	}
 
-	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
+	public void UpdateRotation(float inputHorizontalRotationScale, float deltaTime)
 	{
-		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * Time.deltaTime);
+		transform.Rotate(transform.up, rotationSpeed * inputHorizontalRotationScale * Time.deltaTime);
 	}
 
-	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
+	public void UpdateMovement(float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
 	{
-		if (pushed || isDodging) {
+		if (pushed || isDodging)
+		{
 			return;
 		}
 
-		if (startJumping && IsGrounded ()) {
-			rigid.velocity = transform.TransformDirection (
-				new Vector3 (
+		if (startJumping && IsGrounded())
+		{
+			rigid.velocity = transform.TransformDirection(
+				new Vector3(
 					moveSpeed * inputHorizontalMovementScale,
 					jumpPower,
 					moveSpeed * inputVerticalMovementScale)
 			);
-		} else if (!IsGrounded ()) {
+		}
+		else if (!IsGrounded())
+		{
 			rigid.velocity = transform.TransformDirection(
 				new Vector3(
 				moveSpeed * inputHorizontalMovementScale,
@@ -121,18 +125,21 @@ public class Player : MonoBehaviour
 				);
 
 			Vector3 feetPos = transform.position + Vector3.down * 0.4f;
-			bool hitWall = (Physics.Raycast (feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right - transform.forward, 0.85f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right - transform.forward, 0.85f, groundPhysicsLayerMask));
-			if (hitWall) {
+			bool hitWall = (Physics.Raycast(feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, transform.right, 0.6f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, -transform.right, 0.6f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, transform.right - transform.forward, 0.85f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, -transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
+							Physics.Raycast(feetPos, -transform.right - transform.forward, 0.85f, groundPhysicsLayerMask));
+			if (hitWall)
+			{
 				rigid.velocity = new Vector3(0, rigid.velocity.y, 0);
 			}
-		} else {
+		}
+		else
+		{
 			rigid.velocity = transform.TransformDirection(
 				new Vector3(
 					moveSpeed * inputHorizontalMovementScale,
@@ -142,14 +149,14 @@ public class Player : MonoBehaviour
 		}
 
 	}
-	
+
 	bool IsGrounded()
 	{
 		return (Physics.Raycast(transform.position, Vector3.down, 1.1f) ||
-		        Physics.Raycast(transform.position + transform.forward * 0.45f, Vector3.down, 1.1f) || 
-		        Physics.Raycast(transform.position - transform.forward * 0.45f, Vector3.down, 1.1f) ||
-		        Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
-		        Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
+				Physics.Raycast(transform.position + transform.forward * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position - transform.forward * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position + transform.right * 0.45f, Vector3.down, 1.1f) ||
+				Physics.Raycast(transform.position - transform.right * 0.45f, Vector3.down, 1.1f));
 	}
 
 	void respawn()
@@ -167,7 +174,7 @@ public class Player : MonoBehaviour
 
 	// Update is called once per frame
 	void Update()
-	{   
+	{
 		//checks if dead
 		if (Health <= 0)
 		{
@@ -175,16 +182,18 @@ public class Player : MonoBehaviour
 			this.gameObject.SetActive(false);
 
 			select.enabled = true;
-			Invoke("respawn", 5f); 
+			Invoke("respawn", 5f);
 		}
 
 		pushTime += Time.deltaTime;
-		if (pushTime > 0.5f) {
+		if (pushTime > 0.5f)
+		{
 			pushed = false;
 		}
 
 		dodgeTime += Time.deltaTime;
-		if (dodgeCool.value < dodgeCooldown) {
+		if (dodgeCool.value < dodgeCooldown)
+		{
 			dodgeCool.value = dodgeTime;
 		}
 
@@ -212,17 +221,20 @@ public class Player : MonoBehaviour
 		}
 
 		abilityTime += Time.deltaTime;
-		if (abilityCool.value < abilityTime) {
+		if (abilityCool.value < abilityTime)
+		{
 			abilityCool.value = abilityTime;
 		}
 
 	}
 
-	void resetAbility1(){
+	void resetAbility1()
+	{
 		ability1Used = false;
 	}
 
-	void resetAbility2(){
+	void resetAbility2()
+	{
 		ability2Used = false;
 	}
 
@@ -239,10 +251,10 @@ public class Player : MonoBehaviour
 		switch (abilityNum)
 		{
 			case 1: //fireball
-				//if (FireBall.count >= 3){
-				//	break;
-				//}
-				if (ability1Used == true) {break;}
+					//if (FireBall.count >= 3){
+					//	break;
+					//}
+				if (ability1Used == true) { break; }
 				shot = Instantiate<GameObject>(fireball);
 				FireBall.count++;
 				ability1Used = true;
@@ -251,13 +263,13 @@ public class Player : MonoBehaviour
 				shot.transform.position = transform.position + transform.forward;
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				Invoke ("resetAbility1", 0.4f);
+				Invoke("resetAbility1", 0.4f);
 				break;
 			case 2: //windpush
-				//if (WindPush.count >= 3){
-				//	break;
-				//}
-				if (ability1Used == true) {break;}
+					//if (WindPush.count >= 3){
+					//	break;
+					//}
+				if (ability1Used == true) { break; }
 				shot = Instantiate<GameObject>(windpush);
 				WindPush.count++;
 				ability1Used = true;
@@ -269,7 +281,7 @@ public class Player : MonoBehaviour
 				Invoke("resetAbility1", 0.4f);
 				break;
 			case 3: // Base Defenses (big ability def)
-				if (ability2Used) {break;}
+				if (ability2Used) { break; }
 				ability2Used = true;
 				abilityTime = 0f;
 				abilityCool.value = abilityTime;
@@ -280,8 +292,8 @@ public class Player : MonoBehaviour
 				resourceDefense.GetComponent<ResourcePiece>().spawnShield();
 				Invoke("resetAbility2", 5f);
 				break;
-			case 4:	// shockwave (big ability atk)
-				if (ability2Used) {break;}
+			case 4: // shockwave (big ability atk)
+				if (ability2Used) { break; }
 				ability2Used = true;
 				abilityTime = 0f;
 				abilityCool.value = abilityTime;
@@ -305,28 +317,32 @@ public class Player : MonoBehaviour
 		switch (tag)
 		{
 			case "FireBall": //does damage to the player
-				//-10 comes from moving layer 10 places to see if equal to player1
-				if((collidedWith.layer-10) != this.gameObject.layer) {
+							 //-10 comes from moving layer 10 places to see if equal to player1
+				if ((collidedWith.layer - 10) != this.gameObject.layer)
+				{
 					Health = Health - collidedWith.GetComponent<FireBall>().damage;
 					hpBar.value = Health;
 				}
 				break;
 			case "WindPush": //pushes back the player
-				//-10 is same reason as above
-				if((collidedWith.layer-10) != this.gameObject.layer) {
+							 //-10 is same reason as above
+				if ((collidedWith.layer - 10) != this.gameObject.layer)
+				{
 					vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
 					pushed = true;
 					pushTime = 0;
 				}
 				break;
 			case "ShockWave":
-				if ((collidedWith.layer - 10) != this.gameObject.layer){
+				if ((collidedWith.layer - 10) != this.gameObject.layer)
+				{
 					Health -= 3;
 					hpBar.value = Health;
 				}
 				break;
 			case "PlayerAttackRange":
-				if ((collidedWith.layer-10) != this.gameObject.layer) {
+				if ((collidedWith.layer - 10) != this.gameObject.layer)
+				{
 					Health -= 3;
 					hpBar.value = Health;
 				}
@@ -338,12 +354,14 @@ public class Player : MonoBehaviour
 		rigid.velocity = vel;
 	}
 
-	public void Attack(){
+	public void Attack()
+	{
 		if (canStrike)
 		{
 			sword.strike();
-			GameObject target = sword.getAttackingTarget ();
-			if (target != null) {
+			GameObject target = sword.getAttackingTarget();
+			if (target != null)
+			{
 				target.GetComponent<Player>().Health -= AttackDamage;
 				target.GetComponent<Player>().hpBar.value -= AttackDamage;
 			}
@@ -356,11 +374,12 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	public void Dodge(){
+	public void Dodge()
+	{
 		if (canDodge)
 		{
 			Vector3 direction = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
-			direction = (direction != Vector3.zero) ? direction : - transform.forward;
+			direction = (direction != Vector3.zero) ? direction : -transform.forward;
 			direction = new Vector3(direction.x, 0, direction.z);
 			rigid.velocity = direction.normalized * (1 / Time.deltaTime);
 			isDodging = true;

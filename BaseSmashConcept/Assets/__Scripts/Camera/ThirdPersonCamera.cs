@@ -15,6 +15,9 @@ public class ThirdPersonCamera : MonoBehaviour
 	[SerializeField]
 	private Transform follow;
 	private Vector3 targetPosition;
+	private float vertMult = 30.0f;
+	private float vertLowerbound = -1.0f;
+	private float vertUpperbound = 10.0f;
 
 	#endregion
 
@@ -36,4 +39,12 @@ public class ThirdPersonCamera : MonoBehaviour
 	}
 
 	#endregion
+
+	public void cameraMoveVert(float vertInput)
+	{
+		if (distanceUp > vertLowerbound + 0.5f && distanceUp < vertUpperbound - 0.5f)
+		{
+			distanceUp += vertInput * vertMult;
+		}
+	}
 }
