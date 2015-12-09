@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region abilities
-	public GameObject fireball, shockwave, stun; //ability 1 and 2
+	public GameObject fireball, shockwave, stun, slowbomb; //ability 1 and 2
 	//attach player specific gates and resourceDefense
 	public GameObject gate, resourceDefense; //ability 3
 	float abilitySpeed = 30f;
@@ -283,6 +283,16 @@ public class Player : MonoBehaviour
 				shot.transform.position = transform.position;
 				Invoke("resetAbility2", 5f);
 				break;
+			case 5: // slowbomb
+				if (ability2Used) { break; }
+				ability2Used = true;
+				abilityTime = 0f;
+				abilityCool.value = abilityTime;
+				shot = Instantiate<GameObject>(slowbomb);
+				shot.layer = this.gameObject.layer + 10;
+				shot.GetComponent<SlowBomb>().init(transform);
+				Invoke("resetAbility2", 5f);
+				break;
 			default:
 				break;
 		}
@@ -375,5 +385,22 @@ public class Player : MonoBehaviour
 	{
 		canDodge = true;
 		dodgeCool.enabled = false;
+	}
+
+	public void takeDamage(float damage)
+	{
+		Health -= (int)Mathf.Round(damage);
+	}
+	
+	public void slow(float effect)
+	{
+		StartCoroutine(recoverSpeed(moveSpeed, 3.0f));
+		moveSpeed *= effect;
+	}
+	
+	IEnumerator recoverSpeed(float normalSpeed, float delayTime)
+	{
+		yield return new WaitForSeconds(delayTime);
+		moveSpeed = normalSpeed;
 	}
 }
