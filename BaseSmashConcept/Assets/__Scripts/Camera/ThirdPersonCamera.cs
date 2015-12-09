@@ -15,7 +15,7 @@ public class ThirdPersonCamera : MonoBehaviour
 	private Rigidbody rigid;
 	private Transform follow;
 	private Vector3 targetPosition;
-	private float vertMult = 0.05f;
+	private float vertMult = 0.1f;
 	private float vertLowerbound = -0.5f;
 	private float vertUpperbound = 4.0f;
 
