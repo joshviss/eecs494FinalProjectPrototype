@@ -50,6 +50,8 @@ public class Player : MonoBehaviour
 	public bool law = true;
 	Material mat;
 	Color current;
+	public Text carry;
+	int lastHit;
 	#endregion
 	
 	#region player stats
@@ -96,6 +98,11 @@ public class Player : MonoBehaviour
 
 		mat = GetComponent<Renderer> ().material;
 		current = mat.color;
+
+		carry.text = "0";
+		if (law) {
+			carry.enabled = false;
+		}
 	}
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
@@ -163,9 +170,29 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{   
+		if (law) {
+			carry.enabled = false;
+		} else {
+			carry.enabled = true;
+		}
+
 		//checks if dead
 		if (Health <= 0)
 		{
+			if (LayerMask.LayerToName(lastHit) == "AbilityPl" && law){
+				Points.givePoints(0, numResourcePiece);
+				numResourcePiece = 0;
+			} else if (LayerMask.LayerToName(lastHit) == "AbilityP2" && law){
+				Points.givePoints(1, numResourcePiece);
+				numResourcePiece = 0;
+			} else if (LayerMask.LayerToName(lastHit) == "AbilityP3" && law){
+				Points.givePoints(2, numResourcePiece);
+				numResourcePiece = 0;
+			} if (LayerMask.LayerToName(lastHit) == "AbilityP4" && law){
+				Points.givePoints(3, numResourcePiece);
+				numResourcePiece = 0;
+			} 
+
 			playerUI.enabled = false;
 			this.gameObject.SetActive(false);
 
@@ -206,6 +233,8 @@ public class Player : MonoBehaviour
 			abilityCool.value = abilityTime;
 		}
 
+		carry.text = "" + numResourcePiece;
+
 	}
 
 	void resetAbility1(){
@@ -219,12 +248,10 @@ public class Player : MonoBehaviour
 	void resetStun(){
 		stunned = false;
 		mat.color = current;
-		mat.SetFloat("_Emission", 1);
 	}
 
 	void damage(){
 		mat.color = current;
-		mat.SetFloat("_Emission", 1);
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -318,6 +345,7 @@ public class Player : MonoBehaviour
 					hpBar.value = Health;
 					mat.color = Color.red;
 					Invoke ("damage", 0.5f);
+					lastHit = collidedWith.layer;
 				}
 				break;
 			case "Stun": 
@@ -335,6 +363,7 @@ public class Player : MonoBehaviour
 					hpBar.value = Health;
 					mat.color = Color.red;
 					Invoke ("damage", 0.5f);
+					lastHit = collidedWith.layer;
 				}
 				break;
 			case "PlayerAttackRange":
@@ -343,10 +372,16 @@ public class Player : MonoBehaviour
 					hpBar.value = Health;
 					mat.color = Color.red;
 					Invoke ("damage", 0.5f);
+					lastHit = collidedWith.layer;	
 				}
 				break;
 			default:
 				break;
+		}
+
+		if (collidedWith.layer == LayerMask.NameToLayer ("CastleTrigger") && !law) {
+			Points.givePoints(id, numResourcePiece);
+			numResourcePiece = 0;
 		}
 
 		rigid.velocity = vel;
