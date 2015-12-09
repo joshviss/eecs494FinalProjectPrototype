@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
 	public Canvas playerUI;
 	bool stunned = false;
 	public bool law = true;
+	Material mat;
+	Color current;
 	#endregion
 	
 	#region player stats
@@ -91,6 +93,9 @@ public class Player : MonoBehaviour
 		abilityCool.maxValue = abilityCooldown;
 		abilityCool.value = abilityCooldown;
 		abilityCool.enabled = false;
+
+		mat = GetComponent<Renderer> ().material;
+		current = mat.color;
 	}
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
@@ -213,6 +218,13 @@ public class Player : MonoBehaviour
 
 	void resetStun(){
 		stunned = false;
+		mat.color = current;
+		mat.SetFloat("_Emission", 1);
+	}
+
+	void damage(){
+		mat.color = current;
+		mat.SetFloat("_Emission", 1);
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -304,6 +316,8 @@ public class Player : MonoBehaviour
 				if((collidedWith.layer-10) != this.gameObject.layer) {
 					Health = Health - collidedWith.GetComponent<FireBall>().damage;
 					hpBar.value = Health;
+					mat.color = Color.red;
+					Invoke ("damage", 0.5f);
 				}
 				break;
 			case "Stun": 
@@ -311,6 +325,7 @@ public class Player : MonoBehaviour
 				if((collidedWith.layer-10) != this.gameObject.layer) {
 					vel = Vector3.zero;
 					stunned = true;
+					mat.color = Color.yellow;
 					Invoke ("resetStun", 1f);
 				}
 				break;
@@ -318,12 +333,16 @@ public class Player : MonoBehaviour
 				if ((collidedWith.layer - 10) != this.gameObject.layer){
 					Health -= 3;
 					hpBar.value = Health;
+					mat.color = Color.red;
+					Invoke ("damage", 0.5f);
 				}
 				break;
 			case "PlayerAttackRange":
 				if ((collidedWith.layer-10) != this.gameObject.layer) {
 					Health -= 3;
 					hpBar.value = Health;
+					mat.color = Color.red;
+					Invoke ("damage", 0.5f);
 				}
 				break;
 			default:
