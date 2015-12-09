@@ -181,9 +181,9 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{   
-		if (law) {
+		if (law && numResourcePiece == 0) {
 			carry.enabled = false;
-		} else {
+		} else{
 			carry.enabled = true;
 		}
 
@@ -501,7 +501,7 @@ public class Player : MonoBehaviour
 				break;
 		}
 
-		if (collidedWith.layer == LayerMask.NameToLayer ("CastleTrigger") && !law) {
+		if (collidedWith.layer == LayerMask.NameToLayer ("CastleTrigger") && tag == this.gameObject.tag) {
 			Points.givePoints(id, numResourcePiece);
 			numResourcePiece = 0;
 		}
