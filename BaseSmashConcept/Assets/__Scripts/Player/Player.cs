@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
 
 	#region abilities
 	public GameObject fireball, shockwave, stun, slowbomb; //ability 1 and 2
+	public bool reflectActive; //should not be changed by user
+	private int numStuns, numSlows;
 	//attach player specific gates and resourceDefense
 	public GameObject gate, resourceDefense; //ability 3
 	float abilitySpeed = 30f;
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour
 
 	#region movement
 	public float moveSpeed = 5f;
+	private float initialMS;
 	public float rotationSpeed = 60.0f;
 	public float horizMult = 5f;
 	public float jumpPower = 7f;
@@ -88,6 +91,13 @@ public class Player : MonoBehaviour
 		dodgeCool.maxValue = dodgeCooldown;
 		dodgeCool.value = dodgeCooldown;
 		dodgeCool.enabled = false;
+
+		//sets the reflect ability to non-active
+		reflectActive = false;
+		initialMS = moveSpeed;
+		//info for stuns and slows
+		numStuns = 0;
+		numSlows = 0;
 
 		//strikeCool.maxValue = strikeCooldown;
 		//strikeCool.value = strikeCooldown;
@@ -241,17 +251,33 @@ public class Player : MonoBehaviour
 		ability1Used = false;
 	}
 
+	void deactivateReflect() {
+		reflectActive = false;
+		mat.color = current;
+	}
+
 	void resetAbility2(){
 		ability2Used = false;
 	}
 
 	void resetStun(){
-		stunned = false;
-		mat.color = current;
+		numStuns -= 1;
+		if (numStuns == 0) {
+			stunned = false;
+			mat.color = current;
+		}
 	}
 
 	void damage(){
 		mat.color = current;
+	}
+
+	void slowed() {
+		numSlows -= 1;
+		if (numSlows == 0) {
+			moveSpeed = initialMS;
+			mat.color = current;
+		}
 	}
 
 	public void AbilityUsed(int abilityNum)
@@ -324,6 +350,18 @@ public class Player : MonoBehaviour
 				shot.GetComponent<SlowBomb>().init(transform);
 				Invoke("resetAbility2", 5f);
 				break;
+			case 6: // reflect
+				if (ability1Used) { break; }
+				reflectActive = true;
+				//color changed to when reflecting
+				mat.color = Color.white;
+				//Needs added stuff if we want UI to track cooldown
+
+				//causes the reflect ability to turn off after 1 second.
+				Invoke("deactivateReflect", 1f);
+				//Causes ability1 to go on cooldown for 5 seconds
+				Invoke("resetAbility1", 5f);
+				break;
 			default:
 				break;
 		}
@@ -336,34 +374,117 @@ public class Player : MonoBehaviour
 		string tag = collidedWith.tag;
 		Vector3 vel = rigid.velocity;
 
+		//for when collided with is reflected
+		GameObject shot;
+
 		switch (tag)
 		{
 			case "FireBall": //does damage to the player
 				//-10 comes from moving layer 10 places to see if equal to player1
+				
 				if((collidedWith.layer-10) != this.gameObject.layer) {
-					Health = Health - collidedWith.GetComponent<FireBall>().damage;
-					hpBar.value = Health;
-					mat.color = Color.red;
-					Invoke ("damage", 0.5f);
-					lastHit = collidedWith.layer;
+					if (reflectActive == true) {
+						//deactivates reflect
+						deactivateReflect();
+
+						//figures out what direction to fire based on y rotation of player
+						float degreeY = this.transform.eulerAngles.y;
+						float zMag = Mathf.Cos(degreeY * Mathf.Deg2Rad);
+						float xMag = Mathf.Sin(degreeY * Mathf.Deg2Rad);
+
+						//creates a object to be launched back
+						shot = Instantiate<GameObject>(fireball);
+						shot.layer = this.gameObject.layer + 10;
+						shot.transform.position = transform.position + transform.forward;
+						shot.transform.rotation = transform.rotation;
+
+						//reflects in the direction the player is facing
+						shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+
+						/*
+						//gets the velocity of the collided with fireball to send it back the opposite direction
+						Vector3 cVelocity = collidedWith.GetComponent<Rigidbody>().velocity;
+						shot.GetComponent<Rigidbody>().velocity = new Vector3(cVelocity.x, cVelocity.y, cVelocity.z);
+						*/
+
+					} else {
+						Health = Health - collidedWith.GetComponent<FireBall>().damage;
+						hpBar.value = Health;
+						mat.color = Color.red;
+						Invoke("damage", 0.5f);
+						lastHit = collidedWith.layer;
+					}
 				}
 				break;
 			case "Stun": 
 				//-10 is same reason as above
 				if((collidedWith.layer-10) != this.gameObject.layer) {
-					vel = Vector3.zero;
-					stunned = true;
-					mat.color = Color.yellow;
-					Invoke ("resetStun", 1f);
+					if (reflectActive == true) {
+						//deactivates reflect
+						deactivateReflect();
+
+						//figures out what direction to fire based on y rotation of player
+						float degreeY = this.transform.eulerAngles.y;
+						float zMag = Mathf.Cos(degreeY * Mathf.Deg2Rad);
+						float xMag = Mathf.Sin(degreeY * Mathf.Deg2Rad);
+
+						//creates a object to be launched back
+						shot = Instantiate<GameObject>(stun);
+						shot.layer = this.gameObject.layer + 10;
+						shot.transform.position = transform.position + transform.forward + transform.up;
+						shot.transform.rotation = transform.rotation;
+
+						//reflects in the direction the player is facing
+						shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
+
+					} else {
+						vel = Vector3.zero;
+						stunned = true;
+						mat.color = Color.yellow;
+						numStuns += 1;
+						Invoke("resetStun", 1f);
+					}
 				}
 				break;
 			case "ShockWave":
 				if ((collidedWith.layer - 10) != this.gameObject.layer){
-					Health -= 3;
-					hpBar.value = Health;
-					mat.color = Color.red;
-					Invoke ("damage", 0.5f);
-					lastHit = collidedWith.layer;
+					if (reflectActive == true) {
+						//deactivates reflect
+						deactivateReflect();
+
+						//makes this player use the ability
+						shot = Instantiate<GameObject>(shockwave);
+						shot.layer = this.gameObject.layer + 10;
+						shot.transform.position = transform.position;
+
+					} else {
+						Health -= 5;
+						hpBar.value = Health;
+						mat.color = Color.red;
+						Invoke("damage", 0.5f);
+						lastHit = collidedWith.layer;
+					}
+				}
+				break;
+			case "Slow":
+				if ((collidedWith.layer - 10) != this.gameObject.layer) {
+					if (reflectActive == true) {
+						//deactivates reflect
+						deactivateReflect();
+
+						//makes this player use the ability
+						shot = Instantiate<GameObject>(slowbomb);
+						shot.layer = this.gameObject.layer + 10;
+						shot.GetComponent<SlowBomb>().init(transform);
+
+					} else {
+						Health -= 3;
+						hpBar.value = Health;
+						mat.color = Color.grey;
+						numSlows += 1;
+						Invoke("slowed", 1f);
+						lastHit = collidedWith.layer;
+					}
 				}
 				break;
 			case "PlayerAttackRange":
