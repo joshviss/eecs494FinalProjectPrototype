@@ -89,7 +89,6 @@ public class Player : MonoBehaviour
 
 		dodgeCool.maxValue = dodgeCooldown;
 		dodgeCool.value = dodgeCooldown;
-		dodgeCool.enabled = false;
 
 		//sets the reflect ability to non-active
 		reflectActive = false;
@@ -103,7 +102,6 @@ public class Player : MonoBehaviour
 		//strikeCool.enabled = false;
 		abilityCool.maxValue = abilityCooldown;
 		abilityCool.value = abilityCooldown;
-		abilityCool.enabled = false;
 
 		mat = GetComponent<Renderer> ().material;
 		current = mat.color;
@@ -539,7 +537,6 @@ public class Player : MonoBehaviour
 			canDodge = false;
 			dodgeTime = 0f;
 			dodgeCool.value = 0f;
-			dodgeCool.enabled = true;
 			Invoke("enableDodge", dodgeCooldown);
 		}
 	}
@@ -553,7 +550,6 @@ public class Player : MonoBehaviour
 	void enableDodge()
 	{
 		canDodge = true;
-		dodgeCool.enabled = false;
 	}
 
 	public void takeDamage(int damage)

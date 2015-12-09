@@ -27,6 +27,7 @@ public class CharacterSelect : MonoBehaviour {
 	void Update(){
 		if (!wait) {
 			Debug.Log ("wait");
+			CharacterSelect.wait = true;
 			bg.enabled = false;
 			p1.enabled = false;
 			p2.enabled = false;
