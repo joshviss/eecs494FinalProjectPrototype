@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region miscellaneous
-	public static bool paused = false;
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
@@ -107,12 +106,15 @@ public class Player : MonoBehaviour
 
 	public void UpdateRotation (float inputHorizontalRotationScale, float deltaTime)
 	{
+		if (Timer.paused) {
+			return;
+		}
 		transform.Rotate (transform.up, rotationSpeed * inputHorizontalRotationScale * Time.deltaTime);
 	}
 
 	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
 	{
-		if (stunned || isDodging) {
+		if (Timer.paused || stunned || isDodging) {
 			return;
 		}
 
@@ -179,16 +181,16 @@ public class Player : MonoBehaviour
 		//checks if dead
 		if (Health <= 0)
 		{
-			if (LayerMask.LayerToName(lastHit) == "AbilityPl" && law){
+			if (LayerMask.LayerToName(lastHit) == "AbilityPl" && !law){
 				Points.givePoints(0, numResourcePiece);
 				numResourcePiece = 0;
-			} else if (LayerMask.LayerToName(lastHit) == "AbilityP2" && law){
+			} else if (LayerMask.LayerToName(lastHit) == "AbilityP2" && !law){
 				Points.givePoints(1, numResourcePiece);
 				numResourcePiece = 0;
-			} else if (LayerMask.LayerToName(lastHit) == "AbilityP3" && law){
+			} else if (LayerMask.LayerToName(lastHit) == "AbilityP3" && !law){
 				Points.givePoints(2, numResourcePiece);
 				numResourcePiece = 0;
-			} if (LayerMask.LayerToName(lastHit) == "AbilityP4" && law){
+			} if (LayerMask.LayerToName(lastHit) == "AbilityP4" && !law){
 				Points.givePoints(3, numResourcePiece);
 				numResourcePiece = 0;
 			} 

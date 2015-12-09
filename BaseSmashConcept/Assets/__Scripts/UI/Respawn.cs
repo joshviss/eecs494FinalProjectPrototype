@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Respawn : MonoBehaviour {
 	
 	float timer = 5f;
+	float timerMax = 5f;
 	Canvas select;
 	PlayerInput ability;
 	Player type;
@@ -33,7 +34,7 @@ public class Respawn : MonoBehaviour {
 	void Update () {
 		if (select.isActiveAndEnabled) {
 			timer -= Time.deltaTime;
-			counter.fillAmount = timer/5f;
+			counter.fillAmount = timer/timerMax;
 
 			if (Input.GetButtonDown (characterA) || Input.GetAxis (horizontal) < 0) {
 				cursorA.enabled = true;
