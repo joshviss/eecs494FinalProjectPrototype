@@ -33,7 +33,7 @@ public class Respawn : MonoBehaviour {
 				cursorA.enabled = true;
 				cursorB.enabled = false;
 				ability.ability1 = 4;
-				ability.ability2 = 1;
+				ability.ability2 = 2;
 				white.SetActive(true);
 				black.SetActive(false);
 			}

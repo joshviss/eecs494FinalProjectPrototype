@@ -10,11 +10,10 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region abilities
-	public GameObject fireball, windpush, shockwave; //ability 1 and 2
+	public GameObject fireball, shockwave, stun; //ability 1 and 2
 	//attach player specific gates and resourceDefense
 	public GameObject gate, resourceDefense; //ability 3
-	public float abilitySpeed = 6;
-	public float windSpeedUpMultiplier = 1;
+	float abilitySpeed = 30f;
 	#endregion
 
 	#region movement
@@ -26,8 +25,6 @@ public class Player : MonoBehaviour
 
 	#region miscellaneous
 	public static bool paused = false;
-	float pushTime = 0f;
-	bool pushed = false;
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
@@ -49,6 +46,7 @@ public class Player : MonoBehaviour
 	public Slider abilityCool;
 	public float abilityCooldown = 5f;
 	public Canvas playerUI;
+	bool stunned = false;
 	#endregion
 	
 	#region player stats
@@ -101,7 +99,7 @@ public class Player : MonoBehaviour
 
 	public void UpdateMovement (float inputHorizontalMovementScale, float inputVerticalMovementScale, bool startJumping)
 	{
-		if (pushed || isDodging) {
+		if (stunned || isDodging) {
 			return;
 		}
 
@@ -178,11 +176,6 @@ public class Player : MonoBehaviour
 			Invoke("respawn", 5f); 
 		}
 
-		pushTime += Time.deltaTime;
-		if (pushTime > 0.5f) {
-			pushed = false;
-		}
-
 		dodgeTime += Time.deltaTime;
 		if (dodgeCool.value < dodgeCooldown) {
 			dodgeCool.value = dodgeTime;
@@ -226,6 +219,10 @@ public class Player : MonoBehaviour
 		ability2Used = false;
 	}
 
+	void resetStun(){
+		stunned = false;
+	}
+
 	public void AbilityUsed(int abilityNum)
 	{
 		//figures out what direction to fire based on y rotation of player
@@ -253,20 +250,16 @@ public class Player : MonoBehaviour
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
 				Invoke ("resetAbility1", 0.4f);
 				break;
-			case 2: //windpush
-				//if (WindPush.count >= 3){
-				//	break;
-				//}
+			case 2: // stun projectile
 				if (ability1Used == true) {break;}
-				shot = Instantiate<GameObject>(windpush);
-				WindPush.count++;
+				shot = Instantiate<GameObject>(stun);
 				ability1Used = true;
 				//WARNING: 10 is the amount of layers forward AbilityP1 is from Player1
 				shot.layer = this.gameObject.layer + 10;
-				shot.transform.position = transform.position + transform.forward; //if this not added and not trigger then you fly
+				shot.transform.position = transform.position + transform.forward + transform.up; 
 				shot.transform.rotation = transform.rotation;
 				shot.GetComponent<Rigidbody>().velocity = new Vector3(xMag, 0, zMag) * abilitySpeed;
-				Invoke("resetAbility1", 0.4f);
+				Invoke("resetAbility1", 1f);
 				break;
 			case 3: // Base Defenses (big ability def)
 				if (ability2Used) {break;}
@@ -311,12 +304,12 @@ public class Player : MonoBehaviour
 					hpBar.value = Health;
 				}
 				break;
-			case "WindPush": //pushes back the player
+			case "Stun": 
 				//-10 is same reason as above
 				if((collidedWith.layer-10) != this.gameObject.layer) {
-					vel = collidedWith.GetComponent<Rigidbody>().velocity * windSpeedUpMultiplier;
-					pushed = true;
-					pushTime = 0;
+					vel = Vector3.zero;
+					stunned = true;
+					Invoke ("resetStun", 1f);
 				}
 				break;
 			case "ShockWave":
