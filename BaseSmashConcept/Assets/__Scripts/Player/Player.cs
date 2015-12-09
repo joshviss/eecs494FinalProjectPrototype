@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
 	Color current;
 	public Text carry;
 	int lastHit;
+	Vector3 dodgeStart;
 	#endregion
 	
 	#region player stats
@@ -217,7 +218,7 @@ public class Player : MonoBehaviour
 
 		if (isDodging)
 		{
-			if (dodgeTime >= 0.05f)
+			if ((transform.position - dodgeStart).magnitude > 3)
 			{
 				Debug.Log("dodge end " + dodgeTime);
 				isDodging = false;
@@ -533,12 +534,12 @@ public class Player : MonoBehaviour
 			Vector3 direction = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
 			direction = (direction != Vector3.zero) ? direction : - transform.forward;
 			direction = new Vector3(direction.x, 0, direction.z);
-			rigid.velocity = direction.normalized * (1 / Time.deltaTime) * 3;
-			Debug.Log(1/Time.deltaTime);
+			rigid.velocity = direction.normalized * 20;
 			isDodging = true;
 			canDodge = false;
 			dodgeTime = 0f;
 			dodgeCool.value = 0f;
+			dodgeStart = transform.position;
 			Invoke("enableDodge", dodgeCooldown);
 		}
 	}
