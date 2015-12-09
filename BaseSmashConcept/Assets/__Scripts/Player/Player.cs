@@ -219,6 +219,7 @@ public class Player : MonoBehaviour
 		{
 			if (dodgeTime >= 0.05f)
 			{
+				Debug.Log("dodge end " + dodgeTime);
 				isDodging = false;
 				//dodgeTime = 0.0f;
 			}
@@ -532,7 +533,8 @@ public class Player : MonoBehaviour
 			Vector3 direction = new Vector3(rigid.velocity.x, 0, rigid.velocity.z);
 			direction = (direction != Vector3.zero) ? direction : - transform.forward;
 			direction = new Vector3(direction.x, 0, direction.z);
-			rigid.velocity = direction.normalized * (1 / Time.deltaTime);
+			rigid.velocity = direction.normalized * (1 / Time.deltaTime) * 3;
+			Debug.Log(1/Time.deltaTime);
 			isDodging = true;
 			canDodge = false;
 			dodgeTime = 0f;
