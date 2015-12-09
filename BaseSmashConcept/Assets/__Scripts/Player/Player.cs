@@ -117,19 +117,6 @@ public class Player : MonoBehaviour
 				rigid.velocity.y,
 				moveSpeed * inputVerticalMovementScale)
 				);
-
-			Vector3 feetPos = transform.position + Vector3.down * 0.4f;
-			bool hitWall = (Physics.Raycast (feetPos, transform.forward, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.forward, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right, 0.6f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, transform.right - transform.forward, 0.85f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right + transform.forward, 0.85f, groundPhysicsLayerMask) ||
-			                Physics.Raycast (feetPos, -transform.right - transform.forward, 0.85f, groundPhysicsLayerMask));
-			if (hitWall) {
-				rigid.velocity = new Vector3(0, rigid.velocity.y, 0);
-			}
 		} else {
 			rigid.velocity = transform.TransformDirection(
 				new Vector3(
