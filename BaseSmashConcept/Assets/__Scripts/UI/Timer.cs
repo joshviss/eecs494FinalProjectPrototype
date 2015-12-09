@@ -45,7 +45,7 @@ public class Timer : MonoBehaviour {
 				winner.text = "Player " + id.ToString() + " Wins!";
 			}
 
-			scores.color = Color.white;
+			scores.enabled = true;
 			PlayerUI.SetActive(false);
 			GOScreen.SetActive(true);
 		}

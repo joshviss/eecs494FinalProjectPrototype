@@ -46,7 +46,7 @@ public class Points : MonoBehaviour {
 		if (id >= 0) {
 			showText ();
 		} else {
-			label.color = Color.clear;
+			label.enabled = false;
 		}
 	}
 
@@ -55,10 +55,10 @@ public class Points : MonoBehaviour {
 	}
 
 	void updateScores(){
-		label.text  = string.Format("Player 1: {0,2}\n", score [0]);
-		label.text += string.Format("Player 2: {0,2}\n", score [1]);
-		label.text += string.Format("Player 3: {0,2}\n", score [2]);
-		label.text += string.Format("Player 4: {0,2}\n", score [3]);
+		label.text  = string.Format("<color=#E8346CFF>Player 1: {0,2}</color>\n", score [0]);
+		label.text += string.Format("<color=#EE9B32FF>Player 2: {0,2}</color>\n", score [1]);
+		label.text += string.Format("<color=#3E61C6FF>Player 3: {0,2}</color>\n", score [2]);
+		label.text += string.Format("<color=#6DCE71FF>Player 4: {0,2}</color>\n", score [3]);
 	}
 
 	// Update is called once per frame
