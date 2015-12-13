@@ -2,10 +2,12 @@
 using System.Collections;
 
 public class SlowBomb : MonoBehaviour {
-	
+
+	public GameObject explosionObject;
 	private float initImpulse = 10.0f;
-	private float aoeRange = 6.0f;
-	private float damage = 5.0f;
+	private float aoeRange = 3.0f;
+	float effect = 0.5f;
+	private int damage = 2;
 	private Transform owner;
 	
 	public void init(Transform _owner)
@@ -14,10 +16,10 @@ public class SlowBomb : MonoBehaviour {
 		transform.position = owner.position;
 		transform.rotation = owner.rotation;
 		transform.position = transform.position + transform.forward;
-		GetComponent<Rigidbody>().AddForce(Quaternion.AngleAxis(-45, transform.right) * transform.forward * initImpulse, ForceMode.Impulse);
+		GetComponent<Rigidbody>().AddForce(Quaternion.AngleAxis(-35, transform.right) * transform.forward * initImpulse, ForceMode.Impulse);
 	}
 	
-	void OnCollisionEnter(Collision coll)
+	void OnTriggerEnter(Collider coll)
 	{
 		GameObject collideWith = coll.gameObject;
 		if(collideWith.layer == LayerMask.NameToLayer("Ground") ||
@@ -31,8 +33,14 @@ public class SlowBomb : MonoBehaviour {
 		}
 	}
 	
-	void explode(Vector3 location, float radius, float damage)
+	void explode(Vector3 location, float radius, int damage)
 	{
+		GameObject explosion;
+		explosion = Instantiate<GameObject>(explosionObject);
+		explosion.layer = this.gameObject.layer;
+		explosion.transform.position = transform.position;
+
+		/*
 		Collider[] objectsInRange = Physics.OverlapSphere(location, radius);
 		foreach (Collider col in objectsInRange)
 		{
@@ -40,11 +48,13 @@ public class SlowBomb : MonoBehaviour {
 			if (opponent != null && col.transform != owner)
 			{
 				// linear falloff of effect
-				float proximity = (location - opponent.transform.position).magnitude;
-				float effect = 1 - (proximity / radius);
-				opponent.takeDamage(damage * effect);
+				//float proximity = (location - opponent.transform.position).magnitude;
+				//float effect = 1 - (proximity / radius);
+				//opponent.takeDamage(damage * effect);
+				opponent.takeDamage(damage);
 				opponent.slow(effect);
 			}
 		}
+		*/
 	}
 }

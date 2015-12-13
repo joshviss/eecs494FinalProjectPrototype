@@ -12,28 +12,37 @@ public class ThirdPersonCamera : MonoBehaviour
 	private float distanceUp;
 	[SerializeField]
 	private float smooth;
-	[SerializeField]
+	private Rigidbody rigid;
 	private Transform follow;
 	private Vector3 targetPosition;
-	private float vertMult = 30.0f;
-	private float vertLowerbound = -1.0f;
-	private float vertUpperbound = 10.0f;
+	private float vertMult = 0.1f;
+	private float vertLowerbound = -0.5f;
+	private float vertUpperbound = 4.0f;
 
 	#endregion
 
 	#region unity event functions
 
+	void Start()
+	{
+		// component init
+		rigid = GetComponent<Rigidbody>();
+		follow = transform.parent;
+		// transform init
+		transform.position = follow.position + follow.up * distanceUp - follow.forward * distanceAway;
+		transform.LookAt(follow);
+		// zero target pos
+		targetPosition = Vector3.zero;
+	}
+
 	void LateUpdate()
 	{
+		Vector3 currentPosition = transform.position;
 		// calculate target position
 		targetPosition = follow.position + follow.up * distanceUp - follow.forward * distanceAway;
-		// debugging info
-		Debug.DrawRay(follow.position, Vector3.up * distanceUp, Color.red);
-		Debug.DrawRay(follow.position, -1.0f * follow.forward * distanceAway, Color.blue);
-		Debug.DrawLine(follow.position, targetPosition, Color.magenta);
 		// using linear interpolation to smooth out the camera movement
-		// transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smooth);
-		transform.position = targetPosition;
+		Vector3 moveToPosition = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * smooth);
+		rigid.velocity = (moveToPosition - currentPosition) / Time.deltaTime;
 		// adjust camera direction
 		transform.LookAt(follow);
 	}
@@ -42,9 +51,17 @@ public class ThirdPersonCamera : MonoBehaviour
 
 	public void cameraMoveVert(float vertInput)
 	{
-		if (distanceUp > vertLowerbound + 0.5f && distanceUp < vertUpperbound - 0.5f)
+		if (distanceUp > vertLowerbound + 0.05f && distanceUp < vertUpperbound - 0.05f)
 		{
 			distanceUp += vertInput * vertMult;
+		}
+		else if (distanceUp <= vertLowerbound + 0.05f)
+		{
+			if (vertInput > 0.0f) distanceUp += vertInput * vertMult;
+		}
+		else
+		{
+			if (vertInput < 0.0f) distanceUp += vertInput * vertMult;
 		}
 	}
 }

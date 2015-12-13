@@ -8,8 +8,8 @@ public class Points : MonoBehaviour {
 	public int id;
 	Text label;
 
-	static public void givePoints(int pid){
-		score[pid] += 1;
+	static public void givePoints(int pid, int number){
+		score[pid] += number;
 	}
 
 	static public int getWinner(){

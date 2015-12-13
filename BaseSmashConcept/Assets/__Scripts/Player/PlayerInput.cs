@@ -30,8 +30,6 @@ public class PlayerInput : MonoBehaviour
 	private ThirdPersonCamera tpcamera;
 	#endregion
 
-	static public bool paused = false;
-
 	// Use this for initialization
 	void Start()
 	{
@@ -44,7 +42,7 @@ public class PlayerInput : MonoBehaviour
 	{
 		// large check list to go through every possible input key
 
-		if (paused)
+		if (Timer.paused)
 		{
 			return;
 		}
@@ -74,7 +72,7 @@ public class PlayerInput : MonoBehaviour
 	void FixedUpdate()
 	{
 
-		if (paused)
+		if (Timer.paused)
 		{
 			return;
 		}
