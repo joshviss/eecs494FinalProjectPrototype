@@ -1,39 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BaseDefense : MonoBehaviour {
-	
-	public int initialHealth = 3;
-	public int health;
+public class BaseDefense : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		health = initialHealth;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public int initialHealth = 3;
+    private int health;
 
-	void OnTriggerEnter(Collider other) {
-		GameObject collidedWith = other.gameObject;
+    // Use this for initialization
+    void Start()
+    {
+        health = initialHealth;
+    }
 
-		if(collidedWith.tag == "PlayerAttackRange") {
-			if((collidedWith.layer - 4) != this.gameObject.layer) {
-				//print (collidedWith.layer);
-				//print (this.gameObject.layer);
-				health -= 1;
-			}
-			if(health == 0) {
-				this.gameObject.SetActive(false);
-				resetHealth (); //might not be needed
-			}
-		}
-	}
+    // Update is called once per frame
+    void Update()
+    {
 
-	public void resetHealth() {
-		health = initialHealth;
-	}
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        GameObject collidedWith = other.gameObject;
+
+        if (collidedWith.tag == "Sword")
+        {
+            Debug.Log("Damaged");
+            health -= 1;
+            if (health == 0)
+            {
+                this.gameObject.SetActive(false);
+                resetHealth(); //might not be needed
+            }
+        }
+    }
+
+    public void resetHealth()
+    {
+        health = initialHealth;
+    }
 
 }

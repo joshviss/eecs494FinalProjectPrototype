@@ -30,11 +30,7 @@ public class Player : MonoBehaviour
 	int groundPhysicsLayerMask;
 	Vector3 startPos;
 	Vector3 startRot;
-	Sword sword;
 	public bool isInBase;
-	bool isStriking = false;
-	bool canStrike = true;
-	float strikeTime = 0f;
 	public float strikeCooldown = 1;
 	bool isDodging = false;
 	bool canDodge = true;
@@ -76,8 +72,6 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Awake()
 	{
-		//character = GetComponent<GameObject> ();
-		sword = GetComponentInChildren<Sword> ();
 		rigid = GetComponent<Rigidbody>();
 		groundPhysicsLayerMask = LayerMask.GetMask("Ground");
 
@@ -231,7 +225,7 @@ public class Player : MonoBehaviour
 
 		//strikeTime += Time.deltaTime;
 		//strikeCool.value = strikeTime;
-
+        /*
 		if (isStriking)
 		{
 			strikeTime += Time.deltaTime;
@@ -242,7 +236,7 @@ public class Player : MonoBehaviour
 				strikeTime = 0.0f;
 			}
 		}
-
+        */
 		abilityTime += Time.deltaTime;
 		if (abilityCool.value < abilityTime) {
 			abilityCool.value = abilityTime;
@@ -463,7 +457,7 @@ public class Player : MonoBehaviour
 						shot.transform.position = transform.position;
 
 					} else {
-						Health -= 5;
+						Health -= 6;
 						hpBar.value = Health;
 						mat.color = Color.red;
 						Invoke("damage", 0.5f);
@@ -483,19 +477,20 @@ public class Player : MonoBehaviour
 						shot.GetComponent<SlowBomb>().init(transform);
 
 					} else {
-						Health -= 3;
+						Health -= 4;
 						hpBar.value = Health;
 						mat.color = Color.grey;
+						moveSpeed = moveSpeed * 0.5f;
 						numSlows += 1;
 						Invoke("slowed", 1f);
 						lastHit = collidedWith.layer;
 					}
 				}
 				break;
-			case "PlayerAttackRange":
+			case "Sword":
 				if ((collidedWith.layer-10) != this.gameObject.layer) {
 					Debug.Log ("hit");
-					Health -= 3;
+					Health -= 4;
 					hpBar.value = Health;
 					mat.color = Color.red;
 					Invoke ("damage", 0.5f);
@@ -515,22 +510,7 @@ public class Player : MonoBehaviour
 	}
 
 	public void Attack(){
-		if (canStrike)
-		{
-			Debug.Log("stab");
-			sword.strike();
-			GameObject target = sword.getAttackingTarget ();
-			if (target != null) {
-				target.GetComponent<Player>().Health -= AttackDamage;
-				target.GetComponent<Player>().hpBar.value -= AttackDamage;
-			}
-			isStriking = true;
-			canStrike = false;
-			//strikeCool.enabled = true;
-			//strikeCool.value = 0f;
-			strikeTime = 0f;
-			Invoke("enableStrike", strikeCooldown);
-		}
+        GetComponentInChildren<Sword>().strike();
 	}
 
 	public void Dodge(){
@@ -549,12 +529,13 @@ public class Player : MonoBehaviour
 		}
 	}
 
+    /*
 	void enableStrike()
 	{
 		canStrike = true;
 		//strikeCool.enabled = false;
 	}
-
+    */
 	void enableDodge()
 	{
 		canDodge = true;
