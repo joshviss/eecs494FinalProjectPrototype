@@ -22,6 +22,9 @@ public class PlayerInput : MonoBehaviour
 	public string dodge;
 	public int ability1 = 4;
 	public int ability2 = 2;
+	public Image ab1, ab2;
+	float timer1 = 0;
+	float timer2 = 0;
 	#endregion
 
 	#region for the ease of component accessing
@@ -47,13 +50,34 @@ public class PlayerInput : MonoBehaviour
 			return;
 		}
 
+		if (ab1.fillAmount < 1) {
+			timer1 += Time.deltaTime;
+			ab1.fillAmount = timer1 / 5;
+		} else {
+			timer1 = 0;
+			ab1.fillAmount = 1;
+		}
+
+		if (player.law && ab2.fillAmount < 1) {
+			timer2 += Time.deltaTime;
+			ab2.fillAmount = timer2 / 1;
+		} else if (!player.law && ab2.fillAmount < 1) {
+			timer2 += Time.deltaTime;
+			ab2.fillAmount = timer2/5;
+		} else {
+			timer2 = 0;
+			ab2.fillAmount = 1;
+		}
+
 		if (Input.GetButtonDown(aString1))
 		{
 			player.AbilityUsed(ability1);
+			ab1.fillAmount = 0;
 		}
 		if (Input.GetButtonDown(aString2))
 		{
 			player.AbilityUsed(ability2);
+			ab2.fillAmount = 0;
 		}
 
 		if (Input.GetButtonDown(attack))
