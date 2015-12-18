@@ -22,6 +22,7 @@ public class PlayerInput : MonoBehaviour
 	public string dodge;
 	public int ability1 = 4;
 	public int ability2 = 2;
+	public Image ab1, ab2;
 	#endregion
 
 	#region for the ease of component accessing
