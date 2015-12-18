@@ -59,11 +59,15 @@ public class ResourcePiece : MonoBehaviour {
 
 				Player p = collidedWith.GetComponent<Player>();
 
-				if ((p.law && publicResource) || !p.law){
+				if (publicResource){
+					p.numResourcePiece += 2;
+					pieceTaken = true;
+					this.gameObject.SetActive(false);
+				} else if (!p.law){
 					p.numResourcePiece++;
 					pieceTaken = true;
 					this.gameObject.SetActive(false);
-				} 
+				}
 
 				Invoke ("Respawn", spawnTime);
 			}
