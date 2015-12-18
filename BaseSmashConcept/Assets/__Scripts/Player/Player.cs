@@ -361,7 +361,7 @@ public class Player : MonoBehaviour
 				if (ability1Used) { break; }
 				reflectActive = true;
 				//color changed to when reflecting
-				mat.color = Color.white;
+				mat.color = Color.cyan;
 				//Needs added stuff if we want UI to track cooldown
 
 				//causes the reflect ability to turn off after 1 second.
@@ -489,10 +489,10 @@ public class Player : MonoBehaviour
 					} else {
 						Health -= 4;
 						hpBar.value = Health;
-						mat.color = Color.grey;
+						mat.color = Color.green;
 						moveSpeed = moveSpeed * 0.5f;
 						numSlows += 1;
-						Invoke("slowed", 1f);
+						Invoke("slowed", 2f);
 						lastHit = collidedWith.layer;
 									Debug.Log (LayerMask.LayerToName(lastHit));
 					}
