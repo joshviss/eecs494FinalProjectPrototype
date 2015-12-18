@@ -188,19 +188,27 @@ public class Player : MonoBehaviour
 		//checks if dead
 		if (Health <= 0)
 		{
-			if (LayerMask.LayerToName(lastHit) == "AbilityPl"){
+			Debug.Log(lastHit);
+			if (lastHit == 19){
 				Points.givePoints(0, numResourcePiece);
+				Debug.Log ("Ability1");
 				numResourcePiece = 0;
-			} else if (LayerMask.LayerToName(lastHit) == "AbilityP2"){
+			} else if (lastHit == 20){
 				Points.givePoints(1, numResourcePiece);
+				Debug.Log ("Ability2");
 				numResourcePiece = 0;
-			} else if (LayerMask.LayerToName(lastHit) == "AbilityP3"){
+			} else if (lastHit == 21){
 				Points.givePoints(2, numResourcePiece);
 				numResourcePiece = 0;
-			} if (LayerMask.LayerToName(lastHit) == "AbilityP4"){
+				Debug.Log ("Ability3");
+			} else if (lastHit == 22){
 				Points.givePoints(3, numResourcePiece);
 				numResourcePiece = 0;
+				Debug.Log ("Ability4");
 			} 
+			else {
+				Debug.Log("hi");
+			}
 
 			playerUI.enabled = false;
 			this.gameObject.SetActive(false);
@@ -412,6 +420,7 @@ public class Player : MonoBehaviour
 						mat.color = Color.red;
 						Invoke("damage", 0.5f);
 						lastHit = collidedWith.layer;
+						Debug.Log (LayerMask.LayerToName(lastHit));
 					}
 				}
 				break;
@@ -462,6 +471,7 @@ public class Player : MonoBehaviour
 						mat.color = Color.red;
 						Invoke("damage", 0.5f);
 						lastHit = collidedWith.layer;
+						Debug.Log (LayerMask.LayerToName(lastHit));
 					}
 				}
 				break;
@@ -484,6 +494,7 @@ public class Player : MonoBehaviour
 						numSlows += 1;
 						Invoke("slowed", 1f);
 						lastHit = collidedWith.layer;
+									Debug.Log (LayerMask.LayerToName(lastHit));
 					}
 				}
 				break;
