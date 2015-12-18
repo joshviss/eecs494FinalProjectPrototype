@@ -25,6 +25,8 @@ public class PlayerInput : MonoBehaviour
 	public Image ab1, ab2;
 	float timer1 = 0;
 	float timer2 = 0;
+	bool ab1_used = false;
+	bool ab2_used = false;
 	#endregion
 
 	#region for the ease of component accessing
@@ -56,6 +58,7 @@ public class PlayerInput : MonoBehaviour
 		} else {
 			timer1 = 0;
 			ab1.fillAmount = 1;
+			ab1_used = false;
 		}
 
 		if (player.law && ab2.fillAmount < 1) {
@@ -67,17 +70,20 @@ public class PlayerInput : MonoBehaviour
 		} else {
 			timer2 = 0;
 			ab2.fillAmount = 1;
+			ab2_used = false;
 		}
 
-		if (Input.GetButtonDown(aString1))
+		if (Input.GetButtonDown(aString1) && !ab1_used)
 		{
 			player.AbilityUsed(ability1);
 			ab1.fillAmount = 0;
+			ab1_used = true;
 		}
-		if (Input.GetButtonDown(aString2))
+		if (Input.GetButtonDown(aString2) && !ab2_used)
 		{
 			player.AbilityUsed(ability2);
 			ab2.fillAmount = 0;
+			ab2_used = true;
 		}
 
 		if (Input.GetButtonDown(attack))

@@ -40,9 +40,9 @@ public class Player : MonoBehaviour
 	//public Slider strikeCool;
 	bool ability1Used = false;
 	bool ability2Used = false;
-	public float abilityTime = 0f;
-	public Slider abilityCool;
-	public float abilityCooldown = 5f;
+	//public float abilityTime = 0f;
+	//public Slider abilityCool;
+	//public float abilityCooldown = 5f;
 	public Canvas playerUI;
 	bool stunned = false;
 	public bool law = true;
@@ -96,8 +96,8 @@ public class Player : MonoBehaviour
 		//strikeCool.maxValue = strikeCooldown;
 		//strikeCool.value = strikeCooldown;
 		//strikeCool.enabled = false;
-		abilityCool.maxValue = abilityCooldown;
-		abilityCool.value = abilityCooldown;
+		//abilityCool.maxValue = abilityCooldown;
+		//abilityCool.value = abilityCooldown;
 
 		rend = GetComponent<Renderer> ();
 		mat = rend.material;
@@ -245,10 +245,10 @@ public class Player : MonoBehaviour
 			}
 		}
         */
-		abilityTime += Time.deltaTime;
-		if (abilityCool.value < abilityTime) {
-			abilityCool.value = abilityTime;
-		}
+		//abilityTime += Time.deltaTime;
+		//if (abilityCool.value < abilityTime) {
+		//	abilityCool.value = abilityTime;
+		//}
 
 		carry.text = "" + numResourcePiece;
 
@@ -328,8 +328,8 @@ public class Player : MonoBehaviour
 			case 3: // Base Defenses (big ability def)
 				if (ability2Used) {break;}
 				ability2Used = true;
-				abilityTime = 0f;
-				abilityCool.value = abilityTime;
+				//abilityTime = 0f;
+				//abilityCool.value = abilityTime;
 				//Stuff to set up the gate, resourceDefense
 				gate.GetComponent<BaseDefense>().resetHealth();
 				gate.SetActive(true);
@@ -340,8 +340,8 @@ public class Player : MonoBehaviour
 			case 4:	// shockwave (big ability atk)
 				if (ability2Used) {break;}
 				ability2Used = true;
-				abilityTime = 0f;
-				abilityCool.value = abilityTime;
+				//abilityTime = 0f;
+				//abilityCool.value = abilityTime;
 				shot = Instantiate<GameObject>(shockwave);
 				shot.layer = this.gameObject.layer + 10;
 				shot.transform.position = transform.position;
@@ -350,8 +350,8 @@ public class Player : MonoBehaviour
 			case 5: // slowbomb
 				if (ability2Used) { break; }
 				ability2Used = true;
-				abilityTime = 0f;
-				abilityCool.value = abilityTime;
+				//abilityTime = 0f;
+				//abilityCool.value = abilityTime;
 				shot = Instantiate<GameObject>(slowbomb);
 				shot.layer = this.gameObject.layer + 10;
 				shot.GetComponent<SlowBomb>().init(transform);
