@@ -450,7 +450,7 @@ public class Player : MonoBehaviour
 						stunned = true;
 						mat.color = Color.yellow;
 						numStuns += 1;
-						Invoke("resetStun", 1f);
+						Invoke("resetStun", 1.5f);
 					}
 				}
 				break;
