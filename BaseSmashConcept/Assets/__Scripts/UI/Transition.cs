@@ -23,7 +23,7 @@ public class Transition : MonoBehaviour {
 	}
 
 	public void StartGame(){
-		Application.LoadLevel ("_Scene_UI");
+		Application.LoadLevel ("_Scene_Main");
 	}
 
 	public void Controls(){
