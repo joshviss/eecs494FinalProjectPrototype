@@ -29,7 +29,7 @@ public class ThirdPersonCamera : MonoBehaviour
 		rigid = GetComponent<Rigidbody>();
 		follow = transform.parent;
 		// transform init
-		transform.position = follow.position + follow.up * distanceUp - follow.forward * distanceAway;
+		transform.position = (follow.position + follow.up * distanceUp - follow.forward * distanceAway) + new Vector3(0, 1, 0);
 		transform.LookAt(follow);
 		// zero target pos
 		targetPosition = Vector3.zero;
@@ -39,7 +39,7 @@ public class ThirdPersonCamera : MonoBehaviour
 	{
 		Vector3 currentPosition = transform.position;
 		// calculate target position
-		targetPosition = follow.position + follow.up * distanceUp - follow.forward * distanceAway;
+		targetPosition = (follow.position + follow.up * distanceUp - follow.forward * distanceAway) + new Vector3(0, 1, 0);
 		// using linear interpolation to smooth out the camera movement
 		Vector3 moveToPosition = Vector3.Lerp(currentPosition, targetPosition, Time.deltaTime * smooth);
 		rigid.velocity = (moveToPosition - currentPosition) / Time.deltaTime;
