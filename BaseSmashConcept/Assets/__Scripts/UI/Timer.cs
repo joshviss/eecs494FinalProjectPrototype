@@ -11,8 +11,9 @@ public class Timer : MonoBehaviour {
 	public Text winner;
 	public Text scores;
 	float time = 180f;
-	float time2 = 5;
+	float time2 = 5f;
 	Text UI;
+    bool endGame = false;
 
 	void Awake(){
 		Timer.paused = true;
@@ -26,7 +27,7 @@ public class Timer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Timer.paused) {
+		if (endGame) {
 			time2 -= Time.deltaTime;
 
 			if (Input.anyKeyDown && time2 < 0){
@@ -50,6 +51,7 @@ public class Timer : MonoBehaviour {
 			UI.text = string.Format("{0:0} {1:00}", minutes, seconds);
 		} else {
 			Timer.paused = true;
+            endGame = true;
 
 			int id = Points.getWinner();
 

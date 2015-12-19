@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public class Tutorial : MonoBehaviour {
 	
 	public Sprite[] screenshots = new Sprite[6];
-	public GameObject transitions;
+    public GameObject transitions;
+    public Canvas rules;
 	Transition t;
 	Image screen;
 	int index = -1;
@@ -20,10 +21,15 @@ public class Tutorial : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!rules.enabled)
+        {
+            return;
+        }
+
 		if (Input.GetButtonDown ("Submit")) {
 			index++;
 			if (index > 5) {
-				index = 0;
+				index = -1;
 				t.RulesClose ();
 			}
 
@@ -31,13 +37,13 @@ public class Tutorial : MonoBehaviour {
 		} else if (Input.GetButtonDown ("Cancel")) {
 			index--;
 			if (index < 0) {
-				index = 0;
+				index = -1;
 				t.RulesClose ();
 			}
 
 			screen.sprite = screenshots [index];
 		} else if (Input.GetButtonDown ("Start")) {
-			index = 0;
+			index = -1;
 			t.RulesClose();
 		}
 	}
